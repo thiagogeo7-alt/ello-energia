@@ -3,7 +3,7 @@
 | Pasta | O que tem |
 |---|---|
 | `docs/` | O site (landing page). O GitHub Pages exige que a pasta do site se chame `docs`. |
-| `instagram/` | Agente de gestão do Instagram *(em construção)* |
+| `instagram/` | Agente de gestão do Instagram — veja [instagram/README.md](instagram/README.md) |
 | `prospeccao/` | Agente de prospecção por e-mail *(em construção)* |
 | `painel/` | Dashboard de resultados *(em construção)* |
 

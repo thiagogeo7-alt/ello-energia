@@ -1,3 +1,76 @@
-# instagram
+# Agente de Instagram da ELLO
 
-Em construção.
+O agente roda sozinho no GitHub, de graça, nos horários abaixo:
+
+| Tarefa | Quando | O que faz |
+|---|---|---|
+| **Reels com vídeo IA** | Dias ímpares, 18h (~15 por mês) | Lê as métricas, escolhe o tema, gera um vídeo ultra-realista de 10s (Kling 3.0), escreve a legenda e publica |
+| **Carrossel** | Terça e quinta, 12h | Cria 5 slides educativos com a identidade da ELLO e publica |
+| **Respostas** | A cada 15 minutos | Responde comentários e DMs novos e leva quem tem interesse para o WhatsApp |
+| **Token** | Toda segunda | Renova o acesso ao Instagram |
+
+- **Para mudar o tom, as regras ou os temas**, edite o arquivo [`marca.md`](marca.md). O agente lê esse arquivo toda vez.
+- **Histórico, métricas e leads** ficam no branch `dados` (separado do site), no arquivo `estado.json`.
+- **Para pausar tudo**, apague a variável `AGENTE_ATIVO` (veja o passo 7 abaixo).
+
+**Custo estimado:** cerca de US$ 17 por mês de vídeo (15 vídeos × 10s × US$ 0,112) e poucos dólares de Claude. O GitHub é grátis.
+
+---
+
+# Como configurar (passo a passo)
+
+Você vai criar 3 chaves de acesso e guardá-las no GitHub. Os nomes dos botões podem mudar um pouco com o tempo; se travar, mande um print para o Claude.
+
+> ⚠️ Nunca cole as chaves em arquivos do repositório, no chat ou em mensagens. O único lugar delas é em **Secrets** do GitHub (passo 5).
+
+## 1. Conta profissional no Instagram
+No app do Instagram: **perfil → menu (3 linhas) → Tipo de conta e ferramentas → Mudar para conta profissional → Empresa**.
+
+## 2. Criar o app na Meta e gerar o token do Instagram
+1. Acesse **developers.facebook.com** e entre com seu Facebook. Se for a primeira vez, aceite os termos de desenvolvedor.
+2. Clique em **Meus apps → Criar app**.
+3. Nome do app: `Agente ELLO`. Em caso de uso, escolha a opção de **gerenciar mensagens e conteúdo no Instagram**.
+4. Dentro do app, abra **Instagram → Configuração da API com login do Instagram**.
+5. Na parte **Gerar tokens de acesso**, clique em **Adicionar conta**, entre com o Instagram da ELLO e autorize todas as permissões.
+6. Clique em **Gerar token** ao lado da conta e copie o token (um texto longo). Esse é o **IG_TOKEN**.
+7. O número que aparece ao lado da conta é o **IG_USER_ID** (opcional; o agente descobre sozinho se você não cadastrar).
+8. Na configuração do app, use como URL da política de privacidade:
+   `https://thiagogeo7-alt.github.io/ello-energia/privacidade.html`
+
+> A Meta pode exigir uma revisão do app (gratuita, alguns dias) para o agente responder DMs de qualquer pessoa. Publicar e responder comentários na própria conta costuma funcionar sem isso. O Claude te ajuda com a revisão se for necessária.
+
+## 3. Chave do vídeo com IA (fal.ai)
+1. Acesse **fal.ai** e crie uma conta.
+2. Em **Billing**, adicione créditos (US$ 20 dá para mais de um mês).
+3. Em **Keys** (ou **API Keys**), crie uma chave e copie. Essa é a **FAL_KEY**.
+
+## 4. Chave do Claude (Anthropic)
+1. Acesse **console.anthropic.com** e crie uma conta (é separada do seu plano do Claude).
+2. Em **Billing**, adicione créditos (US$ 10 dura bastante).
+3. Em **API Keys**, crie uma chave e copie. Essa é a **ANTHROPIC_API_KEY**.
+
+## 5. Guardar as chaves no GitHub
+1. Abra **github.com/thiagogeo7-alt/ello-energia → Settings**.
+2. No menu da esquerda: **Secrets and variables → Actions**.
+3. Na aba **Secrets**, clique em **New repository secret** e crie um de cada vez:
+
+| Name | Secret |
+|---|---|
+| `IG_TOKEN` | o token do passo 2 |
+| `FAL_KEY` | a chave do passo 3 |
+| `ANTHROPIC_API_KEY` | a chave do passo 4 |
+| `IG_USER_ID` | (opcional) o número do passo 2 |
+
+## 6. Testar
+1. No repositório, abra a aba **Actions**.
+2. À esquerda, clique em **Instagram - Carrossel (terça e quinta)**.
+3. Clique em **Run workflow**. Com **Simular** marcado, nada é publicado nem cobrado: serve para ver se tudo roda.
+4. Depois rode de novo com **Simular desmarcado**: o primeiro carrossel de verdade vai para o Instagram.
+5. Repita com **Instagram - Reels**. Esse teste real gera um vídeo e custa cerca de US$ 1,12.
+
+## 7. Ligar o piloto automático
+Em **Settings → Secrets and variables → Actions**, aba **Variables**, clique em **New repository variable**:
+- Name: `AGENTE_ATIVO`
+- Value: `sim`
+
+Pronto: a partir daí os horários da tabela lá em cima passam a valer. Para pausar, apague essa variável.
