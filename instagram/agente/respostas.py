@@ -78,6 +78,7 @@ def executar() -> None:
                 est["comentarios_respondidos"].append(c["id"])
                 est["leads"].append({"data": estado.agora(), "origem": "instagram_palavra_chave",
                                      "usuario": c.get("username"), "mensagem": (c.get("text") or "")[:300]})
+                estado.registrar(est, "dm_palavra_chave", "DM automática com o WhatsApp")
                 print(f"palavra-chave de @{c.get('username')}: DM enviada")
                 continue
             pendentes.append({"id": c["id"], "tipo": "comentario", "usuario": c.get("username"),
@@ -134,6 +135,8 @@ def executar() -> None:
         if d.get("interesse"):
             est["leads"].append({"data": estado.agora(), "origem": f"instagram_{p['tipo']}",
                                  "usuario": p.get("usuario"), "mensagem": p["texto"][:300]})
+        if d.get("acao") == "responder":
+            estado.registrar(est, "resposta_" + p["tipo"], "interessado" if d.get("interesse") else "")
         print(f"{p['tipo']} de @{p.get('usuario')}: {d.get('acao')}")
 
     estado.salvar(est)

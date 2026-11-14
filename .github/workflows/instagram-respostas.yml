@@ -54,4 +54,5 @@ jobs:
           FAL_KEY: ${{ secrets.FAL_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
           MODO_CENA: ${{ vars.MODO_CENA }}
+          PAINEL_SENHA: ${{ secrets.PAINEL_SENHA }}
         run: python -m agente respostas

@@ -10,7 +10,8 @@ O agente roda sozinho no GitHub, de graça, nos horários abaixo:
 | **Token** | Toda segunda | Renova o acesso ao Instagram |
 
 - **Para mudar o tom, as regras ou os temas**, edite o arquivo [`marca.md`](marca.md). O agente lê esse arquivo toda vez.
-- **Histórico, métricas e leads** ficam no branch `dados` (separado do site), no arquivo `estado.json`.
+- **Painel de resultados:** https://thiagogeo7-alt.github.io/ello-energia/painel/ (publicações, métricas, respostas, custos e leads).
+- **Histórico e métricas** ficam no branch `dados`, no arquivo `estado.json`. Os **leads** ficam em `leads.enc`, criptografados com a senha do segredo `PAINEL_SENHA` (o repositório é público; assim os dados pessoais ficam protegidos, conforme a LGPD).
 - **Para pausar tudo**, apague a variável `AGENTE_ATIVO` (veja o passo 7 abaixo).
 
 **Custo por ação (modo padrão `imagem`):**
@@ -69,7 +70,7 @@ No app do Instagram: **perfil → menu (3 linhas) → Tipo de conta e ferramenta
 | `IG_TOKEN` | o token do passo 2 |
 | `FAL_KEY` | a chave do passo 3 |
 | `ANTHROPIC_API_KEY` | a chave do passo 4 |
-| `IG_USER_ID` | (opcional) o número do passo 2 |
+| `PAINEL_SENHA` | uma senha que você inventar, para abrir os leads no painel |
 
 ## 6. Testar
 0. Primeiro confira a conexão: aba **Actions → Instagram - Verificar conexão / renovar token → Run workflow**, com **Simular desmarcado**. Deve aparecer "Tudo certo!" no resultado.

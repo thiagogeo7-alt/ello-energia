@@ -107,6 +107,15 @@ def metricas(media_id: str, reel: bool = True) -> dict:
     return {m["name"]: (m.get("values") or [{}])[0].get("value", 0) for m in dados}
 
 
+def permalink(media_id: str) -> str:
+    if config.SIMULAR:
+        return "https://www.instagram.com/p/SIMULADO/"
+    try:
+        return _get(media_id, fields="permalink").get("permalink", "")
+    except ErroAPI:
+        return ""
+
+
 # ---------- Comentários ----------
 
 def comentarios(media_id: str) -> list[dict]:

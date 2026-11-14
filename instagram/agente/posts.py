@@ -94,7 +94,10 @@ def executar() -> dict:
     est["publicacoes"].append({
         "data": estado.agora(), "tipo": "carrossel", "tema": ideia.get("tema"),
         "gancho": ideia.get("gancho"), "legenda": ideia["legenda"], "imagens": urls, "media_id": media_id,
+        "permalink": instagram.permalink(media_id),
     })
+    est["custos"].append({"data": estado.agora(), "servico": "Claude (texto)", "usd": 0.03})
+    estado.registrar(est, "carrossel", ideia.get("tema", ""))
     estado.salvar(est)
     print(f"Carrossel publicado: {media_id} — tema: {ideia.get('tema')}")
     return ideia

@@ -106,8 +106,11 @@ def executar(cena_local: str | None = None) -> dict:
         "tema": r.get("tema"), "gancho": r.get("gancho"), "palavra_chave": r["palavra_chave"],
         "prompt": r.get("prompt_cena"), "textos": [r.get("texto_topo_1"), r.get("texto_topo_2"),
                                                    r.get("destaque"), r.get("virada")],
-        "legenda": legenda, "media_id": media_id,
+        "legenda": legenda, "media_id": media_id, "permalink": instagram.permalink(media_id),
+        "modo": config.MODO_CENA,
     })
+    est["custos"].append({"data": estado.agora(), "servico": "Claude (texto)", "usd": 0.03})
+    estado.registrar(est, "reel", r.get("tema", ""))
     estado.salvar(est)
     print(f"Reels publicado: {media_id} — tema: {r.get('tema')}")
     return r
