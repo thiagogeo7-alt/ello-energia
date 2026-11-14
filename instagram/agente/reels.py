@@ -41,6 +41,7 @@ Devolva este JSON:
   "tema": "tema curto em português",
   "gancho": "a ideia da cena em uma frase, em português",
   "prompt_cena": "prompt em INGLÊS para o modelo de vídeo, 5 segundos, vertical 9:16, ultra-realistic, cinematic, natural lighting, descrevendo personagem genérico (não famoso), ambiente brasileiro, ação segundo a segundo, expressão facial e movimento de câmera. Sem texto, legendas ou logotipos na imagem.",
+  "prompt_imagem": "prompt em INGLÊS para UMA FOTO ultra-realista vertical do momento mais forte da cena (o pico da emoção), estilo fotografia profissional, lente 35mm, luz natural, pele e texturas realistas, personagem genérico, ambiente brasileiro, sem texto nem logotipos",
   "texto_topo_1": "1ª linha do gancho, MAIÚSCULAS, até 18 caracteres",
   "texto_topo_2": "2ª linha do gancho, MAIÚSCULAS, até 16 caracteres",
   "destaque": "texto curto da etiqueta vermelha (ex.: valor de conta fictício), até 12 caracteres",
@@ -54,9 +55,11 @@ SIMULADO = {
     "estrategia": "variacao", "tema": "Susto com a conta de luz",
     "gancho": "Homem abre a conta de luz e desmaia",
     "prompt_cena": "Vertical 9:16 ultra-realistic cinematic shot, natural daylight in a Brazilian home kitchen...",
-    "texto_topo_1": "SUA CONTA DE LUZ", "texto_topo_2": "VEIO ASSIM?", "destaque": "R$ 1.487,90",
+    "prompt_imagem": "Ultra-realistic vertical photo of a shocked young Brazilian man holding an electricity bill in his kitchen...",
+    "prompt_imagem": "prompt em INGLÊS para UMA FOTO ultra-realista vertical do momento mais forte da cena (o pico da emoção), estilo fotografia profissional, lente 35mm, luz natural, pele e texturas realistas, personagem genérico, ambiente brasileiro, sem texto nem logotipos",
+  "texto_topo_1": "SUA CONTA DE LUZ", "texto_topo_2": "VEIO ASSIM?", "destaque": "R$ 1.487,90",
     "virada": "TEM JEITO!", "palavra_chave": "ECONOMIZAR",
-    "beneficios": ["Análise da conta GRÁTIS", "Economia de até 20% na conta",
+    "beneficios": ["Análise da conta GRÁTIS", "Economia de até 50% na conta",
                    "Zero investimento pra você", "Economia limpa pro planeta"],
     "legenda": "Sua conta de luz veio assim? 😱\nTem jeito, e sem placa no telhado.\nComente ECONOMIZAR que a gente te chama no direct.\n🎬 Vídeo criado com inteligência artificial.\n#contadeluz #energiasolar #campinas",
 }
@@ -79,8 +82,9 @@ def executar(cena_local: str | None = None) -> dict:
     if cena_local:
         cena = cena_local
     else:
-        cena = video.gerar(r["prompt_cena"])
-        est["custos"].append({"data": estado.agora(), "servico": "fal.ai vídeo", "usd": video.custo_estimado()})
+        cena = video.gerar_cena(r.get("prompt_cena", ""), r.get("prompt_imagem") or r.get("prompt_cena", ""))
+        est["custos"].append({"data": estado.agora(), "servico": f"fal.ai cena ({config.MODO_CENA})",
+                              "usd": video.custo_estimado()})
         estado.salvar(est)   # registra o custo mesmo se algo falhar depois
 
     if config.SIMULAR and not cena_local:

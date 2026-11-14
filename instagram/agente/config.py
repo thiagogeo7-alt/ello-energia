@@ -24,6 +24,10 @@ MODELO_RAPIDO = os.getenv("MODELO_RAPIDO", "claude-haiku-5-5")       # respostas
 
 # Vídeo com IA (fal.ai)
 FAL_KEY = os.getenv("FAL_KEY", "")
+# MODO_CENA: "imagem" = foto ultra-realista com movimento de câmera (~US$ 0,02 por Reels)
+#            "video"  = vídeo de verdade com IA (Kling 3.0, ~US$ 0,56 por Reels)
+MODO_CENA = os.getenv("MODO_CENA") or "imagem"
+FAL_MODELO_IMAGEM = os.getenv("FAL_MODELO_IMAGEM", "fal-ai/flux/dev")
 FAL_MODELO_VIDEO = os.getenv("FAL_MODELO_VIDEO", "fal-ai/kling-video/v3/standard/text-to-video")
 VIDEO_SEGUNDOS = os.getenv("VIDEO_SEGUNDOS", "5")      # só a cena; a tela da marca é montada sem custo
 VIDEO_COM_AUDIO = os.getenv("VIDEO_COM_AUDIO", "1") == "1"

@@ -135,11 +135,24 @@ def _ff(*args: str) -> None:
 def montar(cena_url_ou_arquivo: str, roteiro: dict, destino: Path) -> Path:
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
-        cena = tmp / "cena.mp4"
+        origem = cena_url_ou_arquivo.split("?")[0].lower()
+        eh_imagem = origem.endswith((".jpg", ".jpeg", ".png", ".webp"))
+        bruto = tmp / ("cena-original" + (Path(origem).suffix if eh_imagem else ".mp4"))
         if cena_url_ou_arquivo.startswith("http"):
-            cena.write_bytes(requests.get(cena_url_ou_arquivo, timeout=120).content)
+            bruto.write_bytes(requests.get(cena_url_ou_arquivo, timeout=120).content)
         else:
-            shutil.copy(cena_url_ou_arquivo, cena)
+            shutil.copy(cena_url_ou_arquivo, bruto)
+        cena = tmp / "cena.mp4"
+        if eh_imagem:
+            # Foto vira vídeo: aproximação lenta da câmera + leve tremida (efeito "susto")
+            n = int(CENA_S * FPS)
+            _ff("-loop", "1", "-i", str(bruto), "-t", str(CENA_S), "-vf",
+                f"scale={W * 2}:{H * 2}:force_original_aspect_ratio=increase,crop={W * 2}:{H * 2},"
+                f"zoompan=z='1+0.18*on/{n}':x='iw/2-(iw/zoom/2)+if(between(on,{int(1.0 * FPS)},{int(1.4 * FPS)}),8*sin(on*2),0)'"
+                f":y='ih/2-(ih/zoom/2)':d={n}:s={W}x{H}:fps={FPS},format=yuv420p",
+                "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", str(cena))
+        else:
+            shutil.copy(bruto, cena)
 
         camadas = _quadros_cena(roteiro)
         pngs_cena = _render([d for d, _ in camadas], tmp, True)
@@ -181,6 +194,10 @@ def montar(cena_url_ou_arquivo: str, roteiro: dict, destino: Path) -> Path:
         total = CENA_S + dur_cart - FADE_S
         if _tem_audio(cena):
             f.append(f"[0:a]atrim=0:{CENA_S},asetpts=PTS-STARTPTS,aresample=44100,"
+                     f"afade=t=out:st={CENA_S - 0.5}:d=0.5[a0]")
+        elif tem_trilha:
+            entradas += ["-i", str(TRILHA)]
+            f.append(f"[{idx_trilha + 1}:a]atrim=0:{CENA_S},asetpts=PTS-STARTPTS,aresample=44100,"
                      f"afade=t=out:st={CENA_S - 0.5}:d=0.5[a0]")
         else:
             f.append(f"anullsrc=r=44100:cl=stereo,atrim=0:{CENA_S}[a0]")

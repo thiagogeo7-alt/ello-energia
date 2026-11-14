@@ -16,7 +16,7 @@ Como decidir:
 - Elogio ou emoji: agradeça de forma curta e variada.
 - Crítica: responda com respeito, sem discutir, e ofereça ajuda no WhatsApp.
 - Spam, ofensa, golpe, política ou algo sem relação: "acao": "ignorar".
-- Nunca prometa valores exatos nem mais de 20% de economia. Nunca peça dados pessoais por ali.
+- Nunca prometa valores exatos nem mais de 50% de economia. Nunca peça dados pessoais por ali.
 
 Responda SOMENTE com JSON."""
 
@@ -37,7 +37,7 @@ def _recente(ts: str, dias: int = 7) -> bool:
 DM_PALAVRA_CHAVE = (
     "Oi! Que bom que você quer economizar 😊\n\n"
     "A análise da sua conta de luz é grátis: é só mandar uma foto da sua última conta no nosso WhatsApp "
-    "que em até 24h te enviamos quanto dá para economizar (até 20%%), sem obra e sem fidelidade.\n\n"
+    "que em até 24h te enviamos quanto dá para economizar (até 50%%), sem obra e sem fidelidade.\n\n"
     "👉 %s" % config.LINK_WHATSAPP
 )
 RESPOSTAS_PUBLICAS = ["Te chamei no direct! 📩", "Mandei no seu direct! 😉", "Olha o direct! ⚡", "Já te enviei no direct! 📲"]

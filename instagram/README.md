@@ -13,7 +13,15 @@ O agente roda sozinho no GitHub, de graça, nos horários abaixo:
 - **Histórico, métricas e leads** ficam no branch `dados` (separado do site), no arquivo `estado.json`.
 - **Para pausar tudo**, apague a variável `AGENTE_ATIVO` (veja o passo 7 abaixo).
 
-**Custo estimado:** cerca de US$ 8,40 por mês de vídeo (15 cenas × 5s × US$ 0,112) e poucos dólares de Claude. O GitHub é grátis.
+**Custo por ação (modo padrão `imagem`):**
+
+| Ação | Custo aproximado |
+|---|---|
+| Reels (foto ultra-realista com movimento + tela da marca) | ~US$ 0,02 de imagem + ~US$ 0,03 de Claude |
+| Carrossel | ~US$ 0,03 de Claude (imagens montadas de graça) |
+| Respostas a comentários/DMs | menos de US$ 0,01 por rodada |
+
+Para usar vídeo de verdade com IA (Kling 3.0, ~US$ 0,56 por Reels), crie a variável `MODO_CENA` = `video` em *Settings → Secrets and variables → Actions → Variables*. O GitHub é grátis.
 
 **Logo e trilha:** ficam na pasta [`marca/`](marca). A trilha da tela final (`trilha-cartela.m4a`) veio do vídeo modelo; para trocar, substitua o arquivo mantendo o nome.
 

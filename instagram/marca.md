@@ -24,7 +24,7 @@ o agente passa a seguir a nova versão na próxima execução.
 - Emojis com moderação (no máximo 3 por legenda).
 
 ## Regras que NUNCA podem ser quebradas
-1. Economia: sempre "até 20%". Nunca prometa um valor fixo, garantido ou maior que 20%.
+1. Economia: sempre "até 50%". Nunca prometa um valor fixo, garantido ou maior que 50%.
 2. Não invente depoimentos, clientes, números de clientes, prêmios ou parcerias.
 3. Não fale mal de distribuidoras, concorrentes ou políticos. Não fale de política.
 4. Não diga que a energia fica "de graça" nem que a conta "zera".
@@ -49,7 +49,7 @@ o agente passa a seguir a nova versão na próxima execução.
 
 ## Benefícios aprovados para a tela final dos vídeos (escolher 4)
 - Análise da conta GRÁTIS
-- Economia de até 20% na conta
+- Economia de até 50% na conta
 - Zero investimento pra você
 - Economia limpa pro planeta
 - Sem obra e sem placa no telhado
