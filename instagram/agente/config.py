@@ -5,6 +5,11 @@ Nada de senha ou token fica escrito no código.
 import os
 from pathlib import Path
 
+# Limpa espaços e quebras de linha que às vezes vêm junto ao colar as chaves
+for _n in ("IG_TOKEN", "ANTHROPIC_API_KEY", "FAL_KEY", "IG_USER_ID"):
+    if os.getenv(_n):
+        os.environ[_n] = os.environ[_n].strip().strip('"').strip("'")
+
 RAIZ = Path(__file__).resolve().parent.parent          # pasta instagram/
 MARCA = (RAIZ / "marca.md").read_text(encoding="utf-8")
 
