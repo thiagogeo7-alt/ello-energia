@@ -17,8 +17,15 @@ def main() -> None:
         instagram.detectar_api()
         pubs = instagram.minhas_publicacoes(limite=3)
         print(f"Tudo certo! Últimas publicações encontradas: {len(pubs)}")
-        for nome in ("ANTHROPIC_API_KEY", "FAL_KEY"):
+        for nome in ("ANTHROPIC_API_KEY", "FAL_KEY", "PAINEL_SENHA"):
             print(f"{nome}: {'cadastrada ✅' if __import__('os').getenv(nome) else 'FALTANDO ❌'}")
+        from . import claude
+        try:
+            claude.perguntar_json("Responda só com JSON.", 'Devolva {"ok": true}', modelo=config.MODELO_RAPIDO, max_tokens=20)
+            print("Claude: chave funcionando ✅")
+        except Exception as e:
+            k = config.ANTHROPIC_API_KEY
+            print(f"Claude: chave RECUSADA ❌ (tamanho {len(k)} caracteres, começa com {k[:10]}…) — {str(e)[-160:]}")
         return
     if tarefa == "reels":
         from . import reels
