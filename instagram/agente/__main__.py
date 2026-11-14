@@ -19,6 +19,9 @@ def main() -> None:
         print(f"Tudo certo! Últimas publicações encontradas: {len(pubs)}")
         for nome in ("ANTHROPIC_API_KEY", "FAL_KEY", "PAINEL_SENHA"):
             print(f"{nome}: {'cadastrada ✅' if __import__('os').getenv(nome) else 'FALTANDO ❌'}")
+        fk = config.FAL_KEY
+        if fk:
+            print(f"fal.ai: chave com {len(fk)} caracteres; formato {'ok (id:segredo)' if ':' in fk else 'INCOMPLETO — falta a parte depois dos dois-pontos'}")
         from . import claude
         try:
             claude.perguntar_json("Responda só com JSON.", 'Devolva {"ok": true}', modelo=config.MODELO_RAPIDO, max_tokens=20)
