@@ -1,8 +1,26 @@
 """Cliente da API do Instagram (login pelo Instagram, sem Página do Facebook)."""
+import os
 import time
 
 from . import config
 from .rede import ErroAPI, chamar
+
+
+def detectar_api() -> str:
+    """Testa o token nos dois endereços da Meta e fica com o que responder."""
+    if config.SIMULAR or os.getenv("IG_API"):
+        return config.IG_API
+    erros = []
+    for host in config.IG_API_HOSTS:
+        try:
+            r = chamar("GET", f"{host}/{config.IG_USER_ID}", tentativas=1,
+                       params={"fields": "username", "access_token": config.IG_TOKEN})
+            config.IG_API = host
+            print(f"Conectado como @{r.get('username')} via {host.split('/')[2]}")
+            return host
+        except ErroAPI as e:
+            erros.append(str(e))
+    raise ErroAPI("O token não funcionou em nenhum endereço da Meta:\n" + "\n".join(erros))
 
 
 def _get(caminho: str, **params) -> dict:
@@ -15,11 +33,7 @@ _ID_CACHE = {}
 
 def uid() -> str:
     """ID da conta: usa o segredo IG_USER_ID ou descobre pelo token."""
-    if config.IG_USER_ID and config.IG_USER_ID != "me":
-        return config.IG_USER_ID
-    if "id" not in _ID_CACHE:
-        _ID_CACHE["id"] = meu_id()
-    return _ID_CACHE["id"]
+    return config.IG_USER_ID
 
 
 def _post(caminho: str, **dados) -> dict:
@@ -119,13 +133,14 @@ def conversas(limite: int = 20) -> list[dict]:
             {"id": "M1", "message": "Oi, minha conta vem 600 reais, dá pra economizar?",
              "from": {"id": "U1", "username": "carlos"}, "created_time": "2026-11-14T15:10:00+0000"}]}}]
     campos = "id,updated_time,messages.limit(5){id,message,from,created_time}"
-    return _get("me/conversations", platform="instagram", fields=campos, limit=limite).get("data", [])
+    try:
+        return _get(f"{uid()}/conversations", platform="instagram", fields=campos, limit=limite).get("data", [])
+    except ErroAPI:
+        return _get("me/conversations", platform="instagram", fields=campos, limit=limite).get("data", [])
 
 
 def meu_id() -> str:
-    if config.SIMULAR:
-        return "EU"
-    return _get("me", fields="user_id,username").get("user_id", "")
+    return config.IG_USER_ID
 
 
 def enviar_mensagem(usuario_id: str, texto: str) -> None:

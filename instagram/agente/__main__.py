@@ -1,4 +1,4 @@
-"""Uso:  python -m agente reels | carrossel | respostas | token
+"""Uso:  python -m agente verificar | reels | carrossel | respostas | token
 Coloque SIMULAR=1 para testar sem publicar nada nem gastar.
 """
 import sys
@@ -8,6 +8,18 @@ from . import config, dados_git
 
 def main() -> None:
     tarefa = sys.argv[1] if len(sys.argv) > 1 else ""
+    if tarefa not in ("verificar", "") and not config.SIMULAR and config.IG_TOKEN:
+        from . import instagram
+        instagram.detectar_api()
+    if tarefa == "verificar":
+        from . import instagram
+        config.exigir("IG_TOKEN")
+        instagram.detectar_api()
+        pubs = instagram.minhas_publicacoes(limite=3)
+        print(f"Tudo certo! Últimas publicações encontradas: {len(pubs)}")
+        for nome in ("ANTHROPIC_API_KEY", "FAL_KEY"):
+            print(f"{nome}: {'cadastrada ✅' if __import__('os').getenv(nome) else 'FALTANDO ❌'}")
+        return
     if tarefa == "reels":
         from . import reels
         reels.executar(cena_local=sys.argv[2] if len(sys.argv) > 2 else None)
@@ -23,6 +35,9 @@ def main() -> None:
     elif tarefa == "token":
         from . import instagram
         config.exigir("IG_TOKEN")
+        if "facebook" in config.IG_API:
+            print("Token de usuário do sistema: não expira, nada a renovar.")
+            return
         r = instagram.renovar_token()
         dias = int(r.get("expires_in", 0)) // 86400
         mudou = r.get("access_token") and r["access_token"] != config.IG_TOKEN

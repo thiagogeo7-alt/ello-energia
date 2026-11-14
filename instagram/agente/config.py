@@ -12,8 +12,10 @@ SIMULAR = os.getenv("SIMULAR", "0") == "1"
 
 # Instagram (API com login do Instagram)
 IG_TOKEN = os.getenv("IG_TOKEN", "")
-IG_USER_ID = os.getenv("IG_USER_ID", "me")
-IG_API = "https://graph.instagram.com/v25.0"
+IG_USER_ID = os.getenv("IG_USER_ID") or "17841463714896383"   # @ello.economia.energia
+# A Meta tem dois "endereços" de API conforme o tipo de token; o agente descobre sozinho qual usar.
+IG_API_HOSTS = ["https://graph.instagram.com/v25.0", "https://graph.facebook.com/v25.0"]
+IG_API = os.getenv("IG_API") or IG_API_HOSTS[0]
 
 # Claude (API da Anthropic)
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")

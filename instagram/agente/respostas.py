@@ -83,7 +83,12 @@ def executar() -> None:
             pendentes.append({"id": c["id"], "tipo": "comentario", "usuario": c.get("username"),
                               "texto": c.get("text", ""), "post": (media.get("caption") or "")[:120]})
 
-    for conversa in instagram.conversas():
+    try:
+        lista_conversas = instagram.conversas()
+    except Exception as e:   # DMs podem exigir a revisão do app pela Meta; comentários seguem funcionando
+        print(f"Aviso: não consegui ler as DMs ({e})")
+        lista_conversas = []
+    for conversa in lista_conversas:
         msgs = (conversa.get("messages") or {}).get("data", [])
         if not msgs:
             continue

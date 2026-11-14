@@ -64,6 +64,7 @@ No app do Instagram: **perfil → menu (3 linhas) → Tipo de conta e ferramenta
 | `IG_USER_ID` | (opcional) o número do passo 2 |
 
 ## 6. Testar
+0. Primeiro confira a conexão: aba **Actions → Instagram - Verificar conexão / renovar token → Run workflow**, com **Simular desmarcado**. Deve aparecer "Tudo certo!" no resultado.
 1. No repositório, abra a aba **Actions**.
 2. À esquerda, clique em **Instagram - Carrossel (terça e quinta)**.
 3. Clique em **Run workflow**. Com **Simular** marcado, nada é publicado nem cobrado: serve para ver se tudo roda.
