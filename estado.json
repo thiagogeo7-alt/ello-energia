@@ -1,0 +1,38 @@
+{
+  "publicacoes": [
+    {
+      "data": "2026-11-14T23:12:45+00:00",
+      "tipo": "carrossel",
+      "tema": "Energia solar sem placa no telhado",
+      "gancho": "Dá para economizar na conta de luz com energia solar sem instalar nada em casa.",
+      "legenda": "Sabia que dá pra ter energia solar sem placa no telhado? ☀️\n\nNa energia solar compartilhada, as usinas da ELLO geram os créditos e eles são abatidos direto na sua conta de luz.\nSem obra, sem equipamento e sem custo de adesão. Você continua com a mesma distribuidora.\nA economia pode chegar a até 50% e não tem fidelidade: cancela quando quiser, sem multa.\n\nSimule sua economia no link da bio ou chama no WhatsApp: (19) 99562-1927 💬\n\n#energiasolar #contadeluz #energiacompartilhada #campinas #economia",
+      "imagens": [
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261114-2312-1.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261114-2312-2.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261114-2312-3.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261114-2312-4.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261114-2312-5.jpg"
+      ],
+      "media_id": "18121036601108157",
+      "permalink": "https://www.instagram.com/p/DfvW6IaFxv2/"
+    }
+  ],
+  "comentarios_respondidos": [],
+  "mensagens_respondidas": [],
+  "custos": [
+    {
+      "data": "2026-11-14T23:12:45+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
+    }
+  ],
+  "acoes": [
+    {
+      "data": "2026-11-14T23:12:45+00:00",
+      "tipo": "carrossel",
+      "detalhe": "Energia solar sem placa no telhado"
+    }
+  ],
+  "total_leads": 0,
+  "atualizado_em": "2026-11-14T23:12:45+00:00"
+}
