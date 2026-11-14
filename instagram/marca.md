@@ -47,10 +47,24 @@ o agente passa a seguir a nova versão na próxima execução.
 - Bastidores de usinas solares, painéis ao amanhecer e entardecer
 - Dicas rápidas para reduzir o consumo em casa
 
-## Estilo dos vídeos (Reels de 10 segundos)
-- Vertical 9:16, ultra-realista, cinematográfico, luz natural.
-- Gancho visual forte no primeiro segundo (movimento, contraste, surpresa).
-- Uma única cena ou no máximo duas, câmera em movimento suave.
-- Sem texto escrito no vídeo (o texto vai na legenda e na capa).
-- Paleta da marca quando couber: azul-noite (#0A1A33) e âmbar de luz solar (#F5A524).
-- REFERÊNCIA DE ESTILO DO THIAGO: (aguardando o vídeo de exemplo — descrever aqui)
+## Benefícios aprovados para a tela final dos vídeos (escolher 4)
+- Análise da conta GRÁTIS
+- Economia de até 20% na conta
+- Zero investimento pra você
+- Economia limpa pro planeta
+- Sem obra e sem placa no telhado
+- Sem fidelidade
+- Continua com a sua distribuidora
+
+## Formato dos Reels (baseado no vídeo modelo do Thiago)
+- Duração total ~14 s: cena realista de 5 s + tela da marca de ~9 s.
+- Cena: situação do dia a dia com emoção forte e humor leve. Exemplo do modelo: rapaz abre a conta
+  de luz na cozinha, arregala os olhos, se desespera e desmaia no chão de forma cômica.
+- Personagens genéricos e variados (idade, gênero, aparência), casas e comércios brasileiros,
+  luz natural, câmera próxima, expressões faciais exageradas mas críveis.
+- Textos por cima da cena: pergunta-gancho em 2 linhas no topo (branco e amarelo, letras grossas),
+  etiqueta vermelha com um destaque (ex.: valor da conta) e uma virada no fim ("TEM JEITO!").
+- Tela da marca: logo ELLO, "ENERGIA QUE CONECTA — a solução pra conta de luz", 4 benefícios com
+  check amarelo, "e muito mais!", depois logo grande + "Tudo se conecta." + "Comente ECONOMIZAR e
+  ganhe a análise da sua conta de luz GRÁTIS".
+- Quem comenta a palavra-chave recebe automaticamente uma DM com o link do WhatsApp.

@@ -98,7 +98,8 @@ def metricas(media_id: str, reel: bool = True) -> dict:
 def comentarios(media_id: str) -> list[dict]:
     if config.SIMULAR:
         return [{"id": "C1", "text": "Quanto custa pra entrar?", "username": "maria_cps", "timestamp": "2026-11-14T15:00:00+0000"},
-                {"id": "C2", "text": "🔥🔥", "username": "joao", "timestamp": "2026-11-14T15:05:00+0000"}]
+                {"id": "C2", "text": "🔥🔥", "username": "joao", "timestamp": "2026-11-14T15:05:00+0000"},
+                {"id": "C3", "text": "ECONOMIZAR", "username": "ana.campinas", "timestamp": "2026-11-14T15:06:00+0000"}]
     campos = "id,text,username,timestamp,replies{id,username}"
     return _get(f"{media_id}/comments", fields=campos, limit=50).get("data", [])
 
@@ -134,6 +135,16 @@ def enviar_mensagem(usuario_id: str, texto: str) -> None:
     chamar("POST", f"{config.IG_API}/me/messages",
            headers={"Authorization": f"Bearer {config.IG_TOKEN}"},
            json={"recipient": {"id": usuario_id}, "message": {"text": texto}})
+
+
+def resposta_privada(comentario_id: str, texto: str) -> None:
+    """Manda uma DM para quem comentou (permitido até 7 dias depois do comentário)."""
+    if config.SIMULAR:
+        print(f"[simulação] mandaria DM para o autor do comentário {comentario_id}: {texto[:60]}…")
+        return
+    chamar("POST", f"{config.IG_API}/me/messages",
+           headers={"Authorization": f"Bearer {config.IG_TOKEN}"},
+           json={"recipient": {"comment_id": comentario_id}, "message": {"text": texto}})
 
 
 # ---------- Token ----------

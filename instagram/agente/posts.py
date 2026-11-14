@@ -84,9 +84,11 @@ def executar() -> dict:
         })
 
     carimbo = datetime.now().strftime("%Y%m%d-%H%M")
-    arquivos = _renderizar(ideia["slides"], config.DADOS_DIR / "midia" / carimbo)
-    dados_git.enviar(f"Carrossel {carimbo}")   # imagens precisam estar públicas antes de publicar
-    urls = [f"{config.URL_MIDIA_BASE}/{carimbo}/{a.name}" for a in arquivos]
+    import tempfile
+    pasta = Path(tempfile.mkdtemp())
+    arquivos = _renderizar(ideia["slides"], pasta)
+    arquivos = [a.rename(pasta / f"carrossel-{carimbo}-{a.name}") for a in arquivos]
+    urls = dados_git.publicar_midia(arquivos)   # imagens precisam estar públicas antes de publicar
 
     media_id = instagram.publicar_carrossel(urls, ideia["legenda"])
     est["publicacoes"].append({

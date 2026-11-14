@@ -4,16 +4,18 @@ O agente roda sozinho no GitHub, de graça, nos horários abaixo:
 
 | Tarefa | Quando | O que faz |
 |---|---|---|
-| **Reels com vídeo IA** | Dias ímpares, 18h (~15 por mês) | Lê as métricas, escolhe o tema, gera um vídeo ultra-realista de 10s (Kling 3.0), escreve a legenda e publica |
+| **Reels com vídeo IA** | Dias ímpares, 18h (~15 por mês) | No formato do vídeo modelo: cena ultra-realista de 5s feita com IA (Kling 3.0) + textos por cima + tela animada da marca com "Comente ECONOMIZAR" |
 | **Carrossel** | Terça e quinta, 12h | Cria 5 slides educativos com a identidade da ELLO e publica |
-| **Respostas** | A cada 15 minutos | Responde comentários e DMs novos e leva quem tem interesse para o WhatsApp |
+| **Respostas** | A cada 15 minutos | Quem comenta a palavra-chave recebe DM com o WhatsApp; os demais comentários e DMs são respondidos |
 | **Token** | Toda segunda | Renova o acesso ao Instagram |
 
 - **Para mudar o tom, as regras ou os temas**, edite o arquivo [`marca.md`](marca.md). O agente lê esse arquivo toda vez.
 - **Histórico, métricas e leads** ficam no branch `dados` (separado do site), no arquivo `estado.json`.
 - **Para pausar tudo**, apague a variável `AGENTE_ATIVO` (veja o passo 7 abaixo).
 
-**Custo estimado:** cerca de US$ 17 por mês de vídeo (15 vídeos × 10s × US$ 0,112) e poucos dólares de Claude. O GitHub é grátis.
+**Custo estimado:** cerca de US$ 8,40 por mês de vídeo (15 cenas × 5s × US$ 0,112) e poucos dólares de Claude. O GitHub é grátis.
+
+**Logo e trilha:** ficam na pasta [`marca/`](marca). A trilha da tela final (`trilha-cartela.m4a`) veio do vídeo modelo; para trocar, substitua o arquivo mantendo o nome.
 
 ---
 
@@ -41,7 +43,7 @@ No app do Instagram: **perfil → menu (3 linhas) → Tipo de conta e ferramenta
 
 ## 3. Chave do vídeo com IA (fal.ai)
 1. Acesse **fal.ai** e crie uma conta.
-2. Em **Billing**, adicione créditos (US$ 20 dá para mais de um mês).
+2. Em **Billing**, adicione créditos (US$ 10 dá para mais de um mês).
 3. Em **Keys** (ou **API Keys**), crie uma chave e copie. Essa é a **FAL_KEY**.
 
 ## 4. Chave do Claude (Anthropic)
@@ -66,7 +68,7 @@ No app do Instagram: **perfil → menu (3 linhas) → Tipo de conta e ferramenta
 2. À esquerda, clique em **Instagram - Carrossel (terça e quinta)**.
 3. Clique em **Run workflow**. Com **Simular** marcado, nada é publicado nem cobrado: serve para ver se tudo roda.
 4. Depois rode de novo com **Simular desmarcado**: o primeiro carrossel de verdade vai para o Instagram.
-5. Repita com **Instagram - Reels**. Esse teste real gera um vídeo e custa cerca de US$ 1,12.
+5. Repita com **Instagram - Reels**. Esse teste real gera um vídeo e custa cerca de US$ 0,56.
 
 ## 7. Ligar o piloto automático
 Em **Settings → Secrets and variables → Actions**, aba **Variables**, clique em **New repository variable**:

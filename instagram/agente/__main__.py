@@ -10,7 +10,7 @@ def main() -> None:
     tarefa = sys.argv[1] if len(sys.argv) > 1 else ""
     if tarefa == "reels":
         from . import reels
-        reels.executar()
+        reels.executar(cena_local=sys.argv[2] if len(sys.argv) > 2 else None)
         dados_git.enviar("Reels publicado")
     elif tarefa == "carrossel":
         from . import posts

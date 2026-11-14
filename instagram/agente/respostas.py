@@ -34,6 +34,21 @@ def _recente(ts: str, dias: int = 7) -> bool:
     return data > datetime.now(timezone.utc) - timedelta(days=dias)
 
 
+DM_PALAVRA_CHAVE = (
+    "Oi! Que bom que você quer economizar 😊\n\n"
+    "A análise da sua conta de luz é grátis: é só mandar uma foto da sua última conta no nosso WhatsApp "
+    "que em até 24h te enviamos quanto dá para economizar (até 20%%), sem obra e sem fidelidade.\n\n"
+    "👉 %s" % config.LINK_WHATSAPP
+)
+RESPOSTAS_PUBLICAS = ["Te chamei no direct! 📩", "Mandei no seu direct! 😉", "Olha o direct! ⚡", "Já te enviei no direct! 📲"]
+
+
+def _palavras_chave(est: dict) -> set[str]:
+    palavras = {"ECONOMIZAR"}
+    palavras |= {p["palavra_chave"].upper() for p in est["publicacoes"][-20:] if p.get("palavra_chave")}
+    return palavras
+
+
 def executar() -> None:
     config.exigir("IG_TOKEN", "ANTHROPIC_API_KEY")
     est = estado.carregar()
@@ -41,6 +56,7 @@ def executar() -> None:
     feitos_m = set(est["mensagens_respondidas"])
     eu = instagram.meu_id()
     minhas_contas = {eu}
+    palavras = _palavras_chave(est)
 
     pendentes = []
     for media in instagram.minhas_publicacoes(limite=10):
@@ -49,6 +65,20 @@ def executar() -> None:
         for c in instagram.comentarios(media["id"]):
             ja_tem_resposta = bool((c.get("replies") or {}).get("data"))
             if c["id"] in feitos_c or ja_tem_resposta or not _recente(c.get("timestamp", "")):
+                continue
+            if set((c.get("text") or "").upper().replace("!", " ").replace(".", " ").split()) & palavras:
+                # Comentou a palavra-chave: manda DM com o link e responde em público
+                try:
+                    instagram.resposta_privada(c["id"], DM_PALAVRA_CHAVE)
+                    instagram.responder_comentario(c["id"], RESPOSTAS_PUBLICAS[len(feitos_c) % len(RESPOSTAS_PUBLICAS)])
+                except Exception as e:
+                    print(f"Falha na DM da palavra-chave {c['id']}: {e}")
+                    continue
+                feitos_c.add(c["id"])
+                est["comentarios_respondidos"].append(c["id"])
+                est["leads"].append({"data": estado.agora(), "origem": "instagram_palavra_chave",
+                                     "usuario": c.get("username"), "mensagem": (c.get("text") or "")[:300]})
+                print(f"palavra-chave de @{c.get('username')}: DM enviada")
                 continue
             pendentes.append({"id": c["id"], "tipo": "comentario", "usuario": c.get("username"),
                               "texto": c.get("text", ""), "post": (media.get("caption") or "")[:120]})
@@ -68,6 +98,7 @@ def executar() -> None:
 
     if not pendentes:
         print("Nada novo para responder.")
+        estado.salvar(est)
         return
 
     itens = json.dumps([{k: v for k, v in p.items() if k != "usuario_id"} for p in pendentes],
