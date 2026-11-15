@@ -37,13 +37,13 @@ SMTP_SENHA = (os.getenv("SMTP_SENHA") or "")
 # Ritmo e regras
 LIMITE_DIA = int((os.getenv("LIMITE_DIA") or "30"))
 DIAS_FOLLOWUP = [3, 7]                    # 1º e 2º lembrete, em dias corridos após o envio anterior
-LINK_AGENDA = (os.getenv("LINK_AGENDA") or "")  # link do Google Agenda / Cal.com para marcar reunião
+LINK_AGENDA = (os.getenv("LINK_AGENDA") or "https://cal.com/ello-energia/conversa")  # link do Google Agenda / Cal.com para marcar reunião
 LINK_SITE = (os.getenv("LINK_SITE") or "https://elloeconomia-energia.com/")
 WHATSAPP = "(19) 99562-1927"
 LINK_WHATSAPP = "https://wa.me/5519995621927"
 RODAPE_EMPRESA = (os.getenv("RODAPE_EMPRESA") or "Ello Global LTDA · CNPJ 69.972.832/0001-76 · Campinas/SP")
 PALAVRAS_RESERVA = [p.strip().lower() for p in os.getenv(
-    "PALAVRAS_RESERVA", "nova reserva,new booking,new event,agendamento confirmado,reserva confirmada,booked").split(",")]
+    "PALAVRAS_RESERVA", "nova reserva,novo evento,new booking,new event,agendamento confirmado,reserva confirmada,booked").split(",")]
 
 # Dados (branch "dados", pasta prospeccao/)
 DADOS_DIR = Path(os.getenv("DADOS_DIR", RAIZ / "dados-local"))
