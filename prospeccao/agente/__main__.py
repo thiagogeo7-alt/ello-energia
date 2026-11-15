@@ -10,7 +10,7 @@ from . import config
 def verificar() -> None:
     print(f"Cidade: {config.CIDADE}/{config.UF} (código Receita {config.MUNICIPIO_RECEITA})")
     for n in ("GOOGLE_MAPS_KEY", "ANTHROPIC_API_KEY", "PAINEL_SENHA", "EMAIL_REMETENTE", "SMTP_SENHA", "LINK_AGENDA"):
-        print(f"{n}: {'ok ✅' if os.getenv(n) else 'FALTANDO ❌'}")
+        print(f"{n}: {'ok ✅' if (os.getenv(n) or getattr(config, n, '')) else 'FALTANDO ❌'}")
     if config.SMTP_SENHA and config.EMAIL_REMETENTE:
         import imaplib
         import smtplib
