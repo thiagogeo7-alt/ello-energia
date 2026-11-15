@@ -77,7 +77,7 @@ def executar() -> dict:
                 {"titulo": "3 mitos que fazem você pagar mais", "texto": "E a verdade sobre energia solar sem placa"},
                 {"titulo": "\"Preciso de placa no telhado\"", "texto": "Não. A energia é gerada em usinas solares e chega como crédito na sua conta."},
                 {"titulo": "\"Vou trocar de distribuidora\"", "texto": "Não. Você continua com a mesma distribuidora, que segue cuidando da rede."},
-                {"titulo": "\"Tem fidelidade e multa\"", "texto": "Na ELLO não. Você pode cancelar quando quiser, sem multa."},
+                {"titulo": "\"É caro para começar\"", "texto": "Não. Não há custo de adesão nem equipamento para comprar."},
                 {"titulo": "Quanto você economiza?", "texto": "Simule no link da bio ou chame no WhatsApp."},
             ],
             "legenda": "Você acredita em algum desses mitos?\nSalve para mostrar para alguém.\n#energiasolar #campinas #contadeluz",

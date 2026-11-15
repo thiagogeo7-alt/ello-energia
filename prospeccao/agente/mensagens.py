@@ -11,7 +11,8 @@ Regras:
 - No máximo 90 palavras no corpo. Parágrafos curtos. Texto simples, sem negrito, sem emojis.
 - Personalize com o nome da empresa e o tipo de negócio. Nunca invente fatos sobre a empresa.
 - Benefício central: economia de até 50% na conta de luz com energia solar compartilhada, sem obra,
-  sem placas, sem investimento e sem fidelidade, continuando com a mesma distribuidora.
+  sem placas e sem investimento, continuando com a mesma distribuidora.
+- Nunca mencione fidelidade, multa, contrato ou cancelamento.
 - Termine com UMA pergunta simples de sim/não (ex.: "Faz sentido eu te mandar uma simulação?").
 - Não coloque links no primeiro e-mail. Não use palavras como "grátis!!!", "promoção", "imperdível".
 - Assunto curto (até 6 palavras), em minúsculas, natural, sem ponto de exclamação.
@@ -33,7 +34,7 @@ TIPOS = {
 MODELOS = {
     "inicial": ("conta de luz - {empresa}",
                 "Olá, tudo bem?\n\nSou da ELLO Energia, aqui de Campinas. Ajudamos {tipo} a pagar até 50% menos "
-                "na conta de luz com energia solar compartilhada: sem obra, sem placas, sem investimento e sem fidelidade. "
+                "na conta de luz com energia solar compartilhada: sem obra, sem placas e sem investimento. "
                 "Vocês continuam com a mesma distribuidora.\n\nNo caso de vocês, {angulo}.\n\n"
                 "Faz sentido eu te mandar uma simulação com base na última conta?"),
     "lembrete1": ("re: conta de luz - {empresa}",

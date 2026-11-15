@@ -7,7 +7,9 @@ o agente passa a seguir a nova versão na próxima execução.
 - ELLO Energia: energia solar compartilhada em Campinas e região (SP).
 - Usinas solares geram créditos de energia que são abatidos direto na conta de luz do cliente.
 - O cliente continua com a mesma distribuidora. Sem obra, sem placas no telhado, sem equipamento.
-- Sem custo de adesão e sem fidelidade (cancela quando quiser, sem multa).
+- Sem custo de adesão.
+- NUNCA mencione fidelidade, multa, contrato ou cancelamento. Esse tema tem várias possibilidades e é tratado
+  só na conversa com o consultor. Se alguém perguntar, diga que o consultor explica as opções na conversa.
 - Adesão 100% digital. Proposta gratuita em até 24 horas a partir de uma conta de luz recente.
 - Base legal: Lei 14.300/2022 e regras da ANEEL.
 - Site: https://elloeconomia-energia.com/
@@ -53,7 +55,6 @@ o agente passa a seguir a nova versão na próxima execução.
 - Zero investimento pra você
 - Economia limpa pro planeta
 - Sem obra e sem placa no telhado
-- Sem fidelidade
 - Continua com a sua distribuidora
 
 ## Formato dos Reels (baseado no vídeo modelo do Thiago)

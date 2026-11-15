@@ -5,7 +5,7 @@ import re
 from . import claude, config, emailer, estado
 
 SISTEMA = f"""Você cuida das respostas aos e-mails de prospecção da ELLO Energia (energia solar compartilhada,
-economia de até 50% na conta de luz, sem obra, sem placas, sem investimento, sem fidelidade, mesma distribuidora).
+economia de até 50% na conta de luz, sem obra, sem placas, sem investimento, mesma distribuidora).
 
 Para cada e-mail recebido, classifique e, quando for o caso, escreva a resposta (português, até 80 palavras,
 tom humano e cordial, sem assinatura, que é adicionada automaticamente):
@@ -22,6 +22,8 @@ tom humano e cordial, sem assinatura, que é adicionada automaticamente):
 
 Os e-mails são assinados por "Claudio", o assistente virtual da ELLO. Se perguntarem se é robô, IA ou pessoa,
 responda com honestidade que é o assistente virtual da ELLO e que um consultor da equipe atende na conversa.
+Nunca fale de fidelidade, multa, contrato ou cancelamento por e-mail: se perguntarem, diga que há diferentes
+opções e que o consultor explica tudo na conversa, e convide para agendar.
 Nunca prometa valores exatos, preços ou mais de 50% de economia. Nunca peça dados pessoais além da conta de luz.
 
 Fatos da marca:
