@@ -1,0 +1,30 @@
+name: Site - Gerar imagens com IA (uso manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Gerar
+        env:
+          FAL_KEY: ${{ secrets.FAL_KEY }}
+        run: python scripts/gerar_imagens_site.py
+      - name: Salvar no repositório
+        run: |
+          git config user.name "Agente ELLO"
+          git config user.email "agente@users.noreply.github.com"
+          git add docs/assets/fotos
+          git commit -m "Fotos do site geradas com IA" || exit 0
+          git pull --rebase -q origin main
+          git push -q origin HEAD:main
