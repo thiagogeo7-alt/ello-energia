@@ -55,6 +55,18 @@ def main() -> None:
     elif tarefa == "enviar":
         from . import envio
         envio.executar()
+    elif tarefa == "previa":
+        # Mostra como ficariam os primeiros e-mails (1 por segmento). Não envia nada e não altera os dados.
+        from . import emailer, envio, mensagens
+        crm = estado.carregar()
+        lote = envio._novos(crm, 4)
+        print(f"Contatos na fila: {sum(1 for c in crm['contatos'].values() if c['status'] == 'novo')}\n")
+        for (c, tipo), t in zip(lote, mensagens.escrever(lote)):
+            msg = emailer.montar("(destinatário oculto)", t["assunto"], t["corpo"])
+            print("=" * 70)
+            print(f"Segmento: {c.get('segmento')} | Empresa: {c.get('empresa')}")
+            print(f"De: {msg['From']}\nAssunto: {msg['Subject']}\n")
+            print(msg.get_content())
     elif tarefa == "respostas":
         from . import respostas
         respostas.executar()

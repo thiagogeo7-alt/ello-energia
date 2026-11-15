@@ -10,6 +10,10 @@ on:
         description: "Simular (não envia e-mails nem gasta cota)"
         type: boolean
         default: true
+      previa:
+        description: "Só mostrar a prévia dos e-mails (não envia nada)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -44,7 +48,7 @@ jobs:
 
       - name: Executar
         env:
-          SIMULAR: ${{ inputs.simular && '1' || '0' }}
+          SIMULAR: ${{ (inputs.simular && !inputs.previa) && '1' || '0' }}
           DADOS_DIR: ${{ github.workspace }}/prospeccao/dados
           GITHUB_TOKEN: ${{ github.token }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -59,4 +63,4 @@ jobs:
           LINK_SITE: ${{ vars.LINK_SITE }}
           RODAPE_EMPRESA: ${{ vars.RODAPE_EMPRESA }}
           LIMITE_DIA: ${{ vars.LIMITE_DIA }}
-        run: python -m agente enviar
+        run: python -m agente ${{ inputs.previa && 'previa' || 'enviar' }}
