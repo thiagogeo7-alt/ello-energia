@@ -25,7 +25,7 @@ DOMINIOS_IGNORAR = ("instagram.com", "facebook.com", "linktr.ee", "wa.me", "what
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 LIXO = ("example", "exemplo", "sentry", "wixpress", "@2x", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg",
         "seudominio", "seuemail", "email@", "domain.com", "noreply", "no-reply", "godaddy", "u003e")
-UA = {"User-Agent": "Mozilla/5.0 (compatible; ELLO-prospeccao/1.0; +https://thiagogeo7-alt.github.io/ello-energia/)"}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; ELLO-prospeccao/1.0; +https://elloeconomia-energia.com/)"}
 
 
 # ---------- Utilidades ----------

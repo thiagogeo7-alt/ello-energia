@@ -25,7 +25,7 @@ RECEITA_BASE = (os.getenv("RECEITA_BASE") or "https://arquivos.receitafederal.go
 RECEITA_TOKEN = (os.getenv("RECEITA_TOKEN") or "YggdBLfdninEJX9")   # compartilhamento público da Receita (WebDAV)
 
 # E-mail (preenchidos quando o domínio e a caixa de e-mail existirem)
-EMAIL_REMETENTE = (os.getenv("EMAIL_REMETENTE") or "")                    # ex.: contato@ellocampinas.com.br
+EMAIL_REMETENTE = (os.getenv("EMAIL_REMETENTE") or "")                    # ex.: contato@elloeconomia-energia.com
 NOME_REMETENTE = (os.getenv("NOME_REMETENTE") or "Thiago | ELLO Energia")
 SMTP_HOST = (os.getenv("SMTP_HOST") or "smtp.hostinger.com")
 SMTP_PORTA = int((os.getenv("SMTP_PORTA") or "465"))
@@ -38,10 +38,10 @@ SMTP_SENHA = (os.getenv("SMTP_SENHA") or "")
 LIMITE_DIA = int((os.getenv("LIMITE_DIA") or "30"))
 DIAS_FOLLOWUP = [3, 7]                    # 1º e 2º lembrete, em dias corridos após o envio anterior
 LINK_AGENDA = (os.getenv("LINK_AGENDA") or "")  # link do Google Agenda / Cal.com para marcar reunião
-LINK_SITE = (os.getenv("LINK_SITE") or "https://thiagogeo7-alt.github.io/ello-energia/")
+LINK_SITE = (os.getenv("LINK_SITE") or "https://elloeconomia-energia.com/")
 WHATSAPP = "(19) 99562-1927"
 LINK_WHATSAPP = "https://wa.me/5519995621927"
-RODAPE_EMPRESA = (os.getenv("RODAPE_EMPRESA") or "ELLO Energia · Campinas/SP")
+RODAPE_EMPRESA = (os.getenv("RODAPE_EMPRESA") or "Ello Global LTDA · CNPJ 69.972.832/0001-76 · Campinas/SP")
 PALAVRAS_RESERVA = [p.strip().lower() for p in os.getenv(
     "PALAVRAS_RESERVA", "nova reserva,new booking,new event,agendamento confirmado,reserva confirmada,booked").split(",")]
 

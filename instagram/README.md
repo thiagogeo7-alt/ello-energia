@@ -10,7 +10,7 @@ O agente roda sozinho no GitHub, de graça, nos horários abaixo:
 | **Token** | Toda segunda | Renova o acesso ao Instagram |
 
 - **Para mudar o tom, as regras ou os temas**, edite o arquivo [`marca.md`](marca.md). O agente lê esse arquivo toda vez.
-- **Painel de resultados:** https://thiagogeo7-alt.github.io/ello-energia/painel/ (publicações, métricas, respostas, custos e leads).
+- **Painel de resultados:** https://elloeconomia-energia.com/painel/ (publicações, métricas, respostas, custos e leads).
 - **Histórico e métricas** ficam no branch `dados`, no arquivo `estado.json`. Os **leads** ficam em `leads.enc`, criptografados com a senha do segredo `PAINEL_SENHA` (o repositório é público; assim os dados pessoais ficam protegidos, conforme a LGPD).
 - **Para pausar tudo**, apague a variável `AGENTE_ATIVO` (veja o passo 7 abaixo).
 
@@ -46,7 +46,7 @@ No app do Instagram: **perfil → menu (3 linhas) → Tipo de conta e ferramenta
 6. Clique em **Gerar token** ao lado da conta e copie o token (um texto longo). Esse é o **IG_TOKEN**.
 7. O número que aparece ao lado da conta é o **IG_USER_ID** (opcional; o agente descobre sozinho se você não cadastrar).
 8. Na configuração do app, use como URL da política de privacidade:
-   `https://thiagogeo7-alt.github.io/ello-energia/privacidade.html`
+   `https://elloeconomia-energia.com/privacidade.html`
 
 > A Meta pode exigir uma revisão do app (gratuita, alguns dias) para o agente responder DMs de qualquer pessoa. Publicar e responder comentários na própria conta costuma funcionar sem isso. O Claude te ajuda com a revisão se for necessária.
 

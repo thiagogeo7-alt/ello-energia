@@ -10,7 +10,7 @@ o agente passa a seguir a nova versão na próxima execução.
 - Sem custo de adesão e sem fidelidade (cancela quando quiser, sem multa).
 - Adesão 100% digital. Proposta gratuita em até 24 horas a partir de uma conta de luz recente.
 - Base legal: Lei 14.300/2022 e regras da ANEEL.
-- Site: https://thiagogeo7-alt.github.io/ello-energia/
+- Site: https://elloeconomia-energia.com/
 - WhatsApp: (19) 99562-1927 — link: https://wa.me/5519995621927
 
 ## Público

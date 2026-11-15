@@ -2,7 +2,7 @@
 
 Encontra empresas de Campinas, manda e-mails personalizados, responde quem retorna e leva os
 interessados para uma reunião. Tudo roda sozinho no GitHub e os resultados aparecem na aba
-**Prospecção** do painel: https://thiagogeo7-alt.github.io/ello-energia/painel/
+**Prospecção** do painel: https://elloeconomia-energia.com/painel/
 
 | Tarefa | Quando | O que faz |
 |---|---|---|
