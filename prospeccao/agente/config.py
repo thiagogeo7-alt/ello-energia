@@ -21,7 +21,8 @@ BUSCAS_GOOGLE_POR_MES = int((os.getenv("BUSCAS_GOOGLE_POR_MES") or "900"))   # c
 CIDADE = (os.getenv("CIDADE") or "Campinas")
 UF = (os.getenv("UF") or "SP")
 MUNICIPIO_RECEITA = (os.getenv("MUNICIPIO_RECEITA") or "6291")             # código da Receita (TOM) de Campinas
-RECEITA_BASE = (os.getenv("RECEITA_BASE") or "https://arquivos.receitafederal.gov.br/dados/cnpj/dados_abertos_cnpj")
+RECEITA_BASE = (os.getenv("RECEITA_BASE") or "https://arquivos.receitafederal.gov.br/public.php/webdav")
+RECEITA_TOKEN = (os.getenv("RECEITA_TOKEN") or "YggdBLfdninEJX9")   # compartilhamento público da Receita (WebDAV)
 
 # E-mail (preenchidos quando o domínio e a caixa de e-mail existirem)
 EMAIL_REMETENTE = (os.getenv("EMAIL_REMETENTE") or "")                    # ex.: contato@ellocampinas.com.br

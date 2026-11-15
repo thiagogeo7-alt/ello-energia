@@ -137,7 +137,21 @@ def coletar_google(crm: dict, max_buscas: int | None = None) -> int:
 
 # ---------- Base aberta de CNPJ (Receita Federal) ----------
 
+def _auth():
+    return (config.RECEITA_TOKEN, "") if "webdav" in config.RECEITA_BASE else None
+
+
 def _competencia_recente() -> str:
+    """Descobre o mês mais recente publicado pela Receita que já tem todos os arquivos."""
+    if "webdav" in config.RECEITA_BASE:
+        r = requests.request("PROPFIND", config.RECEITA_BASE + "/", auth=_auth(), headers={"Depth": "1", **UA}, timeout=60)
+        meses = sorted(set(re.findall(r"/(\d{4}-\d{2})/", r.text)), reverse=True)
+        for comp in meses[:3]:
+            r2 = requests.request("PROPFIND", f"{config.RECEITA_BASE}/{comp}/", auth=_auth(),
+                                  headers={"Depth": "1", **UA}, timeout=60)
+            if "Estabelecimentos9.zip" in r2.text and "Empresas9.zip" in r2.text:
+                return comp
+        raise ErroAPI(f"Não encontrei um mês completo na base de CNPJ da Receita (vi: {meses[:4]}).")
     hoje = date.today()
     for i in range(0, 4):
         y, m = hoje.year, hoje.month - i
@@ -153,13 +167,30 @@ def _competencia_recente() -> str:
     raise ErroAPI("Não encontrei a base de CNPJ da Receita. Ajuste a variável RECEITA_BASE.")
 
 
-def _baixar(url: str, destino: Path) -> Path:
-    with requests.get(url, stream=True, timeout=120, headers=UA) as r:
-        r.raise_for_status()
-        with open(destino, "wb") as f:
-            for parte in r.iter_content(1 << 20):
-                f.write(parte)
-    return destino
+def _baixar(url: str, destino: Path, tentativas: int = 4) -> Path:
+    """Baixa arquivos grandes retomando de onde parou se a conexão cair."""
+    for t in range(tentativas):
+        feito = destino.stat().st_size if destino.exists() else 0
+        cab = dict(UA)
+        if feito:
+            cab["Range"] = f"bytes={feito}-"
+        try:
+            with requests.get(url, stream=True, timeout=180, headers=cab, auth=_auth()) as r:
+                if r.status_code == 416:
+                    return destino
+                r.raise_for_status()
+                modo = "ab" if feito and r.status_code == 206 else "wb"
+                with open(destino, modo) as f:
+                    for parte in r.iter_content(1 << 20):
+                        f.write(parte)
+            with open(destino, "rb") as f:
+                if f.read(2) != b"PK":
+                    raise ErroAPI(f"{url} não devolveu um arquivo zip.")
+            return destino
+        except requests.RequestException as e:
+            print(f"Conexão caiu ao baixar {url.rsplit('/', 1)[-1]} ({e}); retomando…")
+            time.sleep(10 * (t + 1))
+    raise ErroAPI(f"Não consegui baixar {url}")
 
 
 def _linhas_zip(arq: Path):
