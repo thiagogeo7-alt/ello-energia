@@ -24,7 +24,11 @@
   "description": "Energia solar compartilhada para residências e empresas em Campinas e região.",
   "telephone": "+55-19-99562-1927",
   "areaServed": "Campinas e região, SP",
-  "image": "assets/og.jpg"
+  "image": "assets/og.jpg",
+  "legalName": "Ello Global LTDA",
+  "taxID": "69.972.832/0001-76",
+  "address": {"@type": "PostalAddress", "streetAddress": "Avenida Nogueira Acioly, 1606, Centro",
+              "addressLocality": "Icó", "addressRegion": "CE", "postalCode": "63430-000", "addressCountry": "BR"}
 }
 </script>
 <style>
@@ -225,6 +229,46 @@ footer a:hover{color:var(--amber)}
 footer .brand{margin-bottom:14px}
 .legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;font-size:.85rem}
 
+
+/* Fotos */
+.foto{display:block;width:100%;height:100%;object-fit:cover;border-radius:8px;background:var(--mist)}
+.head-foto{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;margin-bottom:48px}
+.head-foto .head{margin-bottom:0}
+.head-foto figure{aspect-ratio:4/3}
+@media (max-width:860px){.head-foto{grid-template-columns:1fr;gap:28px}}
+
+/* Para quem é */
+.quem{background:var(--mist)}
+.publicos{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:900px){.publicos{grid-template-columns:1fr}}
+.publico{background:var(--paper);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.publico figure{aspect-ratio:4/3}
+.publico .foto{border-radius:0}
+.publico div{padding:22px 22px 26px}
+.publico h3{font-variation-settings:var(--wide);font-weight:800;font-size:1.3rem;margin-bottom:6px}
+.publico p{color:var(--ink-2);font-size:.98rem}
+.publico .exemplo{display:block;margin-top:14px;font-weight:700;color:var(--ink)}
+
+/* Como funciona com foto */
+.how{position:relative;overflow:hidden}
+.how .faixa{aspect-ratio:21/7;margin-bottom:56px;position:relative}
+.how .faixa .foto{border-radius:8px}
+.how .faixa figcaption{position:absolute;left:20px;bottom:16px;background:rgba(10,26,51,.82);color:#fff;font-size:.85rem;padding:6px 12px;border-radius:6px}
+@media (max-width:700px){.how .faixa{aspect-ratio:16/9}}
+
+/* Quem é com foto */
+.about .wrap{grid-template-columns:.8fr 1.2fr}
+.about figure{aspect-ratio:3/4;max-height:560px}
+.about .texto p + p{margin-top:16px}
+.about .texto .pillars{margin-top:32px}
+@media (max-width:860px){.about figure{aspect-ratio:4/3}}
+
+/* Contato com foto */
+.contact .foto-contato{aspect-ratio:16/10;margin:28px 0 8px}
+
+/* Dados da empresa */
+.empresa{font-size:.85rem;line-height:1.6;color:#8FA0B8;margin-top:14px}
+
 /* WhatsApp flutuante */
 .wa-float{position:fixed;right:20px;bottom:20px;z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.28)}
 .wa-float svg{width:30px;height:30px}
@@ -257,6 +301,7 @@ footer .brand{margin-bottom:14px}
     </a>
     <nav aria-label="Principal">
       <a href="#o-que-muda">O que muda</a>
+      <a href="#para-quem">Para quem</a>
       <a href="#como-funciona">Como funciona</a>
       <a href="#duvidas">Dúvidas</a>
       <a href="#proposta">Proposta</a>
@@ -310,9 +355,12 @@ footer .brand{margin-bottom:14px}
 
 <section id="o-que-muda">
   <div class="wrap">
-    <div class="head">
-      <h2 class="display">Só uma coisa muda: o valor da conta.</h2>
-      <p class="lede">Você não troca de fornecedor e não instala nada. A energia continua chegando pelos mesmos fios de sempre.</p>
+    <div class="head-foto">
+      <div class="head">
+        <h2 class="display">Só uma coisa muda: o valor da conta.</h2>
+        <p class="lede">Você não troca de fornecedor e não instala nada. A energia continua chegando pelos mesmos fios de sempre.</p>
+      </div>
+      <figure><img class="foto" src="assets/fotos/familia-cozinha.webp" alt="Família na cozinha de casa, com as luzes acesas, conferindo a conta no tablet" loading="lazy" width="1024" height="768"></figure>
     </div>
     <div class="change">
       <div class="yes">
@@ -334,12 +382,36 @@ footer .brand{margin-bottom:14px}
   </div>
 </section>
 
+<section class="quem" id="para-quem">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="display">Para quem a ELLO funciona</h2>
+      <p class="lede">Quem tem conta de luz em Campinas e região pode receber os créditos. Quanto maior a conta, maior a economia.</p>
+    </div>
+    <div class="publicos">
+      <article class="publico">
+        <figure><img class="foto" src="assets/fotos/para-casa.webp" alt="Casal relaxando na sala com o ar-condicionado ligado" loading="lazy" width="1024" height="768"></figure>
+        <div><h3>Casas e apartamentos</h3><p>Ar-condicionado, chuveiro e geladeira pesam no fim do mês. Com os créditos solares, a fatura da família fica menor.</p><span class="exemplo">Conta de R$ 500 → até R$ 250 a menos</span></div>
+      </article>
+      <article class="publico">
+        <figure><img class="foto" src="assets/fotos/para-comercio.webp" alt="Dono de padaria sorrindo atrás do balcão" loading="lazy" width="1024" height="768"></figure>
+        <div><h3>Comércios e empresas</h3><p>Fornos, geladeiras e máquinas ligadas o dia todo. Economia na conta é margem de volta para o seu negócio.</p><span class="exemplo">Conta de R$ 2.000 → até R$ 1.000 a menos</span></div>
+      </article>
+      <article class="publico">
+        <figure><img class="foto" src="assets/fotos/para-condominio.webp" alt="Prédio residencial moderno com jardim ao entardecer" loading="lazy" width="1024" height="768"></figure>
+        <div><h3>Condomínios</h3><p>Elevadores, bombas e iluminação das áreas comuns. Reduzir essa conta alivia a taxa de todos os moradores.</p><span class="exemplo">Economia dividida entre todas as unidades</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section class="how" id="como-funciona">
   <div class="wrap">
     <div class="head">
       <h2 class="display">Da usina até a sua fatura</h2>
       <p class="lede">O caminho que a energia faz até virar desconto na sua conta.</p>
     </div>
+    <figure class="faixa"><img class="foto" src="assets/fotos/usina-solar.webp" alt="Vista aérea de uma usina solar ao nascer do sol no interior de São Paulo" loading="lazy" width="1024" height="576"><figcaption>Usina solar ao amanhecer</figcaption></figure>
     <ol class="flow">
       <li><div class="dot"><svg><use href="#i-sun"/></svg></div><div><h3>A usina gera</h3><p>Nossas usinas solares produzem energia e a injetam na rede da distribuidora.</p></div></li>
       <li><div class="dot"><svg><use href="#i-tower"/></svg></div><div><h3>A rede distribui</h3><p>Sua distribuidora continua levando a energia até você, como sempre.</p></div></li>
@@ -355,16 +427,17 @@ footer .brand{margin-bottom:14px}
 
 <section class="about" id="quem-somos">
   <div class="wrap">
-    <div>
+    <figure><img class="foto" src="assets/fotos/paineis-detalhe.webp" alt="Painéis solares refletindo o sol da manhã" loading="lazy" width="768" height="1024"></figure>
+    <div class="texto">
       <h2 class="display">Quem é a ELLO</h2>
       <p>A ELLO é uma plataforma de energia solar compartilhada. Ligamos a geração das nossas usinas à conta de luz de casas e empresas, para que mais gente pague menos sem precisar investir em instalação.</p>
       <p>Cuidamos de toda a parte burocrática com a distribuidora. Você acompanha a economia na própria fatura.</p>
-    </div>
     <ul class="pillars">
       <li><b>Energia</b><span>Usinas solares que geram créditos de energia limpa para você.</span></li>
       <li><b>Conexão</b><span>Uma plataforma digital que liga a usina à sua conta em poucos minutos.</span></li>
       <li><b>Evolução</b><span>Economia que se repete todo mês, com transparência e sem fidelidade.</span></li>
     </ul>
+    </div>
   </div>
 </section>
 
@@ -390,6 +463,7 @@ footer .brand{margin-bottom:14px}
     <div>
       <h2 class="display">Receba sua proposta em até 24 horas</h2>
       <p class="lede">Preencha os dados e continue a conversa com nosso time no WhatsApp. Sem compromisso.</p>
+      <figure class="foto-contato"><img class="foto" src="assets/fotos/atendimento.webp" alt="Atendente sorrindo ao telefone com uma conta de luz na mão" loading="lazy" width="1024" height="768"></figure>
       <ul>
         <li><svg><use href="#i-check"/></svg>Análise gratuita da sua conta de luz</li>
         <li><svg><use href="#i-check"/></svg>Atendimento feito por pessoas</li>
@@ -427,6 +501,7 @@ footer .brand{margin-bottom:14px}
       <div>
         <a href="#inicio" class="brand"><svg viewBox="9 9 30 30" fill="none" aria-hidden="true"><path d="M14 24c0-6 4-10 10-10s10 4 10 10-4 10-10 10M34 24c0-6-4-10-10-10s-10 4-10 10 4 10 10 10" stroke="#F5A524" stroke-width="4.5" stroke-linecap="round"/><circle cx="24" cy="24" r="3.4" fill="#fff"/></svg><div><b>ELLO</b><span>Energia solar compartilhada</span></div></a>
         <p>Créditos de energia solar direto na sua conta de luz, em Campinas e região.</p>
+        <p class="empresa">Ello Global LTDA · CNPJ 69.972.832/0001-76<br>Av. Nogueira Acioly, 1606 – Centro – Icó/CE – CEP 63430-000</p>
       </div>
       <div>
         <h4>Navegação</h4>
@@ -438,7 +513,7 @@ footer .brand{margin-bottom:14px}
       </div>
     </div>
     <div class="legal">
-      <span>© <span id="ano">2026</span> ELLO Energia</span>
+      <span>© <span id="ano">2026</span> ELLO Energia · Ello Global LTDA · CNPJ 69.972.832/0001-76</span>
       <a href="privacidade.html">Política de Privacidade</a>
     </div>
   </div>
