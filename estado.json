@@ -14,7 +14,34 @@
         "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261114-2312-5.jpg"
       ],
       "media_id": "18121036601108157",
-      "permalink": "https://www.instagram.com/p/DfvW6IaFxv2/"
+      "permalink": "https://www.instagram.com/p/DfvW6IaFxv2/",
+      "metricas": {
+        "reach": 0,
+        "likes": 1,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0
+      },
+      "pontuacao": 1.0
+    },
+    {
+      "data": "2026-11-15T00:22:56+00:00",
+      "tipo": "reel",
+      "estrategia": "teste",
+      "tema": "Conta de luz alta no pequeno comércio (padaria)",
+      "gancho": "A dona de uma padaria abre a conta de luz no balcão, arregala os olhos e desmaia de forma cômica atrás do balcão.",
+      "palavra_chave": "ECONOMIZAR",
+      "prompt": "Ultra-realistic, cinematic, vertical 9:16, 5 seconds, natural morning light coming through the shop window, handheld close-up camera. A generic Brazilian woman in her 50s, Black, short curly hair, wearing a flour-dusted apron, stands behind the counter of a small neighborhood bakery in Brazil, with bread baskets and a glass display of pastries behind her. Second 0-1: she opens a paper envelope and unfolds a utility bill (no readable text on the paper), calm and smiling. Second 1-2: her eyes slowly widen and her mouth drops open, and the camera pushes in slightly on her face. Second 2-3: she freezes, the bread tongs fall from her hand, and her eyebrows shoot up in exaggerated but believable shock. Second 3-4: she grabs her chest, staggers backward and the paper flutters in her hand. Second 4-5: she slides down comically behind the counter out of frame, while a bread roll rolls off the counter, and the camera holds on the empty spot with the bill floating down. Realistic skin texture, shallow depth of field, warm tones. No text, no captions, no logos, no brands visible.",
+      "textos": [
+        "CONTA DA PADARIA",
+        "VEIO ASSIM?",
+        "R$ 2.348,90",
+        "TEM JEITO!"
+      ],
+      "legenda": "Conta de luz da padaria chegou assim? 😱\nQuem tem comércio em Campinas sabe: a conta pesa no fim do mês.\nCom a energia solar compartilhada da ELLO, você pode economizar até 50% na conta de luz.\nSem obra, sem placa no telhado e sem fidelidade. Você continua com a mesma distribuidora.\nComente ECONOMIZAR e receba a análise da sua conta de luz GRÁTIS. Ou chama no WhatsApp: (19) 99562-1927 💛\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
+      "media_id": "18129436765880366",
+      "permalink": "https://www.instagram.com/reel/Dfve6YxSrkJ/",
+      "modo": "imagem"
     }
   ],
   "comentarios_respondidos": [],
@@ -24,6 +51,16 @@
       "data": "2026-11-14T23:12:45+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-15T00:21:45+00:00",
+      "servico": "fal.ai cena (imagem)",
+      "usd": 0.02
+    },
+    {
+      "data": "2026-11-15T00:22:56+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -31,8 +68,13 @@
       "data": "2026-11-14T23:12:45+00:00",
       "tipo": "carrossel",
       "detalhe": "Energia solar sem placa no telhado"
+    },
+    {
+      "data": "2026-11-15T00:22:56+00:00",
+      "tipo": "reel",
+      "detalhe": "Conta de luz alta no pequeno comércio (padaria)"
     }
   ],
   "total_leads": 0,
-  "atualizado_em": "2026-11-14T23:12:45+00:00"
+  "atualizado_em": "2026-11-15T00:22:56+00:00"
 }
