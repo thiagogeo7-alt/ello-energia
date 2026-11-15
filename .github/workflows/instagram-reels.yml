@@ -9,6 +9,10 @@ on:
         description: "Simular (não publica nem gasta)"
         type: boolean
         default: true
+      tema:
+        description: "Tema obrigatório (opcional)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -59,4 +63,5 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           MODO_CENA: ${{ vars.MODO_CENA }}
           PAINEL_SENHA: ${{ secrets.PAINEL_SENHA }}
+          TEMA: ${{ inputs.tema }}
         run: python -m agente reels

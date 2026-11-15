@@ -42,6 +42,19 @@ def main() -> None:
         from . import respostas
         respostas.executar()
         dados_git.enviar("Respostas a comentários e DMs")
+    elif tarefa == "apagar":
+        from . import estado, instagram
+        media_id = (sys.argv[2] if len(sys.argv) > 2 else "").strip()
+        if not media_id:
+            raise SystemExit("Informe o ID da publicação a apagar.")
+        r = instagram.apagar(media_id)
+        print(f"Resposta do Instagram: {r}")
+        est = estado.carregar()
+        antes = [p for p in est["publicacoes"] if p.get("media_id") == media_id]
+        est["publicacoes"] = [p for p in est["publicacoes"] if p.get("media_id") != media_id]
+        estado.registrar(est, "Publicação apagada", antes[0].get("tema", media_id) if antes else media_id)
+        estado.salvar(est)
+        dados_git.enviar("Publicação apagada")
     elif tarefa == "token":
         from . import instagram
         config.exigir("IG_TOKEN")

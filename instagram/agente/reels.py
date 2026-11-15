@@ -71,7 +71,11 @@ def executar(cena_local: str | None = None) -> dict:
 
     aprendizado.atualizar_metricas(est)
     historico = aprendizado.resumo_para_claude(est, "reel")
-    r = claude.perguntar_json(SISTEMA, PEDIDO.format(historico=historico), simulado=SIMULADO)
+    pedido = PEDIDO.format(historico=historico)
+    tema = __import__("os").getenv("TEMA", "").strip()
+    if tema:
+        pedido += f"\n\nTEMA OBRIGATÓRIO deste Reels (use exatamente esta ideia): {tema}"
+    r = claude.perguntar_json(SISTEMA, pedido, simulado=SIMULADO)
 
     r["palavra_chave"] = (r.get("palavra_chave") or "ECONOMIZAR").split()[0].upper()
     legenda = r["legenda"]

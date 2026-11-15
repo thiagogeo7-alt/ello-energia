@@ -177,3 +177,11 @@ def renovar_token() -> dict:
     """Renova o token de longa duração (vale ~60 dias a partir da renovação)."""
     return chamar("GET", "https://graph.instagram.com/refresh_access_token",
                   params={"grant_type": "ig_refresh_token", "access_token": config.IG_TOKEN})
+
+
+def apagar(media_id: str) -> dict:
+    """Apaga uma publicação (Reels, carrossel, foto). Não tem volta."""
+    if config.SIMULAR:
+        print(f"[simulação] apagaria a publicação {media_id}")
+        return {"success": True}
+    return chamar("DELETE", f"{config.IG_API}/{media_id}", params={"access_token": config.IG_TOKEN})
