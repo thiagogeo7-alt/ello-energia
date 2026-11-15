@@ -1,0 +1,59 @@
+name: Prospecção - Verificar configuração
+
+on:
+  workflow_dispatch:
+    inputs:
+      simular:
+        description: "Simular (não envia e-mails nem gasta cota)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prospeccao
+  cancel-in-progress: false
+
+jobs:
+  rodar:
+    if: github.event_name == 'workflow_dispatch' || vars.NUNCA == 'sim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: prospeccao
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Baixar os dados da prospecção
+        env:
+          URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
+        run: git clone -q --depth 1 --branch prospeccao-dados "$URL" dados/prospeccao 2>/dev/null || mkdir -p dados/prospeccao
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: prospeccao/requirements.txt
+
+      - run: pip install -r requirements.txt
+
+      - name: Executar
+        env:
+          SIMULAR: ${{ inputs.simular && '1' || '0' }}
+          DADOS_DIR: ${{ github.workspace }}/prospeccao/dados
+          GITHUB_TOKEN: ${{ github.token }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAINEL_SENHA: ${{ secrets.PAINEL_SENHA }}
+          GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+          SMTP_SENHA: ${{ secrets.SMTP_SENHA }}
+          EMAIL_REMETENTE: ${{ vars.EMAIL_REMETENTE }}
+          NOME_REMETENTE: ${{ vars.NOME_REMETENTE }}
+          SMTP_HOST: ${{ vars.SMTP_HOST }}
+          IMAP_HOST: ${{ vars.IMAP_HOST }}
+          LINK_AGENDA: ${{ vars.LINK_AGENDA }}
+          LINK_SITE: ${{ vars.LINK_SITE }}
+          RODAPE_EMPRESA: ${{ vars.RODAPE_EMPRESA }}
+          LIMITE_DIA: ${{ vars.LIMITE_DIA }}
+        run: python -m agente verificar

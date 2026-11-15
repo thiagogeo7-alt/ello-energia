@@ -63,6 +63,11 @@ ul.linha time{color:var(--muted);font-size:.8rem}
 .legenda{display:flex;gap:16px;font-size:.82rem;color:var(--ink2);margin-bottom:6px}
 .legenda i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 .aviso{background:#FFF7E6;border:1px solid #F3D9A4;color:#6B4A00;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:.9rem}
+.funil{display:grid;gap:10px}
+.funil-linha{display:grid;grid-template-columns:140px 1fr 70px;gap:12px;align-items:center;font-size:.9rem}
+.funil-barra{height:22px;background:#EEF2F7;border-radius:4px;overflow:hidden}
+.funil-barra i{display:block;height:100%;background:#2F5BEA;border-radius:0 4px 4px 0;min-width:2px}
+.funil-linha b{text-align:right;font-variant-numeric:tabular-nums}
 .breve{background:var(--card);border:1px dashed #C7D0DD;border-radius:10px;padding:48px 24px;text-align:center;color:var(--ink2)}
 .breve b{display:block;font-size:1.1rem;color:var(--ink);margin-bottom:6px}
 :focus-visible{outline:3px solid var(--amber);outline-offset:2px}
@@ -80,7 +85,7 @@ ul.linha time{color:var(--muted);font-size:.8rem}
   <div class="wrap">
     <nav class="abas" role="tablist">
       <button role="tab" aria-selected="true" data-aba="instagram">Instagram</button>
-      <button role="tab" aria-selected="false" data-aba="prospeccao">Prospecção <small>(em breve)</small></button>
+      <button role="tab" aria-selected="false" data-aba="prospeccao">Prospecção</button>
     </nav>
   </div>
 </header>
@@ -133,7 +138,44 @@ ul.linha time{color:var(--muted);font-size:.8rem}
   </section>
 
   <section id="aba-prospeccao" hidden>
-    <div class="breve"><b>Agente de prospecção em construção</b>Aqui vão aparecer e-mails enviados, respostas, reuniões marcadas e a taxa de conversão.</div>
+    <div id="pAvisos"></div>
+    <div class="grade kpis" id="pKpis"></div>
+    <div class="grade duas">
+      <div class="cartao">
+        <h2>Funil da prospecção</h2>
+        <p class="dica">Da base de contatos até a reunião marcada.</p>
+        <div id="pFunil"></div>
+      </div>
+      <div class="cartao">
+        <h2>E-mails enviados por dia</h2>
+        <p class="dica">Últimos 30 dias. O limite sobe aos poucos (10 → 20 → 30 por dia) para não cair no spam.</p>
+        <div class="grafico" id="pGrafico"><div class="tip" id="pTip"></div></div>
+      </div>
+    </div>
+    <div class="cartao" style="margin-bottom:20px">
+      <h2>Resultados por segmento</h2>
+      <div class="rolar"><table id="pSegmentos"></table></div>
+    </div>
+    <div class="grade duas">
+      <div class="cartao">
+        <h2>Últimas ações do agente</h2>
+        <ul class="linha" id="pEventos"></ul>
+      </div>
+      <div class="cartao">
+        <h2>Coleta de contatos</h2>
+        <ul class="linha" id="pColeta"></ul>
+      </div>
+    </div>
+    <div class="cartao">
+      <h2>Interessados e reuniões</h2>
+      <p class="dica">Empresas que responderam com interesse ou marcaram reunião. Protegido pela senha do painel.</p>
+      <form class="cadeado" id="formInteressados">
+        <input id="senhaP" type="password" placeholder="Senha do painel" autocomplete="current-password" aria-label="Senha do painel">
+        <button type="submit">Ver interessados</button>
+      </form>
+      <div id="pErro" class="erro ok" role="status"></div>
+      <div class="rolar" id="pInteressados"></div>
+    </div>
   </section>
 </main>
 
@@ -290,7 +332,7 @@ ul.linha time{color:var(--muted);font-size:.8rem}
       }).join("") + '</tbody></table>';
     }).catch(function(e){
       err.className = e.message === "vazio" ? "erro ok" : "erro";
-      err.textContent = e.message === "vazio" ? "Ainda não há leads salvos." : "Senha incorreta.";
+      err.textContent = e.message === "vazio" ? "Ainda não há leads salvos." : (e.name === "OperationError" ? "Senha incorreta." : "Não consegui carregar os dados. Tente de novo.");
     });
   });
 
@@ -311,8 +353,114 @@ ul.linha time{color:var(--muted);font-size:.8rem}
       kpis(vazio); grafico(vazio); tabela(vazio); acoes(vazio); custos(vazio); agenda();
     });
   }
-  $("recarregar").addEventListener("click", carregar);
-  carregar();
+
+  /* ================= PROSPECÇÃO ================= */
+  var PBASE = new URLSearchParams(location.search).get("fonteP") || ("https://raw.githubusercontent.com/" + REPO + "/prospeccao-dados/");
+  var SEGN = {comercio:"Pequenos comércios", condominio:"Condomínios", industria:"Indústrias e galpões", servicos:"Escritórios e serviços", outros:"Outros"};
+  var PEV = {envio_inicial:"Primeiro e-mail enviado", envio_lembrete1:"1º lembrete enviado", envio_lembrete2:"Último lembrete enviado",
+    resposta_interessado:"Resposta: interessado", resposta_pergunta:"Resposta: dúvida respondida", resposta_nao_interessado:"Resposta: sem interesse",
+    resposta_descadastro:"Pediu para sair (descadastrado)", resposta_outro:"Resposta para você ver", reuniao:"Reunião marcada", devolvido:"E-mail devolvido (endereço inválido)",
+    ausente:"Resposta automática (ausente)", coleta_google:"Coleta no Google", coleta_cnpj:"Coleta na base de CNPJ"};
+  var pct = function(a,b){ return b ? Math.round(a*100/b) + "%" : "–"; };
+
+  function pRender(r){
+    var st = r.por_status || {}, n = function(k){ return st[k] || 0; };
+    var contatados = Object.keys(st).filter(function(k){ return k !== "novo"; }).reduce(function(a,k){ return a + st[k]; }, 0);
+    var responderam = n("interessado") + n("reuniao") + n("descartado") + n("descadastrado") + n("respondeu");
+    var interessados = n("interessado") + n("reuniao");
+    var desde = new Date(Date.now() - 30*DIA).toISOString().slice(0,10);
+    var env30 = Object.keys(r.envios_por_dia||{}).filter(function(d){ return d >= desde; }).reduce(function(a,d){ return a + r.envios_por_dia[d]; }, 0);
+    var mes = new Date().toISOString().slice(0,7);
+    var custo = (r.custos||[]).filter(function(c){ return (c.data||"").slice(0,7) === mes; }).reduce(function(a,c){ return a + (c.usd||0); }, 0);
+    var k = [["Contatos na base", fmt.format(r.total_contatos||0), fmt.format(n("novo")) + " ainda não contatados"],
+             ["E-mails enviados", fmt.format(env30), "últimos 30 dias"],
+             ["Taxa de resposta", pct(responderam, contatados), fmt.format(responderam) + " de " + fmt.format(contatados) + " contatados"],
+             ["Interessados", fmt.format(interessados), "pediram simulação ou tiraram dúvida"],
+             ["Reuniões marcadas", fmt.format(n("reuniao")), "pelo link da agenda"],
+             ["Custo do mês", usd.format(custo), "Claude (textos e respostas)"]];
+    $("pKpis").innerHTML = k.map(function(x){ return '<div class="kpi"><div class="rot">' + x[0] + '</div><div class="val num">' + x[1] + '</div><div class="sub">' + x[2] + '</div></div>'; }).join("");
+
+    var etapas = [["Na base", r.total_contatos||0], ["Contatados", contatados], ["Responderam", responderam], ["Interessados", interessados], ["Reuniões", n("reuniao")]];
+    var topo = Math.max(1, etapas[0][1]);
+    $("pFunil").innerHTML = '<div class="funil">' + etapas.map(function(e){
+      return '<div class="funil-linha"><span>' + e[0] + '</span><div class="funil-barra"><i style="width:' + (100*e[1]/topo) + '%"></i></div><b>' + fmt.format(e[1]) + '</b></div>';
+    }).join("") + '</div>';
+
+    // Envios por dia
+    var el = $("pGrafico"), tip = $("pTip"); el.querySelectorAll("svg, .vazio").forEach(function(x){ x.remove(); });
+    var dias = []; for (var i = 29; i >= 0; i--){ dias.push(new Date(Date.now() - i*DIA).toISOString().slice(0,10)); }
+    var vals = dias.map(function(d){ return (r.envios_por_dia||{})[d] || 0; });
+    if (!vals.some(Boolean)) { el.insertAdjacentHTML("beforeend", '<div class="vazio">Os envios aparecem aqui quando o agente começar a mandar e-mails.</div>'); }
+    else {
+      var W = 640, H = 220, L = 34, B = 24, T = 8, max = Math.max.apply(null, vals.concat([10])), slot = (W - L) / dias.length, bw = slot * 0.6;
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="E-mails enviados por dia">';
+      [0, 0.5, 1].forEach(function(f){ var y = H - B - (H - B - T) * f; svg += '<line x1="' + L + '" x2="' + W + '" y1="' + y + '" y2="' + y + '" stroke="#E1E6EE"/><text x="' + (L - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" fill="#7A889C">' + Math.round(max * f) + '</text>'; });
+      dias.forEach(function(d, i){
+        var h = (H - B - T) * vals[i] / max, x = L + slot * i + (slot - bw) / 2, y = H - B - h;
+        svg += '<g class="pb" data-i="' + i + '"><rect x="' + (L + slot * i) + '" y="' + T + '" width="' + slot + '" height="' + (H - B - T) + '" fill="transparent"/>' +
+          (h ? '<rect x="' + x + '" y="' + y + '" width="' + bw + '" height="' + h + '" rx="3" fill="#2F5BEA"/>' : '') +
+          (i % 5 === 0 ? '<text x="' + (x + bw / 2) + '" y="' + (H - 7) + '" text-anchor="middle" font-size="10" fill="#7A889C">' + d.slice(8,10) + '/' + d.slice(5,7) + '</text>' : '') + '</g>';
+      });
+      el.insertAdjacentHTML("beforeend", svg + '</svg>');
+      el.querySelectorAll(".pb").forEach(function(g){
+        g.addEventListener("mousemove", function(ev){ var i = +g.dataset.i, b = el.getBoundingClientRect();
+          tip.innerHTML = '<b>' + dias[i].slice(8,10) + '/' + dias[i].slice(5,7) + '</b><br>' + vals[i] + ' e-mails enviados';
+          tip.style.left = Math.min(ev.clientX - b.left + 12, b.width - 160) + "px"; tip.style.top = (ev.clientY - b.top - 10) + "px"; tip.style.opacity = 1; });
+        g.addEventListener("mouseleave", function(){ tip.style.opacity = 0; });
+      });
+    }
+
+    var ps = r.por_segmento || {}, segs = Object.keys(ps);
+    $("pSegmentos").innerHTML = segs.length ? '<thead><tr><th>Segmento</th><th class="n">Na base</th><th class="n">Contatados</th><th class="n">Responderam</th><th class="n">Interessados</th><th class="n">Reuniões</th><th class="n">Descadastros</th></tr></thead><tbody>' +
+      segs.map(function(sg){ var v = ps[sg];
+        return '<tr><td>' + esc(SEGN[sg] || sg) + '</td><td class="n num">' + fmt.format(v.total||0) + '</td><td class="n num">' + fmt.format(v.contatados||0) + '</td><td class="n num">' + fmt.format(v.responderam||0) +
+          '</td><td class="n num">' + fmt.format((v.interessado||0) + (v.reuniao||0)) + '</td><td class="n num">' + fmt.format(v.reuniao||0) + '</td><td class="n num">' + fmt.format(v.descadastrado||0) + '</td></tr>';
+      }).join("") + '</tbody>' : '<tr><td class="vazio">A base de contatos ainda está vazia.</td></tr>';
+
+    var ev = (r.eventos||[]).slice(-15).reverse();
+    $("pEventos").innerHTML = ev.length ? ev.map(function(a){
+      return '<li><time>' + horaBR(a.data) + '</time><span>' + esc(PEV[a.tipo] || a.tipo) + (a.segmento ? ' — <span style="color:var(--ink2)">' + esc(SEGN[a.segmento] || a.segmento) + '</span>' : '') + (a.detalhe ? ' <span style="color:var(--ink2)">(' + esc(a.detalhe) + ')</span>' : '') + '</span></li>';
+    }).join("") : '<li class="vazio" style="display:block">Nenhuma ação ainda.</li>';
+
+    var fontes = r.por_fonte || {};
+    $("pColeta").innerHTML = [
+      ["Google + sites", fmt.format(fontes.site || 0) + " contatos"],
+      ["Base CNPJ (Receita)", fmt.format(fontes.cnpj || 0) + " contatos" + (r.cnpj_competencia ? " · base " + esc(r.cnpj_competencia) : "")],
+      ["Buscas no Google (mês)", fmt.format((r.buscas_google||{})[mes] || 0) + " de 900 (cota grátis)"],
+      ["Bloqueados / descadastrados", fmt.format(r.bloqueados || 0)],
+      ["Coletas automáticas", "Google toda segunda · CNPJ todo dia 20"]
+    ].map(function(x){ return '<li><time>' + x[0] + '</time><span>' + x[1] + '</span></li>'; }).join("");
+    $("pAvisos").innerHTML = "";
+  }
+
+  function pCarregar(){
+    fetch(PBASE + "resumo.json?t=" + Date.now()).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(pRender).catch(function(){
+      $("pAvisos").innerHTML = '<div class="aviso">O agente de prospecção ainda não rodou. Assim que a primeira coleta acontecer, os números aparecem aqui.</div>';
+      pRender({total_contatos:0, por_status:{}, por_segmento:{}, envios_por_dia:{}, eventos:[], custos:[]});
+    });
+  }
+
+  var CLS = {interessado:"Interessado", pergunta:"Dúvida", reuniao:"Reunião marcada", nao_interessado:"Sem interesse", outro:"Ver"};
+  $("formInteressados").addEventListener("submit", function(ev){
+    ev.preventDefault(); var err = $("pErro"); err.className = "erro ok"; err.textContent = "Abrindo…"; $("pInteressados").innerHTML = "";
+    var senha = $("senhaP").value;
+    fetch(PBASE + "interessados.enc?t=" + Date.now()).then(function(r){ if (!r.ok) throw new Error("vazio"); return r.json(); }).then(function(o){
+      return crypto.subtle.importKey("raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveKey"]).then(function(b){
+        return crypto.subtle.deriveKey({name:"PBKDF2", salt:b64(o.salt), iterations:o.iter, hash:"SHA-256"}, b, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+      }).then(function(k){ return crypto.subtle.decrypt({name:"AES-GCM", iv:b64(o.iv)}, k, b64(o.dados)); });
+    }).then(function(buf){
+      var l = JSON.parse(new TextDecoder().decode(buf));
+      err.textContent = l.length + " empresa(s).";
+      $("pInteressados").innerHTML = l.length ? '<table><thead><tr><th>Empresa</th><th>Segmento</th><th>Status</th><th>Contato</th><th>O que disseram</th></tr></thead><tbody>' + l.map(function(c){
+        var u = c.ultima_resposta || {};
+        return '<tr><td>' + esc(c.empresa) + (c.bairro ? '<br><small style="color:var(--muted)">' + esc(c.bairro) + '</small>' : '') + '</td><td>' + esc(SEGN[c.segmento] || c.segmento || "") + '</td><td><span class="tag">' + esc(c.status === "reuniao" ? "Reunião marcada" : (CLS[u.classe] || c.status)) +
+          '</span></td><td><a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' + (c.telefone ? '<br>' + esc(c.telefone) : '') + '</td><td>' + esc(u.resumo || "") + '</td></tr>';
+      }).join("") + '</tbody></table>' : "";
+    }).catch(function(e){ err.className = e.message === "vazio" ? "erro ok" : "erro"; err.textContent = e.message === "vazio" ? "Ainda não há interessados." : (e.name === "OperationError" ? "Senha incorreta." : "Não consegui carregar os dados. Tente de novo."); });
+  });
+
+  $("recarregar").addEventListener("click", function(){ carregar(); pCarregar(); });
+  carregar(); pCarregar();
 })();
 </script>
 </body>

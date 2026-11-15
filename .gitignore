@@ -6,3 +6,5 @@ __pycache__/
 .DS_Store
 instagram/dados/
 instagram/dados-local/
+prospeccao/dados/
+prospeccao/dados-local/

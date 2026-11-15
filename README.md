@@ -4,8 +4,8 @@
 |---|---|
 | `docs/` | O site (landing page). O GitHub Pages exige que a pasta do site se chame `docs`. |
 | `instagram/` | Agente de gestão do Instagram — veja [instagram/README.md](instagram/README.md) |
-| `prospeccao/` | Agente de prospecção por e-mail *(em construção)* |
-| `painel/` | Dashboard de resultados *(em construção)* |
+| `prospeccao/` | Agente de prospecção por e-mail — veja [prospeccao/README.md](prospeccao/README.md) |
+| `docs/painel/` | Painel de resultados (Instagram e Prospecção) |
 
 ## Site
 - Simulador de economia, FAQ, formulário que abre o WhatsApp.
