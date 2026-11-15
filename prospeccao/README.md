@@ -56,7 +56,7 @@ Aba **Variables** (não sigilosos):
 | Nome | Exemplo |
 |---|---|
 | `EMAIL_REMETENTE` | `contato@seudominio.com.br` |
-| `NOME_REMETENTE` | `Thiago \| ELLO Energia` |
+| `NOME_REMETENTE` | `Claudio \| ELLO Energia` |
 | `LINK_AGENDA` | link do passo 2 |
 | `RODAPE_EMPRESA` | `ELLO Energia · CNPJ 00.000.000/0001-00 · Campinas/SP` |
 | `SMTP_HOST` / `IMAP_HOST` | só se não for Hostinger (ex.: `smtp.gmail.com` / `imap.gmail.com`) |

@@ -26,7 +26,7 @@ RECEITA_TOKEN = (os.getenv("RECEITA_TOKEN") or "YggdBLfdninEJX9")   # compartilh
 
 # E-mail (preenchidos quando o domínio e a caixa de e-mail existirem)
 EMAIL_REMETENTE = (os.getenv("EMAIL_REMETENTE") or "comercial@elloeconomia-energia.com")                    # ex.: contato@elloeconomia-energia.com
-NOME_REMETENTE = (os.getenv("NOME_REMETENTE") or "Thiago | ELLO Energia")
+NOME_REMETENTE = (os.getenv("NOME_REMETENTE") or "Claudio | ELLO Energia")
 SMTP_HOST = (os.getenv("SMTP_HOST") or "smtp.hostinger.com")
 SMTP_PORTA = int((os.getenv("SMTP_PORTA") or "465"))
 IMAP_HOST = (os.getenv("IMAP_HOST") or "imap.hostinger.com")
