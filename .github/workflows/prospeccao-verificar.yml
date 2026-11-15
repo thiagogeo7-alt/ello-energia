@@ -11,10 +11,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: prospeccao
-  cancel-in-progress: false
-
 jobs:
   rodar:
     if: github.event_name == 'workflow_dispatch' || vars.NUNCA == 'sim'
