@@ -1,0 +1,31 @@
+name: Site - Publicar na Hostinger
+
+# Copia só a pasta docs/ (o site) para a branch "site".
+# A Hostinger puxa essa branch automaticamente a cada atualização.
+on:
+  push:
+    branches: [main]
+    paths: ["docs/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site-publicar
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publicar docs/ na branch site
+        run: |
+          cd docs
+          git init -q -b site
+          git config user.name "ello-bot"
+          git config user.email "ello-bot@users.noreply.github.com"
+          git add -A
+          git commit -qm "Site ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" site
