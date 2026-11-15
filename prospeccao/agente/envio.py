@@ -1,4 +1,5 @@
 """Envio diário: lembretes primeiro, depois primeiros contatos, respeitando o aquecimento da caixa de e-mail."""
+import re
 from datetime import datetime, timedelta
 
 from . import config, emailer, estado, mensagens
@@ -33,11 +34,15 @@ def _devidos(crm: dict) -> list[tuple[dict, str]]:
     return fila
 
 
+# Empresas em recuperação judicial, falência ou liquidação não recebem prospecção
+EVITAR = re.compile(r"recupera[cç][aã]o judicial|fal[eê]ncia|falid[ao]|em liquida[cç][aã]o", re.I)
+
+
 def _novos(crm: dict, n: int) -> list[tuple[dict, str]]:
     """Distribui os primeiros contatos entre os segmentos e prefere e-mails vindos do site da empresa."""
     por_seg = {k: [] for k in SEGMENTOS}
     for c in crm["contatos"].values():
-        if c["status"] == "novo":
+        if c["status"] == "novo" and not EVITAR.search(c.get("empresa") or ""):
             por_seg.setdefault(c.get("segmento") or "comercio", []).append(c)
     for lst in por_seg.values():
         lst.sort(key=lambda c: (c.get("fonte") != "site", c.get("criado", "")))

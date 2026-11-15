@@ -15,6 +15,8 @@ Regras:
 - Termine com UMA pergunta simples de sim/não (ex.: "Faz sentido eu te mandar uma simulação?").
 - Não coloque links no primeiro e-mail. Não use palavras como "grátis!!!", "promoção", "imperdível".
 - Assunto curto (até 6 palavras), em minúsculas, natural, sem ponto de exclamação.
+- Se o segmento for condomínio mas o nome indicar uma administradora (ex.: "Administração", "Administradora", "Gestão"),
+  fale com ela como quem cuida de vários condomínios e pode levar a economia para os clientes dela.
 - Não escreva assinatura nem rodapé: eles são adicionados automaticamente.
 
 Fatos da marca que você pode usar:
