@@ -41,6 +41,34 @@
       "legenda": "Conta de luz da padaria chegou assim? 😱\nQuem tem comércio em Campinas sabe: a conta pesa no fim do mês.\nCom a energia solar compartilhada da ELLO, você pode economizar até 50% na conta de luz.\nSem obra, sem placa no telhado e sem fidelidade. Você continua com a mesma distribuidora.\nComente ECONOMIZAR e receba a análise da sua conta de luz GRÁTIS. Ou chama no WhatsApp: (19) 99562-1927 💛\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
       "media_id": "18129436765880366",
       "permalink": "https://www.instagram.com/reel/Dfve6YxSrkJ/",
+      "modo": "imagem",
+      "metricas": {
+        "reach": 0,
+        "likes": 1,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 0
+      },
+      "pontuacao": 1.0
+    },
+    {
+      "data": "2026-11-15T21:49:12+00:00",
+      "tipo": "reel",
+      "estrategia": "variacao",
+      "tema": "Conta de luz alta na padaria de bairro (madrugada de fornada)",
+      "gancho": "De madrugada, a dona da padaria abre a conta de luz ao lado do forno, arregala os olhos, derruba a bandeja de pães e escorrega até o chão, abanando-se com a conta.",
+      "palavra_chave": "ECONOMIZAR",
+      "prompt": "Ultra-realistic, cinematic vertical 9:16 video, 5 seconds, natural early-morning light mixed with warm light from the bakery ovens. A generic Brazilian woman in her mid-50s, dark skin, short curly gray-streaked hair, white apron dusted with flour, is the owner of a small neighborhood bakery in Campinas, Brazil. Setting: the bakery's back kitchen at dawn, stainless steel tables, trays of freshly baked french rolls, an industrial oven glowing in the background. Second 0-1: close-up handheld camera, she smiles while holding a tray of fresh rolls with one hand and opens an electricity bill envelope with the other. Second 1-2: she unfolds the paper, her smile freezes, eyes widen dramatically, eyebrows shoot up, mouth opens in silent shock. Second 2-3: the tray slips from her hand, rolls tumble and a puff of flour rises in the air, camera pushes in quickly to her face. Second 3-4: she grabs her chest, knees buckle, she slides down against the stainless steel table toward the floor in a comically exaggerated but believable way. Second 4-5: she sits on the floor surrounded by rolls, fanning herself with the bill, eyes still wide, staring at the paper. Realistic skin texture, shallow depth of field, slight handheld motion. No text, no captions, no logos, no brand names on any packaging.",
+      "textos": [
+        "A CONTA DA PADARIA",
+        "VEIO ASSIM?",
+        "R$ 3.280,45",
+        "TEM JEITO!"
+      ],
+      "legenda": "A conta de luz da padaria veio assim? 😱\n\nQuem tem comércio em Campinas sabe: forno, geladeira e vitrine ligados o dia todo pesam no fim do mês.\nCom a energia solar compartilhada da ELLO, você pode economizar até 50% na conta de luz.\nSem obra, sem placa no telhado e você continua com a sua distribuidora.\n\nComente ECONOMIZAR e receba a análise da sua conta de luz GRÁTIS. 👇\nOu chama no WhatsApp: (19) 99562-1927\n\n🎬 Vídeo criado com inteligência artificial.\n\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
+      "media_id": "18348963751267093",
+      "permalink": "https://www.instagram.com/reel/DfxyHgKid-P/",
       "modo": "imagem"
     }
   ],
@@ -61,6 +89,16 @@
       "data": "2026-11-15T00:22:56+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-15T21:48:10+00:00",
+      "servico": "fal.ai cena (imagem)",
+      "usd": 0.02
+    },
+    {
+      "data": "2026-11-15T21:49:13+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -73,8 +111,13 @@
       "data": "2026-11-15T00:22:56+00:00",
       "tipo": "reel",
       "detalhe": "Conta de luz alta no pequeno comércio (padaria)"
+    },
+    {
+      "data": "2026-11-15T21:49:13+00:00",
+      "tipo": "reel",
+      "detalhe": "Conta de luz alta na padaria de bairro (madrugada de fornada)"
     }
   ],
   "total_leads": 0,
-  "atualizado_em": "2026-11-15T20:15:33+00:00"
+  "atualizado_em": "2026-11-15T21:49:13+00:00"
 }
