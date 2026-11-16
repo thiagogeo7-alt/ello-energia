@@ -68,7 +68,14 @@ def publicar_reel(video_url: str, legenda: str, capa_url: str | None = None, tes
         dados["cover_url"] = capa_url
     if teste:
         dados["trial_params"] = json.dumps({"graduation_strategy": "SS_PERFORMANCE"})
-    container = _post(f"{uid()}/media", **dados)["id"]
+    try:
+        container = _post(f"{uid()}/media", **dados)["id"]
+    except ErroAPI as e:
+        if "trial_params" not in dados:
+            raise
+        print(f"Aviso: Reels de teste recusado ({e}); publicando como Reels normal")
+        dados.pop("trial_params")
+        container = _post(f"{uid()}/media", **dados)["id"]
     _aguardar_container(container)
     return _post(f"{uid()}/media_publish", creation_id=container)["id"]
 
