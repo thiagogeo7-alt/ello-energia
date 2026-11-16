@@ -57,15 +57,27 @@ o agente passa a seguir a nova versão na próxima execução.
 - Sem obra e sem placa no telhado
 - Continua com a sua distribuidora
 
-## Formato dos Reels (baseado no vídeo modelo do Thiago)
-- Duração total ~14 s: cena realista de 5 s + tela da marca de ~9 s.
-- Cena: situação do dia a dia com emoção forte e humor leve. Exemplo do modelo: rapaz abre a conta
-  de luz na cozinha, arregala os olhos, se desespera e desmaia no chão de forma cômica.
-- Personagens genéricos e variados (idade, gênero, aparência), casas e comércios brasileiros,
-  luz natural, câmera próxima, expressões faciais exageradas mas críveis.
-- Textos por cima da cena: pergunta-gancho em 2 linhas no topo (branco e amarelo, letras grossas),
-  etiqueta vermelha com um destaque (ex.: valor da conta) e uma virada no fim ("TEM JEITO!").
-- Tela da marca: logo ELLO, "ENERGIA QUE CONECTA — a solução pra conta de luz", 4 benefícios com
-  check amarelo, "e muito mais!", depois logo grande + "Tudo se conecta." + "Comente ECONOMIZAR e
-  ganhe a análise da sua conta de luz GRÁTIS".
+## Quadro de argumentos dos Reels (variar: nunca o mesmo argumento duas vezes seguidas)
+- Bolso: a conta de luz alta pesando no orçamento da casa ou na margem do comércio.
+- Planeta e bolso: energia limpa do sol, menos emissão de CO₂, e ao mesmo tempo economia de até 50% na conta.
+  "Economia para o planeta e para o bolso."
+- Sem obra e sem placa: dá para ter energia solar morando em apartamento, de aluguel ou sem telhado.
+- Mesma distribuidora: nada muda na rotina, a economia aparece na fatura.
+- Como funciona: a usina solar gera energia, ela entra na rede da distribuidora e vira crédito na sua conta.
+- Comércio e condomínio: energia é custo fixo; economizar nela sobra dinheiro todo mês (áreas comuns, freezers, ar).
+- Mitos x verdades: "precisa de placa?", "é caro?", "muda a distribuidora?".
+
+## Formato dos Reels (20 a 30 segundos)
+Três formatos, em rodízio:
+1. DIÁLOGO entre duas pessoas (vizinhas, casal, sócios, síndico e morador, amigos no café):
+   uma conta o problema, a outra conta como resolveu com a ELLO. Falas curtas em balões, 3 a 4 cenas.
+2. EXPLICATIVO com desenhos: ilustrações simples (estilo desenho/vetor, cores azul-marinho e amarelo)
+   mostrando o negócio passo a passo: sol → usina solar → rede da distribuidora → crédito na conta → economia.
+   Cada passo com uma legenda curta. 3 a 4 cenas.
+3. REAÇÃO (o formato original): uma pessoa com emoção forte e humor leve (ex.: susto com a conta),
+   seguida da virada. 3 cenas.
+- Abertura: pergunta-gancho em 2 linhas no topo (branco e amarelo, letras grossas).
+- Fechamento: uma virada curta ("TEM JEITO!") e a tela da marca de ~9 s: logo ELLO, "ENERGIA QUE CONECTA",
+  4 benefícios, "Tudo se conecta." e "Comente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS".
+- Personagens genéricos e variados (idade, gênero, aparência), casas e comércios brasileiros, luz natural.
 - Quem comenta a palavra-chave recebe automaticamente uma DM com o link do WhatsApp.

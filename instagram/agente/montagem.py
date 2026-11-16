@@ -1,6 +1,9 @@
 """Monta o Reels no formato do vídeo modelo da ELLO.
 
-Estrutura (~13,7 s):
+Formato novo (montar_roteiro, 20–30 s): 3–4 cenas com balões de diálogo, passos explicativos ou legendas,
+seguidas da tela da marca.
+
+Formato original (montar, ~13,7 s):
   0–5 s   cena realista gerada por IA + textos grandes por cima (pergunta, valor, virada)
   5–14 s  tela da marca: logo → "Energia que conecta" → benefícios um a um → "Comente PALAVRA"
 """
@@ -216,4 +219,166 @@ def montar(cena_url_ou_arquivo: str, roteiro: dict, destino: Path) -> Path:
 
         capa = destino.with_suffix(".jpg")
         _ff("-ss", "1.5", "-i", str(destino), "-frames:v", "1", "-q:v", "3", str(capa))
+    return destino
+
+
+# ---------------------------------------------------------------------------
+# Formato novo: várias cenas (diálogo, explicativo com desenhos ou reação)
+# ---------------------------------------------------------------------------
+CENA_ROTEIRO_S = 4.6
+FADE_CENAS_S = 0.4
+
+ROTEIRO_CSS = """
+body{background:transparent}
+.topo{position:absolute;top:70px;left:0;right:0;text-align:center;font-weight:900;line-height:1.02;
+  font-size:80px;-webkit-text-stroke:5px #0A1A33;paint-order:stroke fill;text-shadow:0 6px 18px rgba(0,0,0,.45)}
+.topo .l1{color:#fff}.topo .l2{color:#F5CF4A}
+.balao{position:absolute;top:1140px;max-width:820px;background:#fff;color:#0A1A33;font-weight:800;font-size:54px;
+  line-height:1.18;padding:30px 40px 34px;border-radius:44px;box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.balao.a{left:60px;border-bottom-left-radius:10px}.balao.b{right:60px;border-bottom-right-radius:10px;background:#FFF6D6}
+.balao .quem{display:inline-block;background:#F5B731;color:#0A1A33;font-size:34px;font-weight:900;
+  padding:6px 22px;border-radius:22px;margin-bottom:12px;letter-spacing:.5px}
+.balao.b .quem{background:#2D6DB0;color:#fff}
+.passo{position:absolute;top:1180px;left:60px;right:60px;display:flex;gap:30px;align-items:center;background:rgba(14,34,64,.92);
+  border:6px solid #F5CF4A;border-radius:36px;padding:30px 36px;color:#fff;font-weight:800;font-size:52px;line-height:1.15;
+  box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.passo b{flex:none;width:96px;height:96px;border-radius:50%;background:#F5B731;color:#0A1A33;display:grid;place-items:center;font-size:58px;font-weight:900}
+.leg{position:absolute;top:1200px;left:70px;right:70px;text-align:center;color:#fff;font-weight:900;font-size:64px;line-height:1.1;
+  -webkit-text-stroke:4px #0A1A33;paint-order:stroke fill;text-shadow:0 6px 18px rgba(0,0,0,.5)}
+.tag{position:absolute;top:860px;left:50%;transform:translateX(-50%) rotate(-6deg);background:#D92D2D;color:#fff;font-weight:900;
+  font-size:88px;padding:16px 42px;border:7px solid #F5CF4A;border-radius:22px;box-shadow:0 14px 40px rgba(0,0,0,.45);white-space:nowrap}
+.virada{position:absolute;top:1560px;left:50%;transform:translateX(-50%);background:#0E2240;color:#fff;font-weight:900;font-size:70px;
+  padding:12px 48px;border:6px solid #F5CF4A;border-radius:60px;white-space:nowrap;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+"""
+
+
+def _camadas_roteiro(r: dict) -> list[list[tuple[str, float]]]:
+    """Para cada cena, as camadas transparentes (html, segundo de entrada dentro da cena)."""
+    e = html.escape
+    nomes = r.get("nomes") or ["", ""]
+    cenas = r["cenas"]
+    saida = []
+    for i, c in enumerate(cenas):
+        camadas = []
+        if i == 0 and r.get("texto_topo_1"):
+            topo = (f'<div class="topo"><div class="l1">{e(r["texto_topo_1"])}</div>'
+                    f'<div class="l2">{e(r.get("texto_topo_2", ""))}</div></div>')
+            camadas.append((_doc(ROTEIRO_CSS, topo, False), 0.0))
+        texto = (c.get("texto") or "").strip()
+        if texto:
+            if r.get("formato") == "dialogo" and c.get("quem") in ("A", "B"):
+                lado = c["quem"].lower()
+                nome = nomes[0 if lado == "a" else 1] if len(nomes) > 1 else ""
+                quem = f'<span class="quem">{e(nome)}</span><br>' if nome else ""
+                corpo = f'<div class="balao {lado}">{quem}{e(texto)}</div>'
+            elif r.get("formato") == "explicativo":
+                corpo = f'<div class="passo"><b>{i + 1}</b><span>{e(texto)}</span></div>'
+            else:
+                corpo = f'<div class="leg">{e(texto)}</div>'
+            camadas.append((_doc(ROTEIRO_CSS, corpo, False), 0.35))
+        if c.get("destaque"):
+            camadas.append((_doc(ROTEIRO_CSS, f'<div class="tag">{e(c["destaque"])}</div>', False), 1.0))
+        if i == len(cenas) - 1 and r.get("virada"):
+            camadas.append((_doc(ROTEIRO_CSS, f'<div class="virada">{e(r["virada"])}</div>', False), 2.4))
+        saida.append(camadas)
+    return saida
+
+
+def _baixar(origem: str, destino: Path) -> Path:
+    if origem.startswith("http"):
+        destino.write_bytes(requests.get(origem, timeout=120).content)
+    else:
+        shutil.copy(origem, destino)
+    return destino
+
+
+def _clipe_imagem(img: Path, saida: Path, n_cena: int, dur: float) -> None:
+    """Foto vira vídeo com movimento de câmera: alterna aproximar, afastar e deslizar."""
+    n = int(dur * FPS)
+    movimentos = [
+        (f"1+0.14*on/{n}", "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"),                 # aproxima
+        (f"1.14-0.14*on/{n}", "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"),              # afasta
+        ("1.12", f"(iw-iw/zoom)*on/{n}", "ih/2-(ih/zoom/2)"),                       # desliza p/ direita
+        ("1.12", f"(iw-iw/zoom)*(1-on/{n})", "ih/2-(ih/zoom/2)"),                   # desliza p/ esquerda
+    ]
+    z, x, y = movimentos[n_cena % len(movimentos)]
+    _ff("-loop", "1", "-i", str(img), "-t", f"{dur}", "-vf",
+        f"scale={W * 2}:{H * 2}:force_original_aspect_ratio=increase,crop={W * 2}:{H * 2},"
+        f"zoompan=z='{z}':x='{x}':y='{y}':d={n}:s={W}x{H}:fps={FPS},format=yuv420p,setsar=1",
+        "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", str(saida))
+
+
+def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path) -> Path:
+    """imagens: uma por cena (URL ou arquivo). roteiro: JSON do Claude com "cenas", "formato" etc."""
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+        camadas = _camadas_roteiro(roteiro)
+        clipes = []
+        for i, (img, cams) in enumerate(zip(imagens, camadas)):
+            bruto = _baixar(img, tmp / f"img{i}.jpg")
+            base = tmp / f"base{i}.mp4"
+            _clipe_imagem(bruto, base, i, CENA_ROTEIRO_S)
+            if cams:
+                pasta = tmp / f"c{i}"
+                pasta.mkdir()
+                pngs = _render([d for d, _ in cams], pasta, True)
+                entradas = ["-i", str(base)]
+                for png in pngs:
+                    entradas += ["-loop", "1", "-t", f"{CENA_ROTEIRO_S}", "-i", str(png)]
+                f, ultimo = [], "0:v"
+                for k, (_, inicio) in enumerate(cams, start=1):
+                    f.append(f"[{ultimo}][{k}:v]overlay=0:0:enable='gte(t,{inicio})'[o{k}]")
+                    ultimo = f"o{k}"
+                clipe = tmp / f"clipe{i}.mp4"
+                _ff(*entradas, "-filter_complex", ";".join(f), "-map", f"[{ultimo}]", "-t", f"{CENA_ROTEIRO_S}",
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(clipe))
+            else:
+                clipe = base
+            clipes.append(clipe)
+
+        # Tela da marca
+        cartela = _quadros_cartela(roteiro)
+        pngs_cart = _render([d for d, _ in cartela], tmp, False)
+        lista = tmp / "cartela.txt"
+        linhas = []
+        for png, (_, dur) in zip(pngs_cart, cartela):
+            linhas += [f"file '{png}'", f"duration {dur:.3f}"]
+        linhas.append(f"file '{pngs_cart[-1]}'")
+        lista.write_text("\n".join(linhas))
+        cart_mp4 = tmp / "cartela.mp4"
+        _ff("-f", "concat", "-safe", "0", "-i", str(lista), "-vf", f"fps={FPS},format=yuv420p,setsar=1",
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", str(cart_mp4))
+        dur_cart = sum(d for _, d in cartela)
+
+        # Junta cenas e tela da marca com transições suaves
+        partes = clipes + [cart_mp4]
+        duracoes = [CENA_ROTEIRO_S] * len(clipes) + [dur_cart]
+        entradas = []
+        for arq in partes:
+            entradas += ["-i", str(arq)]
+        f, ultimo, acumulado = [], "0:v", duracoes[0]
+        for k in range(1, len(partes)):
+            fade = FADE_S if k == len(partes) - 1 else FADE_CENAS_S
+            f.append(f"[{ultimo}][{k}:v]xfade=transition=fade:duration={fade}:offset={acumulado - fade:.3f}[x{k}]")
+            ultimo = f"x{k}"
+            acumulado += duracoes[k] - fade
+        total = acumulado
+        f.append(f"[{ultimo}]format=yuv420p[v]")
+
+        # Trilha em loop por todo o vídeo
+        if TRILHA.exists():
+            entradas += ["-stream_loop", "-1", "-i", str(TRILHA)]
+            f.append(f"[{len(partes)}:a]atrim=0:{total:.2f},asetpts=PTS-STARTPTS,aresample=44100,"
+                     f"afade=t=in:d=0.5,afade=t=out:st={total - 1.0:.2f}:d=1.0[a]")
+        else:
+            f.append(f"anullsrc=r=44100:cl=stereo,atrim=0:{total:.2f}[a]")
+
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        _ff(*entradas, "-filter_complex", ";".join(f), "-map", "[v]", "-map", "[a]",
+            "-t", f"{total:.2f}", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
+            "-pix_fmt", "yuv420p", "-profile:v", "high", "-c:a", "aac", "-b:a", "160k",
+            "-movflags", "+faststart", str(destino))
+
+        capa = destino.with_suffix(".jpg")
+        _ff("-ss", "1.2", "-i", str(destino), "-frames:v", "1", "-q:v", "3", str(capa))
     return destino
