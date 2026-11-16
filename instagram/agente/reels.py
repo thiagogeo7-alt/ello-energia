@@ -29,7 +29,7 @@ ESTILO_DESENHO = ("clean flat vector illustration, simple friendly explainer sty
                   "lots of empty space in the lower third, absolutely no text, no letters, no numbers, no logos")
 
 SISTEMA = f"""Você é o roteirista e diretor de vídeo do Instagram da ELLO Energia.
-Cada Reels tem de 20 a 30 segundos: 3 ou 4 cenas de ~4,5 s (imagens geradas por IA com movimento de câmera
+Cada Reels tem de 20 a 30 segundos: 3 cenas de ~4 s (imagens geradas por IA com movimento de câmera
 e textos por cima) e depois a tela da marca, montada automaticamente.
 
 Formatos:
@@ -75,10 +75,10 @@ Devolva este JSON:
       "prompt_imagem": "prompt em INGLÊS do PRIMEIRO QUADRO da cena (foto realista nos formatos dialogo/reacao; ilustração no explicativo)",
       "movimento": "prompt em INGLÊS do que ACONTECE na cena em vídeo de 3 a 5 s: uma ação contínua e clara (gestos, expressões, quem está falando, objetos se mexendo) e o movimento da câmera. No dialogo, diga quem fala (ex.: 'the woman on the left talks to her neighbor, gesturing with the bill'). No explicativo, anime o desenho (sol brilhando, energia fluindo pelos fios, números caindo). Sem texto na tela.",
       "quem": "A" ou "B" (só no dialogo),
-      "texto": "fala, passo ou legenda em português, até 60 caracteres. ESTE TEXTO SERÁ FALADO EM VOZ ALTA: escreva como as pessoas falam de verdade, natural, com emoção (sem siglas difíceis; escreva números por extenso quando ajudar a leitura, ex.: 'seiscentos reais')",
+      "texto": "fala, passo ou legenda em português, até 55 caracteres (cabe em ~3,5 s falando). ESTE TEXTO SERÁ FALADO EM VOZ ALTA: escreva como as pessoas falam de verdade, natural, com emoção (sem siglas difíceis; escreva números por extenso quando ajudar a leitura, ex.: 'seiscentos reais')",
       "destaque": "opcional: etiqueta vermelha curta (ex.: valor de conta fictício), até 12 caracteres"
     }}
-  ] (3 ou 4 cenas),
+  ] (exatamente 3 cenas),
   "virada": "frase final curta, MAIÚSCULAS, até 14 caracteres",
   "vozes": {{"A": "voz da pessoa A", "B": "voz da pessoa B", "narrador": "voz do narrador"}} — escolha da lista: {vozes}. Combine com idade e gênero dos personagens (no dialogo A e B; nos outros formatos o narrador lê os textos das cenas),
   "trilha": "prompt em INGLÊS para uma música instrumental de fundo de 30 s que combine com o clima do vídeo (gênero, instrumentos, andamento, energia); varie bastante entre os vídeos (ex.: brazilian bossa nova acoustic guitar, upbeat funk carioca beat, lo-fi chill, sunny tropical house, warm acoustic pop, light comedic pizzicato). Sem voz/vocals.",
@@ -132,7 +132,7 @@ def executar(cena_local: str | None = None) -> dict:
         pedido += f"\n\nTEMA OBRIGATÓRIO deste Reels (use exatamente esta ideia): {tema}"
     r = claude.perguntar_json(SISTEMA, pedido, simulado=SIMULADO)
     r["formato"] = formato
-    r["cenas"] = (r.get("cenas") or [])[:4]
+    r["cenas"] = (r.get("cenas") or [])[:3]
     if len(r["cenas"]) < 2:
         raise RuntimeError(f"Roteiro com poucas cenas: {r.get('cenas')}")
 
@@ -174,7 +174,7 @@ def executar(cena_local: str | None = None) -> dict:
         segundos_total = 0.0
         for i, c in enumerate(r["cenas"]):
             dur_fala = video.duracao_audio(falas[i]) if falas[i] else 0.0
-            segundos = max(3.0, min(6.0, dur_fala + 0.6))
+            segundos = max(3.0, min(4.5, dur_fala + 0.4))
             audio_sync = falas[i] if formato == "dialogo" and falas[i] and dur_fala >= 2 else None
             try:
                 imagens[i] = video.animar_imagem(imagens[i], c.get("movimento") or c.get("prompt_imagem", ""),
