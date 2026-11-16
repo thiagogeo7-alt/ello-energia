@@ -16,13 +16,13 @@
       "media_id": "18121036601108157",
       "permalink": "https://www.instagram.com/p/DfvW6IaFxv2/",
       "metricas": {
-        "reach": 0,
+        "reach": 4,
         "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 1.0
+      "pontuacao": 1.8
     },
     {
       "data": "2026-11-15T00:22:56+00:00",
@@ -71,14 +71,14 @@
       "permalink": "https://www.instagram.com/reel/DfxyHgKid-P/",
       "modo": "imagem",
       "metricas": {
-        "reach": 0,
-        "likes": 0,
+        "reach": 3,
+        "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 0
+        "views": 3
       },
-      "pontuacao": 0.0
+      "pontuacao": 1.9000000000000001
     },
     {
       "data": "2026-11-16T00:48:49+00:00",
@@ -97,7 +97,16 @@
       "legenda": "Sua conta de luz da academia veio assim? 😱\n\nEsteira, ar-condicionado e luz ligados o dia todo pesam no fim do mês.\nCom a energia solar compartilhada da ELLO, você pode economizar até 50% na conta.\nSem obra, sem placa no telhado e você continua com a sua distribuidora.\n\n👉 Comente ECONOMIZAR e receba no direct a análise da sua conta de luz grátis. Ou chama no WhatsApp: (19) 99562-1927\n\n🎬 Vídeo criado com inteligência artificial.\n\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
       "media_id": "18087033980707768",
       "permalink": "https://www.instagram.com/reel/DfyGqIUB0e0/",
-      "modo": "imagem"
+      "modo": "imagem",
+      "metricas": {
+        "reach": 3,
+        "likes": 2,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 4
+      },
+      "pontuacao": 3.0
     }
   ],
   "comentarios_respondidos": [
@@ -143,6 +152,11 @@
       "data": "2026-11-16T00:48:49+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-16T18:34:46+00:00",
+      "servico": "fal.ai imagens (4 cenas)",
+      "usd": 0.08
     }
   ],
   "acoes": [
@@ -193,5 +207,5 @@
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-16T16:15:41+00:00"
+  "atualizado_em": "2026-11-16T18:34:46+00:00"
 }
