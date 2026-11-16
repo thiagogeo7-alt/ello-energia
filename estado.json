@@ -100,7 +100,9 @@
       "modo": "imagem"
     }
   ],
-  "comentarios_respondidos": [],
+  "comentarios_respondidos": [
+    "18119393201031563"
+  ],
   "mensagens_respondidas": [],
   "custos": [
     {
@@ -159,8 +161,13 @@
       "data": "2026-11-16T00:48:49+00:00",
       "tipo": "reel",
       "detalhe": "Conta de luz alta em academia de bairro"
+    },
+    {
+      "data": "2026-11-16T06:25:57+00:00",
+      "tipo": "resposta_comentario",
+      "detalhe": "interessado"
     }
   ],
-  "total_leads": 0,
-  "atualizado_em": "2026-11-16T00:48:49+00:00"
+  "total_leads": 1,
+  "atualizado_em": "2026-11-16T06:25:57+00:00"
 }
