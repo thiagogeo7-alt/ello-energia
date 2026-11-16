@@ -74,11 +74,12 @@ Devolva este JSON:
     {{
       "prompt_imagem": "prompt em INGLÊS da imagem da cena (foto realista nos formatos dialogo/reacao; ilustração no explicativo)",
       "quem": "A" ou "B" (só no dialogo),
-      "texto": "fala, passo ou legenda em português, até 60 caracteres",
+      "texto": "fala, passo ou legenda em português, até 60 caracteres. ESTE TEXTO SERÁ FALADO EM VOZ ALTA: escreva como as pessoas falam de verdade, natural, com emoção (sem siglas difíceis; escreva números por extenso quando ajudar a leitura, ex.: 'seiscentos reais')",
       "destaque": "opcional: etiqueta vermelha curta (ex.: valor de conta fictício), até 12 caracteres"
     }}
   ] (3 ou 4 cenas),
   "virada": "frase final curta, MAIÚSCULAS, até 14 caracteres",
+  "vozes": {{"A": "voz da pessoa A", "B": "voz da pessoa B", "narrador": "voz do narrador"}} — escolha da lista: {vozes}. Combine com idade e gênero dos personagens (no dialogo A e B; nos outros formatos o narrador lê os textos das cenas),
   "trilha": "prompt em INGLÊS para uma música instrumental de fundo de 30 s que combine com o clima do vídeo (gênero, instrumentos, andamento, energia); varie bastante entre os vídeos (ex.: brazilian bossa nova acoustic guitar, upbeat funk carioca beat, lo-fi chill, sunny tropical house, warm acoustic pop, light comedic pizzicato). Sem voz/vocals.",
   "palavra_chave": "UMA palavra para comentar, MAIÚSCULAS (padrão: ECONOMIZAR)",
   "beneficios": ["4 itens da lista de benefícios aprovados do guia da marca"],
@@ -123,7 +124,8 @@ def executar(cena_local: str | None = None) -> dict:
     historico = aprendizado.resumo_para_claude(est, "reel")
     formato, argumento = _escolher(est)
     formato = __import__("os").getenv("FORMATO", "").strip() or formato
-    pedido = PEDIDO.format(historico=historico, formato=formato, argumento=argumento)
+    lista_vozes = "; ".join(f"{k} ({v})" for k, v in video.VOZES.items())
+    pedido = PEDIDO.format(historico=historico, formato=formato, argumento=argumento, vozes=lista_vozes)
     tema = __import__("os").getenv("TEMA", "").strip()
     if tema:
         pedido += f"\n\nTEMA OBRIGATÓRIO deste Reels (use exatamente esta ideia): {tema}"
@@ -146,6 +148,27 @@ def executar(cena_local: str | None = None) -> dict:
         imagens = [video.gerar_imagem(f"{c.get('prompt_imagem', '')}. {estilo}") for c in r["cenas"]]
         est["custos"].append({"data": estado.agora(), "servico": f"fal.ai imagens ({len(imagens)} cenas)",
                               "usd": round(video.CUSTO_IMAGEM_USD * len(imagens), 2)})
+    # Vozes realistas lendo as falas (diálogo: A e B; outros formatos: narrador)
+    falas = []
+    if not cena_local and not config.SIMULAR:
+        vozes = r.get("vozes") or {}
+        caracteres = 0
+        for c in r["cenas"]:
+            texto = (c.get("texto") or "").strip()
+            if not texto:
+                falas.append(None)
+                continue
+            voz = vozes.get(c.get("quem")) if formato == "dialogo" else vozes.get("narrador")
+            try:
+                falas.append(video.gerar_fala(texto, voz or "Friendly_Person"))
+                caracteres += len(texto)
+            except Exception as e:
+                print(f"Aviso: fala não gerada ({e})")
+                falas.append(None)
+        if caracteres:
+            est["custos"].append({"data": estado.agora(), "servico": "fal.ai vozes",
+                                  "usd": round(caracteres / 1000 * video.CUSTO_FALA_USD_POR_1000, 3)})
+
     trilha = None
     if not cena_local and not config.SIMULAR:
         try:
@@ -162,7 +185,7 @@ def executar(cena_local: str | None = None) -> dict:
         # 2) Montagem: cenas com textos + tela da marca
         nome = f"reel-{datetime.now().strftime('%Y%m%d-%H%M')}"
         destino = Path(tempfile.mkdtemp()) / f"{nome}.mp4"
-        montagem.montar_roteiro(imagens, r, destino, trilha=trilha)
+        montagem.montar_roteiro(imagens, r, destino, trilha=trilha, falas=falas)
         print(f"Vídeo montado: {destino}")
         if config.SIMULAR or __import__("os").getenv("PREVIA") == "1":
             pasta = Path(__file__).resolve().parent.parent / "previa"

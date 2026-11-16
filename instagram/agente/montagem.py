@@ -308,29 +308,57 @@ def _clipe_imagem(img: Path, saida: Path, n_cena: int, dur: float) -> None:
         "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", str(saida))
 
 
-def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path, trilha: str | None = None) -> Path:
-    """imagens: uma por cena (URL ou arquivo). roteiro: JSON do Claude com "cenas", "formato" etc."""
+def _duracao(arq: Path) -> float:
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(arq)],
+                       capture_output=True, text=True)
+    try:
+        return float(r.stdout.strip())
+    except ValueError:
+        return 0.0
+
+
+def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path, trilha: str | None = None,
+                   falas: list[str | None] | None = None) -> Path:
+    """imagens: uma por cena (URL ou arquivo). falas: áudio da fala de cada cena (opcional).
+    Cada cena dura pelo menos CENA_ROTEIRO_S e o suficiente para a fala caber inteira."""
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         camadas = _camadas_roteiro(roteiro)
+        n = len(imagens)
+        falas = (falas or []) + [None] * (n - len(falas or []))
+
+        # Áudios das falas e duração de cada cena
+        arquivos_fala, dur_cenas = [], []
+        for i in range(n):
+            arq = None
+            if falas[i]:
+                try:
+                    arq = _baixar(falas[i], tmp / f"fala{i}{Path(falas[i].split('?')[0]).suffix or '.mp3'}")
+                except Exception as e:
+                    print(f"Aviso: fala {i + 1} indisponível ({e})")
+            arquivos_fala.append(arq)
+            d = _duracao(arq) if arq else 0.0
+            dur_cenas.append(round(max(CENA_ROTEIRO_S, d + 0.9), 2))
+
         clipes = []
         for i, (img, cams) in enumerate(zip(imagens, camadas)):
+            dur = dur_cenas[i]
             bruto = _baixar(img, tmp / f"img{i}.jpg")
             base = tmp / f"base{i}.mp4"
-            _clipe_imagem(bruto, base, i, CENA_ROTEIRO_S)
+            _clipe_imagem(bruto, base, i, dur)
             if cams:
                 pasta = tmp / f"c{i}"
                 pasta.mkdir()
                 pngs = _render([d for d, _ in cams], pasta, True)
                 entradas = ["-i", str(base)]
                 for png in pngs:
-                    entradas += ["-loop", "1", "-t", f"{CENA_ROTEIRO_S}", "-i", str(png)]
+                    entradas += ["-loop", "1", "-t", f"{dur}", "-i", str(png)]
                 f, ultimo = [], "0:v"
                 for k, (_, inicio) in enumerate(cams, start=1):
                     f.append(f"[{ultimo}][{k}:v]overlay=0:0:enable='gte(t,{inicio})'[o{k}]")
                     ultimo = f"o{k}"
                 clipe = tmp / f"clipe{i}.mp4"
-                _ff(*entradas, "-filter_complex", ";".join(f), "-map", f"[{ultimo}]", "-t", f"{CENA_ROTEIRO_S}",
+                _ff(*entradas, "-filter_complex", ";".join(f), "-map", f"[{ultimo}]", "-t", f"{dur}",
                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(clipe))
             else:
                 clipe = base
@@ -352,30 +380,49 @@ def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path, trilha: str
 
         # Junta cenas e tela da marca com transições suaves
         partes = clipes + [cart_mp4]
-        duracoes = [CENA_ROTEIRO_S] * len(clipes) + [dur_cart]
+        duracoes = dur_cenas + [dur_cart]
         entradas = []
         for arq in partes:
             entradas += ["-i", str(arq)]
         f, ultimo, acumulado = [], "0:v", duracoes[0]
+        inicios = [0.0]
         for k in range(1, len(partes)):
             fade = FADE_S if k == len(partes) - 1 else FADE_CENAS_S
             f.append(f"[{ultimo}][{k}:v]xfade=transition=fade:duration={fade}:offset={acumulado - fade:.3f}[x{k}]")
             ultimo = f"x{k}"
+            inicios.append(acumulado - fade)
             acumulado += duracoes[k] - fade
         total = acumulado
         f.append(f"[{ultimo}]format=yuv420p[v]")
 
-        # Trilha (nova a cada Reels; se falhar, usa a padrão) em loop por todo o vídeo
+        # Áudio: trilha (nova a cada Reels; se falhar, a padrão) + falas por cima
+        idx = len(partes)
         musica = TRILHA
         if trilha:
             try:
                 musica = _baixar(trilha, tmp / ("trilha" + (Path(trilha.split("?")[0]).suffix or ".wav")))
             except Exception as e:
                 print(f"Aviso: trilha nova indisponível ({e}); usando a padrão")
+        tem_fala = any(arquivos_fala)
+        rotulos = []
         if musica.exists():
             entradas += ["-stream_loop", "-1", "-i", str(musica)]
-            f.append(f"[{len(partes)}:a]atrim=0:{total:.2f},asetpts=PTS-STARTPTS,aresample=44100,"
-                     f"afade=t=in:d=0.5,afade=t=out:st={total - 1.0:.2f}:d=1.0[a]")
+            vol = 0.22 if tem_fala else 1.0
+            f.append(f"[{idx}:a]atrim=0:{total:.2f},asetpts=PTS-STARTPTS,aresample=44100,volume={vol},"
+                     f"afade=t=in:d=0.5,afade=t=out:st={total - 1.0:.2f}:d=1.0[mus]")
+            rotulos.append("[mus]")
+            idx += 1
+        for i, arq in enumerate(arquivos_fala):
+            if not arq:
+                continue
+            entradas += ["-i", str(arq)]
+            atraso = int((inicios[i] + 0.35) * 1000)
+            f.append(f"[{idx}:a]aresample=44100,volume=1.6,adelay={atraso}|{atraso}[f{i}]")
+            rotulos.append(f"[f{i}]")
+            idx += 1
+        if rotulos:
+            f.append(f"{''.join(rotulos)}amix=inputs={len(rotulos)}:normalize=0:duration=first,"
+                     f"apad,atrim=0:{total:.2f}[a]" if len(rotulos) > 1 else f"{rotulos[0]}apad,atrim=0:{total:.2f}[a]")
         else:
             f.append(f"anullsrc=r=44100:cl=stereo,atrim=0:{total:.2f}[a]")
 

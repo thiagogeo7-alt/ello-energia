@@ -95,3 +95,43 @@ def gerar_trilha(prompt: str, segundos: int = 30) -> str:
     if not url:
         raise ErroAPI(f"fal.ai não devolveu a trilha: {r}")
     return url
+
+
+# Vozes realistas (MiniMax Speech-02 HD, com reforço de português). Se falhar, usa Kokoro pt-BR.
+VOZES = {
+    "Calm_Woman": "mulher adulta, voz calma e acolhedora",
+    "Wise_Woman": "mulher madura/idosa, voz serena",
+    "Lively_Girl": "mulher jovem, voz animada",
+    "Friendly_Person": "voz simpática e neutra (boa para narrador)",
+    "Casual_Guy": "homem jovem, descontraído",
+    "Patient_Man": "homem adulto, voz calma",
+    "Deep_Voice_Man": "homem com voz grave",
+    "Elegant_Man": "homem maduro, voz elegante",
+}
+VOZES_MASCULINAS = {"Casual_Guy", "Patient_Man", "Deep_Voice_Man", "Elegant_Man"}
+CUSTO_FALA_USD_POR_1000 = 0.10
+
+
+def gerar_fala(texto: str, voz: str = "Friendly_Person") -> str:
+    """Fala em português com voz realista; devolve a URL do áudio."""
+    if config.SIMULAR:
+        print(f"[simulação] geraria fala ({voz}): {texto[:60]}…")
+        return ""
+    voz = voz if voz in VOZES else "Friendly_Person"
+    try:
+        r = _fila("fal-ai/minimax/speech-02-hd", {
+            "text": texto, "language_boost": "Portuguese",
+            "voice_setting": {"voice_id": voz, "speed": 1.05, "vol": 1, "pitch": 0},
+        }, limite_s=180)
+        url = (r.get("audio") or {}).get("url")
+        if url:
+            return url
+        raise ErroAPI(f"sem áudio: {r}")
+    except Exception as e:
+        print(f"Aviso: voz MiniMax falhou ({e}); usando Kokoro")
+        r = _fila("fal-ai/kokoro/brazilian-portuguese",
+                  {"prompt": texto, "voice": "pm_alex" if voz in VOZES_MASCULINAS else "pf_dora"}, limite_s=180)
+        url = (r.get("audio") or {}).get("url")
+        if not url:
+            raise ErroAPI(f"fal.ai não devolveu a fala: {r}")
+        return url
