@@ -89,6 +89,8 @@ instagram:
     - "Mitos x verdades: precisa de placa? é caro? muda a distribuidora?"
 
   # Opções técnicas (podem ser trocadas por variáveis do GitHub)
+  reels_por_mes: 15          # plano Pro = 15; plano Essencial = 8
+  carrosseis_por_semana: 2   # plano Pro = 2; plano Essencial = 1
   modo_cena: imagem
   reels_teste: sim
   copiar_stories: sim

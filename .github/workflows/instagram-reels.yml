@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: lista
-        run: pip install -q pyyaml && python nucleo/lista.py instagram "${{ github.event_name == 'schedule' && 'todos' || inputs.cliente }}" >> "$GITHUB_OUTPUT"
+        run: pip install -q pyyaml && python nucleo/lista.py instagram "${{ github.event_name == 'schedule' && 'todos' || inputs.cliente }}" reels >> "$GITHUB_OUTPUT"
 
   rodar:
     needs: clientes
