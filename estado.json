@@ -101,7 +101,11 @@
     }
   ],
   "comentarios_respondidos": [
-    "18119393201031563"
+    "18119393201031563",
+    "17931079971183585",
+    "18106873019641194",
+    "18494497459105370",
+    "18121873678991787"
   ],
   "mensagens_respondidas": [],
   "custos": [
@@ -166,8 +170,28 @@
       "data": "2026-11-16T06:25:57+00:00",
       "tipo": "resposta_comentario",
       "detalhe": "interessado"
+    },
+    {
+      "data": "2026-11-16T13:12:38+00:00",
+      "tipo": "dm_palavra_chave",
+      "detalhe": "DM automática com o WhatsApp"
+    },
+    {
+      "data": "2026-11-16T13:12:44+00:00",
+      "tipo": "dm_palavra_chave",
+      "detalhe": "DM automática com o WhatsApp"
+    },
+    {
+      "data": "2026-11-16T13:12:50+00:00",
+      "tipo": "dm_palavra_chave",
+      "detalhe": "DM automática com o WhatsApp"
+    },
+    {
+      "data": "2026-11-16T13:12:54+00:00",
+      "tipo": "dm_palavra_chave",
+      "detalhe": "DM automática com o WhatsApp"
     }
   ],
-  "total_leads": 1,
-  "atualizado_em": "2026-11-16T06:25:57+00:00"
+  "total_leads": 5,
+  "atualizado_em": "2026-11-16T13:12:58+00:00"
 }
