@@ -79,3 +79,19 @@ def gerar(prompt: str, limite_s: int = 900) -> str:
             raise ErroAPI(f"fal.ai falhou ao gerar o vídeo: {st}")
         time.sleep(15)
     raise ErroAPI("O vídeo demorou demais para ficar pronto.")
+
+
+CUSTO_TRILHA_USD = 0.01   # CassetteAI: US$ 0,02 por minuto de música
+
+
+def gerar_trilha(prompt: str, segundos: int = 30) -> str:
+    """Música instrumental nova para cada Reels; devolve a URL do áudio."""
+    if config.SIMULAR:
+        print(f"[simulação] geraria trilha: {prompt[:80]}…")
+        return ""
+    r = _fila("CassetteAI/music-generator", {"prompt": prompt, "duration": max(10, min(180, int(segundos)))},
+              limite_s=180)
+    url = (r.get("audio_file") or {}).get("url")
+    if not url:
+        raise ErroAPI(f"fal.ai não devolveu a trilha: {r}")
+    return url

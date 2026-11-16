@@ -2,6 +2,7 @@
 Coloque SIMULAR=1 para testar sem publicar nada nem gastar.
 """
 import sys
+from pathlib import Path
 
 from . import config, dados_git
 
@@ -42,6 +43,31 @@ def main() -> None:
         from . import respostas
         respostas.executar()
         dados_git.enviar("Respostas a comentários e DMs")
+    elif tarefa == "publicar-previa":
+        # Publica uma prévia já aprovada (branch "previa-<formato>"), sem gerar outra
+        import json, os
+        from . import estado, instagram
+        formato = sys.argv[2]
+        pasta = Path(sys.argv[3])
+        r = json.loads((pasta / "roteiro.json").read_text())
+        mp4 = next(pasta.glob("*.mp4")).name
+        base = f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/previa-{formato}"
+        legenda = r["legenda"]
+        if "inteligência artificial" not in legenda.lower():
+            legenda += "\n\n🎬 Vídeo criado com inteligência artificial."
+        media_id = instagram.publicar_reel(f"{base}/{mp4}", legenda, capa_url=f"{base}/{mp4[:-4]}.jpg")
+        est = estado.carregar()
+        est["publicacoes"].append({
+            "data": estado.agora(), "tipo": "reel", "estrategia": r.get("estrategia"), "formato": r.get("formato"),
+            "argumento": r.get("argumento"), "argumento_base": r.get("argumento"), "tema": r.get("tema"),
+            "gancho": r.get("gancho"), "palavra_chave": r.get("palavra_chave", "ECONOMIZAR"),
+            "textos": [c.get("texto") for c in r.get("cenas", [])], "legenda": legenda, "media_id": media_id,
+            "permalink": instagram.permalink(media_id), "modo": "cenas",
+        })
+        estado.registrar(est, "reel", f"{r.get('tema', '')} ({r.get('formato')})")
+        estado.salvar(est)
+        dados_git.enviar("Reels (prévia aprovada) publicado")
+        print(f"Publicado: {media_id}")
     elif tarefa == "apagar":
         from . import estado, instagram
         media_id = (sys.argv[2] if len(sys.argv) > 2 else "").strip()

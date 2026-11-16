@@ -1,0 +1,58 @@
+name: Instagram - Publicar prévia aprovada
+
+on:
+  workflow_dispatch:
+    inputs:
+      formato:
+        description: "Qual prévia publicar"
+        type: choice
+        options: [dialogo, explicativo, reacao]
+        default: dialogo
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agente-instagram
+  cancel-in-progress: false
+
+jobs:
+  rodar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: instagram
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Baixar os dados do agente (branch "dados")
+        env:
+          URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
+        run: |
+          git clone -q --depth 20 --branch dados "$URL" dados 2>/dev/null || {
+            mkdir -p dados && cd dados && git init -q && git checkout -q -b dados && git remote add origin "$URL"; }
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: instagram/requirements.txt
+
+      - run: pip install -r requirements.txt
+
+      - name: Executar
+        env:
+          SIMULAR: '0'
+          DADOS_DIR: ${{ github.workspace }}/instagram/dados
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FAL_KEY: ${{ secrets.FAL_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+          MODO_CENA: ${{ vars.MODO_CENA }}
+          PAINEL_SENHA: ${{ secrets.PAINEL_SENHA }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          git clone -q --depth 1 --branch "previa-${{ inputs.formato }}" "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" previa-aprovada
+          python -m agente publicar-previa "${{ inputs.formato }}" previa-aprovada

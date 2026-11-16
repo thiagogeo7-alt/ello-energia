@@ -308,7 +308,7 @@ def _clipe_imagem(img: Path, saida: Path, n_cena: int, dur: float) -> None:
         "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", str(saida))
 
 
-def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path) -> Path:
+def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path, trilha: str | None = None) -> Path:
     """imagens: uma por cena (URL ou arquivo). roteiro: JSON do Claude com "cenas", "formato" etc."""
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
@@ -365,9 +365,15 @@ def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path) -> Path:
         total = acumulado
         f.append(f"[{ultimo}]format=yuv420p[v]")
 
-        # Trilha em loop por todo o vídeo
-        if TRILHA.exists():
-            entradas += ["-stream_loop", "-1", "-i", str(TRILHA)]
+        # Trilha (nova a cada Reels; se falhar, usa a padrão) em loop por todo o vídeo
+        musica = TRILHA
+        if trilha:
+            try:
+                musica = _baixar(trilha, tmp / ("trilha" + (Path(trilha.split("?")[0]).suffix or ".wav")))
+            except Exception as e:
+                print(f"Aviso: trilha nova indisponível ({e}); usando a padrão")
+        if musica.exists():
+            entradas += ["-stream_loop", "-1", "-i", str(musica)]
             f.append(f"[{len(partes)}:a]atrim=0:{total:.2f},asetpts=PTS-STARTPTS,aresample=44100,"
                      f"afade=t=in:d=0.5,afade=t=out:st={total - 1.0:.2f}:d=1.0[a]")
         else:

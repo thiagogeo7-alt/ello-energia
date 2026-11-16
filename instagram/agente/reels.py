@@ -79,6 +79,7 @@ Devolva este JSON:
     }}
   ] (3 ou 4 cenas),
   "virada": "frase final curta, MAIÚSCULAS, até 14 caracteres",
+  "trilha": "prompt em INGLÊS para uma música instrumental de fundo de 30 s que combine com o clima do vídeo (gênero, instrumentos, andamento, energia); varie bastante entre os vídeos (ex.: brazilian bossa nova acoustic guitar, upbeat funk carioca beat, lo-fi chill, sunny tropical house, warm acoustic pop, light comedic pizzicato). Sem voz/vocals.",
   "palavra_chave": "UMA palavra para comentar, MAIÚSCULAS (padrão: ECONOMIZAR)",
   "beneficios": ["4 itens da lista de benefícios aprovados do guia da marca"],
   "legenda": "legenda em português: 1ª linha gancho forte, 2 a 3 linhas curtas, convite para comentar a palavra-chave, a linha obrigatória sobre vídeo com IA, e 3 a 5 hashtags"
@@ -145,6 +146,13 @@ def executar(cena_local: str | None = None) -> dict:
         imagens = [video.gerar_imagem(f"{c.get('prompt_imagem', '')}. {estilo}") for c in r["cenas"]]
         est["custos"].append({"data": estado.agora(), "servico": f"fal.ai imagens ({len(imagens)} cenas)",
                               "usd": round(video.CUSTO_IMAGEM_USD * len(imagens), 2)})
+    trilha = None
+    if not cena_local and not config.SIMULAR:
+        try:
+            trilha = video.gerar_trilha(f"{r.get('trilha') or 'upbeat warm acoustic pop'}, instrumental, no vocals", 30)
+            est["custos"].append({"data": estado.agora(), "servico": "fal.ai trilha", "usd": video.CUSTO_TRILHA_USD})
+        except Exception as e:
+            print(f"Aviso: não consegui gerar a trilha ({e}); usando a padrão")
         estado.salvar(est)   # registra o custo mesmo se algo falhar depois
 
     if config.SIMULAR and not cena_local:
@@ -154,7 +162,7 @@ def executar(cena_local: str | None = None) -> dict:
         # 2) Montagem: cenas com textos + tela da marca
         nome = f"reel-{datetime.now().strftime('%Y%m%d-%H%M')}"
         destino = Path(tempfile.mkdtemp()) / f"{nome}.mp4"
-        montagem.montar_roteiro(imagens, r, destino)
+        montagem.montar_roteiro(imagens, r, destino, trilha=trilha)
         print(f"Vídeo montado: {destino}")
         if config.SIMULAR or __import__("os").getenv("PREVIA") == "1":
             pasta = Path(__file__).resolve().parent.parent / "previa"
