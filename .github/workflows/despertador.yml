@@ -1,0 +1,42 @@
+name: Despertador (chamado pelo cron-job.org a cada 15 min)
+
+# O cron-job.org chama este workflow a cada 15 minutos (o agendamento do GitHub atrasa horas).
+# Ele decide, pelo horário de Brasília, o que rodar:
+#   - Instagram: responder comentários e DMs (toda vez)
+#   - Prospecção: ler respostas de e-mail (de hora em hora, dias úteis 8h–20h)
+#   - Prospecção: enviar e-mails (dias úteis, 9h e 14h)
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+concurrency:
+  group: despertador
+  cancel-in-progress: false
+
+jobs:
+  despertar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Disparar agentes conforme o horário
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          AGENTE_ATIVO: ${{ vars.AGENTE_ATIVO }}
+          PROSPECCAO_ATIVA: ${{ vars.PROSPECCAO_ATIVA }}
+        run: |
+          H=$(TZ=America/Sao_Paulo date +%-H); M=$(TZ=America/Sao_Paulo date +%-M); D=$(TZ=America/Sao_Paulo date +%u)
+          echo "Agora em Brasília: dia $D, ${H}h${M}"
+          if [ "$AGENTE_ATIVO" = "sim" ]; then
+            gh workflow run instagram-respostas.yml -R "$REPO" -f simular=false && echo "→ Instagram: respostas"
+          fi
+          if [ "$PROSPECCAO_ATIVA" = "sim" ] && [ "$D" -le 5 ] && [ "$M" -lt 15 ]; then
+            if [ "$H" -ge 8 ] && [ "$H" -le 20 ]; then
+              gh workflow run prospeccao-respostas.yml -R "$REPO" -f simular=false && echo "→ Prospecção: ler respostas"
+            fi
+            if [ "$H" = "9" ] || [ "$H" = "14" ]; then
+              gh workflow run prospeccao-envio.yml -R "$REPO" -f simular=false && echo "→ Prospecção: enviar e-mails"
+            fi
+          fi
