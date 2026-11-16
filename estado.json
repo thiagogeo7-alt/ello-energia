@@ -107,6 +107,27 @@
         "views": 4
       },
       "pontuacao": 3.0
+    },
+    {
+      "data": "2026-11-16T18:50:55+00:00",
+      "tipo": "reel",
+      "estrategia": "teste",
+      "formato": "dialogo",
+      "argumento": "Sem obra e sem placa: serve para apartamento e casa alugada",
+      "argumento_base": "Sem obra e sem placa: serve para apartamento e casa alugada",
+      "tema": "Energia solar para quem mora de aluguel em apartamento",
+      "gancho": "Na varanda de um apartamento, uma inquilina diz que queria energia solar mas não tem telhado, e a amiga conta que resolveu com a ELLO sem obra e sem placa.",
+      "palavra_chave": "ECONOMIZAR",
+      "textos": [
+        "Quero energia solar, mas moro de aluguel. Não tenho telhado!",
+        "Eu também moro em apartamento. Com a ELLO não precisa de placa nem obra!",
+        "A usina gera, o crédito abate na minha conta e continuo na mesma distribuidora.",
+        "Que bom! Vou pedir minha proposta grátis e ver a economia de até 50%."
+      ],
+      "legenda": "Mora de aluguel ou em apartamento e acha que energia solar não é pra você? 🌞\nCom a ELLO, não precisa de obra, de placa no telhado nem de equipamento.\nA usina solar gera a energia, o crédito entra na sua conta de luz e você segue com a mesma distribuidora. A economia pode chegar a até 50%.\nComente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS. 💛\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
+      "media_id": "18125730682934877",
+      "permalink": "https://www.instagram.com/reel/Df0CgKYB-4H/",
+      "modo": "cenas"
     }
   ],
   "comentarios_respondidos": [
@@ -214,8 +235,13 @@
       "data": "2026-11-16T13:12:54+00:00",
       "tipo": "dm_palavra_chave",
       "detalhe": "DM automática com o WhatsApp"
+    },
+    {
+      "data": "2026-11-16T18:50:56+00:00",
+      "tipo": "reel",
+      "detalhe": "Energia solar para quem mora de aluguel em apartamento (dialogo)"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-16T18:40:18+00:00"
+  "atualizado_em": "2026-11-16T18:50:56+00:00"
 }
