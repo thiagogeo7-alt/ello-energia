@@ -152,13 +152,44 @@ def meu_id() -> str:
     return config.IG_USER_ID
 
 
+_destinos_cache: list | None = None
+
+
+def _destinos_mensagem() -> list[tuple[str, str]]:
+    """Onde a Meta aceita envio de mensagens: o próprio perfil do Instagram e, pelo Facebook,
+    a Página ligada a ele (com o token da Página)."""
+    global _destinos_cache
+    if _destinos_cache is not None:
+        return _destinos_cache
+    destinos = [(f"{config.IG_API}/{config.IG_USER_ID}/messages", config.IG_TOKEN)]
+    try:
+        paginas = _get("me/accounts", fields="id,access_token,instagram_business_account").get("data", [])
+        for pg in paginas:
+            if (pg.get("instagram_business_account") or {}).get("id") == config.IG_USER_ID and pg.get("access_token"):
+                destinos.insert(0, (f"{config.IG_API}/{pg['id']}/messages", pg["access_token"]))
+    except Exception as e:
+        print(f"Aviso: não consegui listar a Página do Facebook ({e})")
+    destinos.append((f"{config.IG_API}/me/messages", config.IG_TOKEN))
+    _destinos_cache = destinos
+    return destinos
+
+
+def _enviar(corpo: dict) -> None:
+    ultimo = None
+    for url, token in _destinos_mensagem():
+        try:
+            chamar("POST", url, params={"access_token": token}, json=corpo)
+            return
+        except ErroAPI as e:
+            ultimo = e
+    raise ultimo or ErroAPI("Nenhum destino aceitou a mensagem")
+
+
 def enviar_mensagem(usuario_id: str, texto: str) -> None:
     if config.SIMULAR:
         print(f"[simulação] enviaria DM para {usuario_id}: {texto}")
         return
-    chamar("POST", f"{config.IG_API}/me/messages",
-           headers={"Authorization": f"Bearer {config.IG_TOKEN}"},
-           json={"recipient": {"id": usuario_id}, "message": {"text": texto}})
+    _enviar({"recipient": {"id": usuario_id}, "message": {"text": texto}})
 
 
 def resposta_privada(comentario_id: str, texto: str) -> None:
@@ -166,9 +197,7 @@ def resposta_privada(comentario_id: str, texto: str) -> None:
     if config.SIMULAR:
         print(f"[simulação] mandaria DM para o autor do comentário {comentario_id}: {texto[:60]}…")
         return
-    chamar("POST", f"{config.IG_API}/me/messages",
-           headers={"Authorization": f"Bearer {config.IG_TOKEN}"},
-           json={"recipient": {"comment_id": comentario_id}, "message": {"text": texto}})
+    _enviar({"recipient": {"comment_id": comentario_id}, "message": {"text": texto}})
 
 
 # ---------- Token ----------

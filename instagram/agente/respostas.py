@@ -73,10 +73,16 @@ def executar() -> None:
             if set((c.get("text") or "").upper().replace("!", " ").replace(".", " ").split()) & palavras:
                 # Comentou a palavra-chave: manda DM com o link e responde em público
                 try:
-                    instagram.resposta_privada(c["id"], DM_PALAVRA_CHAVE)
-                    instagram.responder_comentario(c["id"], RESPOSTAS_PUBLICAS[len(feitos_c) % len(RESPOSTAS_PUBLICAS)])
+                    try:
+                        instagram.resposta_privada(c["id"], DM_PALAVRA_CHAVE)
+                        publica = RESPOSTAS_PUBLICAS[len(feitos_c) % len(RESPOSTAS_PUBLICAS)]
+                    except Exception as e:
+                        print(f"Direct indisponível para {c['id']} ({e}); WhatsApp vai na resposta pública")
+                        publica = ("Que bom! 😊 A análise da sua conta é grátis: manda uma foto dela no nosso "
+                                   f"WhatsApp {config.WHATSAPP_LEGIVEL} 📲")
+                    instagram.responder_comentario(c["id"], publica)
                 except Exception as e:
-                    print(f"Falha na DM da palavra-chave {c['id']}: {e}")
+                    print(f"Falha ao responder a palavra-chave {c['id']}: {e}")
                     continue
                 feitos_c.add(c["id"])
                 est["comentarios_respondidos"].append(c["id"])
