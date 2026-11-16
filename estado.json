@@ -129,14 +129,14 @@
       "permalink": "https://www.instagram.com/reel/Df0CgKYB-4H/",
       "modo": "cenas",
       "metricas": {
-        "reach": 0,
+        "reach": 1,
         "likes": 0,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 0
+        "views": 1
       },
-      "pontuacao": 0.0
+      "pontuacao": 0.30000000000000004
     }
   ],
   "comentarios_respondidos": [
@@ -212,6 +212,26 @@
       "data": "2026-11-16T19:00:11+00:00",
       "servico": "fal.ai trilha",
       "usd": 0.01
+    },
+    {
+      "data": "2026-11-16T19:58:24+00:00",
+      "servico": "fal.ai imagens (4 cenas)",
+      "usd": 0.08
+    },
+    {
+      "data": "2026-11-16T19:58:45+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.02
+    },
+    {
+      "data": "2026-11-16T19:59:40+00:00",
+      "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+      "usd": 0.83
+    },
+    {
+      "data": "2026-11-16T19:59:51+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
     }
   ],
   "acoes": [
@@ -267,5 +287,5 @@
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-16T19:00:11+00:00"
+  "atualizado_em": "2026-11-16T19:59:51+00:00"
 }
