@@ -127,7 +127,16 @@
       "legenda": "Mora de aluguel ou em apartamento e acha que energia solar não é pra você? 🌞\nCom a ELLO, não precisa de obra, de placa no telhado nem de equipamento.\nA usina solar gera a energia, o crédito entra na sua conta de luz e você segue com a mesma distribuidora. A economia pode chegar a até 50%.\nComente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS. 💛\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
       "media_id": "18125730682934877",
       "permalink": "https://www.instagram.com/reel/Df0CgKYB-4H/",
-      "modo": "cenas"
+      "modo": "cenas",
+      "metricas": {
+        "reach": 0,
+        "likes": 0,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 0
+      },
+      "pontuacao": 0.0
     }
   ],
   "comentarios_respondidos": [
@@ -188,6 +197,21 @@
       "data": "2026-11-16T18:40:18+00:00",
       "servico": "fal.ai imagens (4 cenas)",
       "usd": 0.08
+    },
+    {
+      "data": "2026-11-16T18:59:33+00:00",
+      "servico": "fal.ai imagens (4 cenas)",
+      "usd": 0.08
+    },
+    {
+      "data": "2026-11-16T19:00:01+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.021
+    },
+    {
+      "data": "2026-11-16T19:00:11+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
     }
   ],
   "acoes": [
@@ -243,5 +267,5 @@
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-16T18:50:56+00:00"
+  "atualizado_em": "2026-11-16T19:00:11+00:00"
 }
