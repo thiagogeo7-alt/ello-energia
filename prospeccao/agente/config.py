@@ -53,7 +53,7 @@ PASTA = DADOS_DIR / "prospeccao"
 def exigir(*nomes: str) -> None:
     if SIMULAR:
         return
-    faltando = [n for n in nomes if not os.getenv(n)]
+    faltando = [n for n in nomes if not (os.getenv(n) or globals().get(n))]
     if faltando:
         raise SystemExit("Faltam configurações no GitHub: " + ", ".join(faltando)
                          + ". Veja o passo a passo em prospeccao/README.md.")
