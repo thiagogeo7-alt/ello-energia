@@ -1,0 +1,58 @@
+{
+  "estrategia": "teste",
+  "formato": "dialogo",
+  "argumento": "Comércio: energia é custo fixo, economizar sobra dinheiro todo mês",
+  "tema": "Sócios de restaurante e a conta de luz dos freezers e do ar",
+  "gancho": "Dois sócios de um restaurante por quilo conversam depois do almoço: um se assusta com o peso da conta de luz e o outro conta como a ELLO reduz esse custo fixo.",
+  "nomes": [
+    "Rogério",
+    "Camila"
+  ],
+  "texto_topo_1": "SUA CONTA DE LUZ",
+  "texto_topo_2": "PESA NO CAIXA?",
+  "cenas": [
+    {
+      "prompt_imagem": "Realistic photo, vertical 9:16, inside a small Brazilian self-service restaurant right after lunch rush, natural window light. Two business partners stand side by side at the counter: Rogério, a man around 55, bald with a short gray beard, wearing a navy blue apron over a white shirt, and Camila, a woman around 35, with long dark curly hair tied back, wearing a mustard yellow polo shirt and a black apron. Rogério holds a printed electricity bill and looks worried, Camila looks at him with attention. Stainless steel kitchen and a glass freezer visible behind them. Both clearly visible, medium shot.",
+      "movimento": "The man on the left (Rogério) talks to his partner with a worried, frustrated expression, shaking the electricity bill in his hand and then rubbing his forehead. The woman on the right listens and nods. Slow gentle push-in camera movement. No text on screen.",
+      "quem": "A",
+      "texto": "Camila, a luz do restaurante come o lucro do mês inteiro!",
+      "destaque": "R$ 2.800"
+    },
+    {
+      "prompt_imagem": "Realistic photo, vertical 9:16, same small Brazilian self-service restaurant, same two people: Rogério, man around 55, bald with short gray beard, navy blue apron over white shirt, and Camila, woman around 35, long dark curly hair tied back, mustard yellow polo shirt and black apron. Camila now smiles calmly and gestures with one hand toward Rogério, he looks at her with curiosity, still holding the bill. Stainless steel kitchen and glass freezer behind them. Both clearly visible, medium shot, natural light.",
+      "movimento": "The woman on the right (Camila) talks to Rogério with a reassuring smile and an open-hand gesture, as if sharing good news. The man listens, raising his eyebrows with interest. Subtle camera drift to the left. No text on screen.",
+      "quem": "B",
+      "texto": "Eu também sofria. Aí fui pra energia solar da ELLO.",
+      "destaque": ""
+    },
+    {
+      "prompt_imagem": "Realistic photo, vertical 9:16, same small Brazilian self-service restaurant, same two people: Rogério, man around 55, bald with short gray beard, navy blue apron over white shirt, and Camila, woman around 35, long dark curly hair tied back, mustard yellow polo shirt and black apron. Rogério looks skeptical and curious, one hand raised in a questioning gesture, glancing up at the restaurant ceiling, Camila beside him smiling. Dining tables with checkered tablecloths in the background. Both clearly visible, medium shot, natural light.",
+      "movimento": "The man on the left (Rogério) asks a question with a doubtful expression, pointing up toward the ceiling and shrugging his shoulders. The woman on the right smiles and shakes her head slightly. Slow camera push-in. No text on screen.",
+      "quem": "A",
+      "texto": "Mas precisa de obra ou de placa no telhado?",
+      "destaque": ""
+    },
+    {
+      "prompt_imagem": "Realistic photo, vertical 9:16, same small Brazilian self-service restaurant, same two people: Rogério, man around 55, bald with short gray beard, navy blue apron over white shirt, and Camila, woman around 35, long dark curly hair tied back, mustard yellow polo shirt and black apron. Camila laughs and makes a relaxed no-worries gesture, Rogério smiles, relieved, the bill lowered in his hand. Warm sunlight through the window, tidy buffet counter behind them. Both clearly visible, medium shot.",
+      "movimento": "The woman on the right (Camila) answers cheerfully, waving her hand as if saying 'no need', then gives a friendly pat on Rogério's shoulder. The man breaks into a relieved smile and nods. Gentle camera pull-back. No text on screen.",
+      "quem": "B",
+      "texto": "Nada! Vira crédito na conta: economia de até 50%.",
+      "destaque": ""
+    }
+  ],
+  "virada": "TEM JEITO!",
+  "vozes": {
+    "A": "Patient_Man",
+    "B": "Lively_Girl",
+    "narrador": "Friendly_Person"
+  },
+  "trilha": "sunny acoustic samba-pop instrumental, nylon guitar and cavaquinho, light percussion, upbeat and friendly mid-tempo, positive everyday-business mood, no vocals",
+  "palavra_chave": "ECONOMIZAR",
+  "beneficios": [
+    "Análise da conta GRÁTIS",
+    "Economia de até 50% na conta",
+    "Sem obra e sem placa no telhado",
+    "Continua com a sua distribuidora"
+  ],
+  "legenda": "A conta de luz do seu comércio pesa no fim do mês? 💡\nFreezer, ar-condicionado e luzes ligados o dia todo: energia é custo fixo.\nCom a energia solar compartilhada da ELLO, os créditos da usina são abatidos na sua conta, com economia de até 50%. Sem obra, sem placa no telhado e com a mesma distribuidora.\nComente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS. 👇\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada"
+}
