@@ -135,3 +135,34 @@ def gerar_fala(texto: str, voz: str = "Friendly_Person") -> str:
         if not url:
             raise ErroAPI(f"fal.ai não devolveu a fala: {r}")
         return url
+
+
+# Cenas em vídeo de verdade (MiniMax H3 Max Turbo, imagem → vídeo, 768p)
+MODELO_VIDEO_CENA = "minimax/h3-max-turbo/image-to-video"
+PRECO_VIDEO_CENA_USD_S = 0.04
+
+
+def duracao_audio(url: str) -> float:
+    import subprocess
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", url],
+                       capture_output=True, text=True, timeout=60)
+    try:
+        return float(r.stdout.strip())
+    except ValueError:
+        return 0.0
+
+
+def animar_imagem(imagem_url: str, prompt: str, segundos: float, audio_url: str | None = None) -> str:
+    """Transforma a foto da cena num vídeo com movimento real; com audio_url, sincroniza a boca com a fala."""
+    if config.SIMULAR:
+        print(f"[simulação] animaria a cena ({segundos:.1f}s): {prompt[:70]}…")
+        return imagem_url
+    entrada = {"prompt": prompt, "image_url": imagem_url, "duration": round(max(2.0, min(8.0, segundos)), 1),
+               "resolution": "768P", "prompt_expansion_mode": "balanced"}
+    if audio_url:
+        entrada["target_audio_url"] = audio_url
+    r = _fila(MODELO_VIDEO_CENA, entrada, limite_s=900)
+    url = (r.get("video") or {}).get("url")
+    if not url:
+        raise ErroAPI(f"fal.ai não devolveu o vídeo da cena: {r}")
+    return url

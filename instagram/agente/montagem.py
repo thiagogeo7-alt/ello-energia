@@ -343,9 +343,18 @@ def montar_roteiro(imagens: list[str], roteiro: dict, destino: Path, trilha: str
         clipes = []
         for i, (img, cams) in enumerate(zip(imagens, camadas)):
             dur = dur_cenas[i]
-            bruto = _baixar(img, tmp / f"img{i}.jpg")
+            eh_video = img.split("?")[0].lower().endswith((".mp4", ".mov", ".webm"))
             base = tmp / f"base{i}.mp4"
-            _clipe_imagem(bruto, base, i, dur)
+            if eh_video:
+                # Vídeo real da cena: enquadra em 9:16, sem o áudio original, e segura o último quadro se faltar tempo
+                bruto = _baixar(img, tmp / f"vid{i}.mp4")
+                _ff("-i", str(bruto), "-an", "-vf",
+                    f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},setsar=1,"
+                    f"tpad=stop_mode=clone:stop_duration={dur},trim=0:{dur},setpts=PTS-STARTPTS,format=yuv420p",
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", str(base))
+            else:
+                bruto = _baixar(img, tmp / f"img{i}.jpg")
+                _clipe_imagem(bruto, base, i, dur)
             if cams:
                 pasta = tmp / f"c{i}"
                 pasta.mkdir()

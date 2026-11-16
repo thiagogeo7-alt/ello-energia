@@ -72,7 +72,8 @@ Devolva este JSON:
   "texto_topo_2": "2ª linha, MAIÚSCULAS, até 16 caracteres",
   "cenas": [
     {{
-      "prompt_imagem": "prompt em INGLÊS da imagem da cena (foto realista nos formatos dialogo/reacao; ilustração no explicativo)",
+      "prompt_imagem": "prompt em INGLÊS do PRIMEIRO QUADRO da cena (foto realista nos formatos dialogo/reacao; ilustração no explicativo)",
+      "movimento": "prompt em INGLÊS do que ACONTECE na cena em vídeo de 3 a 5 s: uma ação contínua e clara (gestos, expressões, quem está falando, objetos se mexendo) e o movimento da câmera. No dialogo, diga quem fala (ex.: 'the woman on the left talks to her neighbor, gesturing with the bill'). No explicativo, anime o desenho (sol brilhando, energia fluindo pelos fios, números caindo). Sem texto na tela.",
       "quem": "A" ou "B" (só no dialogo),
       "texto": "fala, passo ou legenda em português, até 60 caracteres. ESTE TEXTO SERÁ FALADO EM VOZ ALTA: escreva como as pessoas falam de verdade, natural, com emoção (sem siglas difíceis; escreva números por extenso quando ajudar a leitura, ex.: 'seiscentos reais')",
       "destaque": "opcional: etiqueta vermelha curta (ex.: valor de conta fictício), até 12 caracteres"
@@ -140,34 +141,51 @@ def executar(cena_local: str | None = None) -> dict:
     if "inteligência artificial" not in legenda.lower():
         legenda += "\n\n🎬 Vídeo criado com inteligência artificial."
 
-    # 1) Uma imagem por cena (foto realista ou desenho explicativo)
+    # 1) Primeiro quadro de cada cena (foto realista ou desenho)
     estilo = ESTILO_DESENHO if formato == "explicativo" else ESTILO_FOTO
+    falas = [None] * len(r["cenas"])
     if cena_local:
         imagens = [cena_local] * len(r["cenas"])
     else:
         imagens = [video.gerar_imagem(f"{c.get('prompt_imagem', '')}. {estilo}") for c in r["cenas"]]
         est["custos"].append({"data": estado.agora(), "servico": f"fal.ai imagens ({len(imagens)} cenas)",
                               "usd": round(video.CUSTO_IMAGEM_USD * len(imagens), 2)})
-    # Vozes realistas lendo as falas (diálogo: A e B; outros formatos: narrador)
-    falas = []
+        estado.salvar(est)   # registra o custo mesmo se algo falhar depois
+
     if not cena_local and not config.SIMULAR:
+        # 2) Vozes realistas (diálogo: A e B; outros formatos: narrador)
         vozes = r.get("vozes") or {}
         caracteres = 0
-        for c in r["cenas"]:
+        for i, c in enumerate(r["cenas"]):
             texto = (c.get("texto") or "").strip()
             if not texto:
-                falas.append(None)
                 continue
             voz = vozes.get(c.get("quem")) if formato == "dialogo" else vozes.get("narrador")
             try:
-                falas.append(video.gerar_fala(texto, voz or "Friendly_Person"))
+                falas[i] = video.gerar_fala(texto, voz or "Friendly_Person")
                 caracteres += len(texto)
             except Exception as e:
                 print(f"Aviso: fala não gerada ({e})")
-                falas.append(None)
         if caracteres:
             est["custos"].append({"data": estado.agora(), "servico": "fal.ai vozes",
                                   "usd": round(caracteres / 1000 * video.CUSTO_FALA_USD_POR_1000, 3)})
+
+        # 3) Cada cena vira vídeo de verdade (no diálogo, a boca acompanha a fala)
+        segundos_total = 0.0
+        for i, c in enumerate(r["cenas"]):
+            dur_fala = video.duracao_audio(falas[i]) if falas[i] else 0.0
+            segundos = max(3.0, min(6.0, dur_fala + 0.6))
+            audio_sync = falas[i] if formato == "dialogo" and falas[i] and dur_fala >= 2 else None
+            try:
+                imagens[i] = video.animar_imagem(imagens[i], c.get("movimento") or c.get("prompt_imagem", ""),
+                                                 segundos, audio_sync)
+                segundos_total += segundos + 0.4
+            except Exception as e:
+                print(f"Aviso: cena {i + 1} ficou como foto animada ({e})")
+        if segundos_total:
+            est["custos"].append({"data": estado.agora(), "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+                                  "usd": round(segundos_total * video.PRECO_VIDEO_CENA_USD_S, 2)})
+        estado.salvar(est)
 
     trilha = None
     if not cena_local and not config.SIMULAR:
