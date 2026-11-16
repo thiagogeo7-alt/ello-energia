@@ -1,0 +1,36 @@
+# Segmentos de empresas que o agente de prospecção procura.
+#  buscas : o que digitar no Google Maps
+#  cnae   : começo do código de atividade na Receita (base de CNPJ)
+#  angulo : por que a oferta faz sentido para esse tipo de empresa (vai no e-mail)
+#  instrucao (opcional): orientação extra para o robô escrever o e-mail desse segmento
+
+comercio:
+  nome: Pequenos comércios
+  buscas: [padaria, restaurante, supermercado, mercado, academia, pizzaria, açougue, lanchonete, farmácia,
+           loja de roupas, pet shop, sorveteria, hortifruti, salão de beleza, lavanderia, auto peças, oficina mecânica]
+  cnae: ["47", "561", "1091", "9313", "9602", "9601", "4520", "4530"]
+  angulo: geladeiras, fornos, ar-condicionado e iluminação ligados o dia todo pesam na margem do negócio
+
+condominio:
+  nome: Condomínios
+  buscas: [condomínio residencial, administradora de condomínios, condomínio comercial, edifício residencial]
+  cnae: ["8112", "6822"]
+  angulo: elevadores, bombas, iluminação de áreas comuns e portaria pesam na taxa condominial de todos os moradores
+  instrucao: >-
+    Se o nome indicar uma administradora (ex.: "Administração", "Administradora", "Gestão"), fale com ela
+    como quem cuida de vários condomínios e pode levar a economia para os clientes dela.
+
+industria:
+  nome: Indústrias e galpões
+  buscas: [indústria, fábrica, metalúrgica, galpão logístico, indústria alimentícia, gráfica,
+           indústria de plásticos, marcenaria, serralheria]
+  cnae: ["10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26",
+         "27", "28", "29", "30", "31", "32", "33", "5211", "5212"]
+  angulo: máquinas e linhas de produção fazem da energia um dos maiores custos fixos da operação
+
+servicos:
+  nome: Escritórios e serviços
+  buscas: [escritório de contabilidade, imobiliária, escola particular, clínica médica, clínica odontológica,
+           escritório de advocacia, laboratório de análises, hotel, coworking, clínica veterinária]
+  cnae: ["69", "6821", "85", "86", "75", "551", "7020", "7111", "7112"]
+  angulo: ar-condicionado, computadores e equipamentos ligados em horário comercial deixam a conta alta todo mês

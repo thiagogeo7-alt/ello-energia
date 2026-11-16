@@ -1,1 +1,1 @@
-"""Agente de Instagram da ELLO Energia."""
+"""Agente de Instagram (produto multi-cliente)."""

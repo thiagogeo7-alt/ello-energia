@@ -16,7 +16,7 @@ def enviar(mensagem: str) -> None:
     git("add", "-A")
     if subprocess.run(["git", "-C", str(pasta), "diff", "--cached", "--quiet"]).returncode == 0:
         return
-    git("-c", "user.name=Agente ELLO", "-c", "user.email=agente@users.noreply.github.com",
+    git("-c", f"user.name=Agente {config.NOME_CURTO}", "-c", "user.email=agente@users.noreply.github.com",
         "commit", "-q", "-m", mensagem)
     for _ in range(3):
         if subprocess.run(["git", "-C", str(pasta), "push", "-q", "origin", f"HEAD:{config.DADOS_BRANCH}"]).returncode == 0:
@@ -49,7 +49,7 @@ def publicar_midia(arquivos: list) -> list[str]:
         git("init", "-q")
         git("checkout", "-q", "-b", config.MIDIA_BRANCH)
         git("add", "-A")
-        git("-c", "user.name=Agente ELLO", "-c", "user.email=agente@users.noreply.github.com",
+        git("-c", f"user.name=Agente {config.NOME_CURTO}", "-c", "user.email=agente@users.noreply.github.com",
             "commit", "-q", "-m", "Mídia para publicação")
         git("push", "-q", "-f", url, f"HEAD:{config.MIDIA_BRANCH}")
     return [f"{config.URL_MIDIA_BASE}/{n}" for n in nomes]

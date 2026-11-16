@@ -11,7 +11,7 @@ body{width:1080px;height:1350px;font-family:"Archivo",sans-serif;overflow:hidden
 .claro{background:#fff;color:#0A1A33}
 .ambar{background:#F5A524;color:#0A1A33}
 .marca{display:flex;align-items:center;gap:18px;font-variation-settings:"wdth" 125;font-weight:900;font-size:40px;letter-spacing:.02em}
-.marca svg{width:56px;height:56px}
+.marca svg,.marca img{width:56px;height:56px}
 .num{position:absolute;top:118px;right:96px;font-size:30px;font-weight:700;opacity:.55}
 h1{font-variation-settings:"wdth" 125;font-weight:800;line-height:1.02;letter-spacing:-.02em;margin-top:auto}
 .capa h1{font-size:118px}
@@ -30,13 +30,13 @@ p{font-size:44px;line-height:1.35;margin-top:44px;max-width:860px}
 </head>
 <body>
 <div class="slide {{classe}}">
-  <div class="marca"><svg viewBox="9 9 30 30" fill="none"><path d="M14 24c0-6 4-10 10-10s10 4 10 10-4 10-10 10M34 24c0-6-4-10-10-10s-10 4-10 10 4 10 10 10" stroke="{{cor_logo}}" stroke-width="4.5" stroke-linecap="round"/></svg>ELLO</div>
+  <div class="marca">{{simbolo}}{{nome_curto}}</div>
   <div class="num">{{n}}/{{total}}</div>
   <h1>{{titulo}}</h1>
   <div class="barra"></div>
   <p>{{texto}}</p>
   {{cta}}
-  <div class="rodape"><span>Energia solar compartilhada · Campinas</span><span class="seta">{{seta}}</span></div>
+  <div class="rodape"><span>{{rodape}}</span><span class="seta">{{seta}}</span></div>
 </div>
 </body>
 </html>

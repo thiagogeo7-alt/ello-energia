@@ -1,0 +1,152 @@
+# =====================================================================
+#  FICHA DO CLIENTE: ELLO Energia (nosso cliente nº 1)
+#  Tudo o que muda de um cliente para outro fica aqui, em marca.md e em segmentos.yaml.
+#  Senhas e tokens NUNCA ficam aqui: vão em GitHub → Settings → Secrets.
+# =====================================================================
+
+nome: ELLO Energia            # nome que aparece nos textos
+nome_curto: ELLO              # nome curto (logo do carrossel, assinatura do robô)
+cidade: Campinas
+uf: SP
+site: https://elloeconomia-energia.com/
+
+# Prefixo dos segredos deste cliente no GitHub. A ELLO usa os nomes originais (sem prefixo).
+# Um cliente novo usa, por exemplo, "PADARIA_" → PADARIA_IG_TOKEN, PADARIA_PAINEL_SENHA...
+prefixo_segredos: ""
+
+# Onde ficam os dados de cada agente (a ELLO mantém os nomes que já existiam)
+branches:
+  instagram: dados
+  midia: midia
+  prospeccao: prospeccao-dados
+
+whatsapp:
+  numero: "5519995621927"                 # só números, com 55 e DDD
+  legivel: "(19) 99562-1927"
+  mensagem_instagram: "Oi! Vim pelo Instagram e quero a análise grátis da minha conta de luz"
+
+cores:                      # as cores da marca (tela final dos vídeos e carrosséis)
+  escuro: "#0A1A33"         # texto escuro / contorno das letras
+  fundo: "#0B1626"          # fundo da tela final
+  fundo_brilho: "#1B3A5E"   # brilho no fundo da tela final
+  marinho: "#0E2240"        # faixa da frase final
+  destaque: "#F5B731"       # cor principal de destaque (botões, ícones)
+  destaque_claro: "#F5CF4A" # 2ª linha do título, bordas
+  destaque_carrossel: "#F5A524"
+  secundaria: "#2D6DB0"     # bordas da lista de benefícios
+  secundaria_clara: "#4D9BEA"
+  azul_carrossel: "#2F5BEA"
+  alerta: "#D92D2D"         # etiqueta vermelha (ex.: valor da conta)
+  botao_carrossel: "#1FAF5B"
+
+# ----------------------------- INSTAGRAM -----------------------------
+instagram:
+  ligado: sim                 # "nao" = este cliente fica de fora do piloto automático
+  ig_user_id: "17841463714896383"
+  palavra_chave: ECONOMIZAR   # quem comenta esta palavra recebe o WhatsApp no direct
+  oferta: "a análise da sua conta de luz é grátis"   # o "presente" oferecido em troca do contato
+
+  # Direct automático para quem comenta a palavra-chave ({link} = link do WhatsApp)
+  dm_palavra_chave: |-
+    Oi! Que bom que você quer economizar 😊
+
+    A análise da sua conta de luz é grátis: é só mandar uma foto da sua última conta no nosso WhatsApp que em até 24h te enviamos quanto dá para economizar (até 50%), sem obra e sem placas no telhado.
+
+    👉 {link}
+  dm_padrao: "A análise da sua conta de luz é grátis pelo nosso WhatsApp 😊"
+  resposta_sem_direct: "Que bom! 😊 A análise da sua conta é grátis: manda uma foto dela no nosso WhatsApp {whatsapp} 📲"
+
+  # Tela final dos Reels
+  tela_final:
+    titulo_1: "ENERGIA QUE"
+    titulo_2: "CONECTA"
+    subtitulo: "A SOLUÇÃO PRA CONTA DE LUZ"
+    slogan: "Tudo se conecta."
+    ganhe_1: "e ganhe a análise da sua conta"
+    ganhe_2: "de luz GRÁTIS"
+  virada_padrao: "TEM JEITO!"
+
+  rodape_carrossel: "Energia solar compartilhada · Campinas"
+  simbolo_carrossel: marca/simbolo-carrossel.svg   # símbolo pequeno no canto dos carrosséis
+
+  # Exemplos que orientam o roteirista nos 3 formatos de Reels
+  exemplo_explicativo: "sol → usina solar → rede da distribuidora → crédito na conta → economia e planeta mais limpo"
+  exemplo_reacao: "susto com a conta"
+  exemplo_animacao: "sol brilhando, energia fluindo pelos fios, números caindo"
+  exemplo_dialogo: "the woman on the left talks to her neighbor, gesturing with the bill"
+  paleta_desenho: "navy blue (#0E2240) and golden yellow (#F5B731)"   # cores dos desenhos (em inglês)
+  ambientes: "cozinha, sala, varanda, escritório, padaria, salão, academia, portaria de condomínio, café"
+
+  # Argumentos dos Reels (o agente faz rodízio e não repete os 3 últimos)
+  argumentos:
+    - "Planeta e bolso: energia limpa do sol, menos CO₂, e economia de até 50% na conta"
+    - "Bolso: a conta de luz alta pesando no orçamento da casa"
+    - "Como funciona: usina solar gera energia, ela entra na rede e vira crédito na sua conta"
+    - "Sem obra e sem placa: serve para apartamento, casa alugada ou quem não tem telhado"
+    - "Comércio: energia é custo fixo e economizar nela sobra dinheiro todo mês"
+    - "Mesma distribuidora: nada muda na rotina, a economia aparece direto na fatura"
+    - "Condomínio: áreas comuns, elevador e portaria com conta menor para todos"
+    - "Mitos x verdades: precisa de placa? é caro? muda a distribuidora?"
+
+  # Opções técnicas (podem ser trocadas por variáveis do GitHub)
+  modo_cena: imagem
+  reels_teste: sim
+  copiar_stories: sim
+
+# ----------------------------- PROSPECÇÃO -----------------------------
+prospeccao:
+  ligado: sim
+  email_remetente: comercial@elloeconomia-energia.com
+  nome_remetente: "Claudio | ELLO Energia"
+  assistente: Claudio                 # nome do assistente virtual que assina os e-mails
+  smtp_host: smtp.hostinger.com
+  imap_host: imap.hostinger.com
+  link_agenda: https://cal.com/ello-energia/conversa
+  rodape_empresa: "Ello Global LTDA · CNPJ 69.972.832/0001-76 · Campinas/SP"
+  limite_dia: 30
+  buscas_google_mes: 900
+  municipio_receita: "6291"           # código da cidade na Receita (vazio = o agente descobre sozinho)
+
+  # O que a empresa oferece, em uma frase (vai em todos os e-mails)
+  beneficio_central: >-
+    economia de até 50% na conta de luz com energia solar compartilhada, sem obra,
+    sem placas e sem investimento, continuando com a mesma distribuidora
+  # Resumo para o robô que responde os e-mails
+  resumo_oferta: "energia solar compartilhada, economia de até 50% na conta de luz, sem obra, sem placas, sem investimento, mesma distribuidora"
+  # O que pedir para quem demonstra interesse
+  pedido_interessado: "peça uma foto ou PDF da última conta de luz para a simulação"
+  convite_pergunta: "convide para a simulação"
+  pergunta_final_exemplo: "Faz sentido eu te mandar uma simulação?"
+  # Regras extras só dos e-mails
+  regras: |-
+    - Nunca mencione fidelidade, multa, contrato ou cancelamento.
+  regras_respostas: |-
+    Nunca fale de fidelidade, multa, contrato ou cancelamento por e-mail: se perguntarem, diga que há diferentes
+    opções e que o consultor explica tudo na conversa, e convide para agendar.
+    Nunca prometa valores exatos, preços ou mais de 50% de economia. Nunca peça dados pessoais além da conta de luz.
+  resposta_reserva: "Obrigado pelo retorno! Pode me mandar uma foto da última conta de luz?"
+
+  # E-mails prontos usados se o Claude falhar ({empresa}, {tipo}, {angulo})
+  modelos:
+    inicial:
+      assunto: "conta de luz - {empresa}"
+      corpo: |-
+        Olá, tudo bem?
+
+        Sou da ELLO Energia, aqui de Campinas. Ajudamos {tipo} a pagar até 50% menos na conta de luz com energia solar compartilhada: sem obra, sem placas e sem investimento. Vocês continuam com a mesma distribuidora.
+
+        No caso de vocês, {angulo}.
+
+        Faz sentido eu te mandar uma simulação com base na última conta?
+    lembrete1:
+      assunto: "re: conta de luz - {empresa}"
+      corpo: "Olá! Passando para saber se viu minha mensagem. Com uma conta de luz recente eu consigo te mostrar, sem compromisso, quanto a {empresa} economizaria por mês. Posso te mandar?"
+    lembrete2:
+      assunto: "re: conta de luz - {empresa}"
+      corpo: "Olá! Não quero lotar sua caixa, então esta é minha última mensagem. Se em algum momento quiserem reduzir a conta de luz, é só responder este e-mail. Obrigado!"
+
+  # Bairros onde o agente procura empresas no Google (vazio = o agente sugere sozinho)
+  bairros: [Centro, Cambuí, Taquaral, Barão Geraldo, Sousas, Castelo, Guanabara, Nova Campinas, Ouro Verde,
+            Campos Elíseos, Jardim Proença, Bonfim, Vila Industrial, Swift, Parque Prado, Chapadão, Botafogo,
+            São Bernardo, Vila Itapura, Jardim do Trevo, Parque Industrial, Jardim Aurélia, Bosque,
+            Mansões Santo Antônio, Jardim Garcia, Vila Nova, Jardim Nova Europa, DIC]

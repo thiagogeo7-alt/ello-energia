@@ -4,27 +4,24 @@ import re
 
 from . import claude, config, emailer, estado
 
-SISTEMA = f"""Você cuida das respostas aos e-mails de prospecção da ELLO Energia (energia solar compartilhada,
-economia de até 50% na conta de luz, sem obra, sem placas, sem investimento, mesma distribuidora).
+SISTEMA = f"""Você cuida das respostas aos e-mails de prospecção da {config.NOME} ({config.P.get("resumo_oferta") or ""}).
 
 Para cada e-mail recebido, classifique e, quando for o caso, escreva a resposta (português, até 80 palavras,
 tom humano e cordial, sem assinatura, que é adicionada automaticamente):
 
 - "interessado": quer saber mais, pediu simulação/proposta, perguntou como funciona com interesse.
-  Resposta: agradeça, peça uma foto ou PDF da última conta de luz para a simulação e ofereça os caminhos:
+  Resposta: agradeça, {config.P.get("pedido_interessado") or "pergunte o melhor horário para conversar"} e ofereça os caminhos:
   {"agendar uma conversa rápida pelo link " + config.LINK_AGENDA if config.LINK_AGENDA else "marcar uma conversa rápida"}
   ou chamar no WhatsApp {config.WHATSAPP}.
-- "pergunta": fez uma dúvida específica. Responda com fatos da marca e convide para a simulação.
+- "pergunta": fez uma dúvida específica. Responda com fatos da marca e {config.P.get("convite_pergunta") or "convide para uma conversa"}.
 - "nao_interessado": não tem interesse agora. Resposta: agradeça em uma frase, sem insistir.
 - "descadastro": pediu para sair/não receber mais. Resposta: confirme em uma frase que não enviaremos mais nada.
 - "ausente": resposta automática de férias/ausência. Sem resposta.
 - "outro": qualquer coisa que precise de uma pessoa (reclamação, assunto fora do tema). Sem resposta.
 
-Os e-mails são assinados por "Claudio", o assistente virtual da ELLO. Se perguntarem se é robô, IA ou pessoa,
-responda com honestidade que é o assistente virtual da ELLO e que um consultor da equipe atende na conversa.
-Nunca fale de fidelidade, multa, contrato ou cancelamento por e-mail: se perguntarem, diga que há diferentes
-opções e que o consultor explica tudo na conversa, e convide para agendar.
-Nunca prometa valores exatos, preços ou mais de 50% de economia. Nunca peça dados pessoais além da conta de luz.
+Os e-mails são assinados por "{config.ASSISTENTE}", o assistente virtual da {config.NOME_CURTO}. Se perguntarem se é robô, IA ou pessoa,
+responda com honestidade que é o assistente virtual da {config.NOME_CURTO} e que um consultor da equipe atende na conversa.
+{(config.P.get("regras_respostas") or "Nunca prometa valores exatos nem preços. Nunca peça dados pessoais.").strip()}
 
 Fatos da marca:
 {config.MARCA[:2000]}
@@ -94,7 +91,7 @@ def executar() -> None:
         itens = [{"n": i, "empresa": c.get("empresa", ""), "assunto": m["assunto"], "texto": m["texto"][:1500]}
                  for i, (c, m) in enumerate(pendentes)]
         sim = {"respostas": [{"n": i, "classe": "descadastro" if "sair" in m["texto"].lower() else "interessado",
-                              "resumo": m["texto"][:80], "resposta": "Obrigado pelo retorno! Pode me mandar uma foto da última conta de luz?"}
+                              "resumo": m["texto"][:80], "resposta": config.P.get("resposta_reserva") or "Obrigado pelo retorno! Qual o melhor horário para conversarmos?"}
                              for i, (c, m) in enumerate(pendentes)]}
         decisoes = {d["n"]: d for d in claude.perguntar_json(
             SISTEMA, "E-mails recebidos:\n" + json.dumps(itens, ensure_ascii=False, indent=1)

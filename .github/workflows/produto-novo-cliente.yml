@@ -1,0 +1,101 @@
+name: Produto - Novo cliente (cria a ficha com IA)
+
+on:
+  workflow_dispatch:
+    inputs:
+      nome:
+        description: "Nome da empresa"
+        type: string
+        required: true
+      cidade:
+        description: "Cidade"
+        type: string
+        required: true
+      uf:
+        description: "Estado (sigla, ex.: SP)"
+        type: string
+        required: true
+      whatsapp:
+        description: "WhatsApp com DDD (ex.: 19 99999-1234)"
+        type: string
+        required: true
+      site:
+        description: "Site ou Instagram (opcional)"
+        type: string
+        default: ""
+      descricao:
+        description: "O que a empresa faz, para quem, diferenciais e o que oferece de presente (ex.: avaliação grátis)"
+        type: string
+        required: true
+      b2b:
+        description: "Vende para outras empresas? (liga o agente de prospecção)"
+        type: choice
+        options: ["nao", "sim"]
+        default: "nao"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: produto-novo-cliente
+  cancel-in-progress: false
+
+jobs:
+  criar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -q pyyaml requests
+
+      - name: Criar a pasta do cliente
+        id: criar
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOME: ${{ inputs.nome }}
+          CIDADE: ${{ inputs.cidade }}
+          UF: ${{ inputs.uf }}
+          WHATS: ${{ inputs.whatsapp }}
+          SITE: ${{ inputs.site }}
+          DESCRICAO: ${{ inputs.descricao }}
+          B2B: ${{ inputs.b2b }}
+        run: |
+          python nucleo/novo_cliente.py --nome "$NOME" --cidade "$CIDADE" --uf "$UF" --whatsapp "$WHATS" \
+            --site "$SITE" --descricao "$DESCRICAO" --vende-para-empresas "$B2B" | tee saida.txt
+          PASTA=$(grep -o 'clientes/[a-z0-9-]*/' saida.txt | head -1)
+          echo "pasta=$PASTA" >> "$GITHUB_OUTPUT"
+
+      - name: Guardar no repositório
+        env:
+          PASTA: ${{ steps.criar.outputs.pasta }}
+          NOME: ${{ inputs.nome }}
+        run: |
+          git config user.name "agente-produto"; git config user.email "agente-produto@users.noreply.github.com"
+          git add "$PASTA" && git commit -qm "Novo cliente: $NOME (desligado, aguardando revisão)"
+          git push -q
+
+      - name: Próximos passos
+        env:
+          PASTA: ${{ steps.criar.outputs.pasta }}
+          NOME: ${{ inputs.nome }}
+        run: |
+          ID=$(basename "$PASTA"); PREFIXO=$(echo "$ID" | tr 'a-z-' 'A-Z_')_
+          {
+            echo "## Cliente criado: $NOME"
+            echo "Pasta: \`$PASTA\` (nasce **desligado**)."
+            echo ""
+            echo "1. Revise \`${PASTA}marca.md\` e \`${PASTA}cliente.yaml\` (e \`segmentos.yaml\`, se vende para empresas)."
+            echo "2. Coloque o logo em \`${PASTA}marca/logo.svg\` ou \`logo.png\`."
+            echo "3. Cadastre os segredos em Settings → Secrets → Actions com o prefixo **${PREFIXO}**:"
+            echo "   \`${PREFIXO}IG_TOKEN\`, \`${PREFIXO}PAINEL_SENHA\` e, se tiver prospecção, \`${PREFIXO}SMTP_SENHA\` e \`${PREFIXO}GOOGLE_MAPS_KEY\`."
+            echo "4. Teste: Actions → Instagram - Verificar conexão → Run workflow com cliente = \`$ID\`."
+            echo "5. Gere uma prévia: Instagram - Reels → cliente = \`$ID\`, marque *Só gerar a prévia*."
+            echo "6. Aprovado? Em \`cliente.yaml\` mude \`ligado: nao\` para \`ligado: sim\`."
+            echo ""
+            echo "Painel do cliente: https://elloeconomia-energia.com/painel/?cliente=$ID&nome=$(python3 -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.argv[1]))' "$NOME")"
+          } >> "$GITHUB_STEP_SUMMARY"

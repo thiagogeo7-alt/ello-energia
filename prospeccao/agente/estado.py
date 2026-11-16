@@ -19,7 +19,7 @@ from . import config
 
 SENHA = (os.getenv("PAINEL_SENHA") or "").strip()
 ITER = 200_000
-BRANCH = "prospeccao-dados"
+BRANCH = config.BRANCH_DADOS
 REPO = os.getenv("GITHUB_REPOSITORY", "thiagogeo7-alt/ello-energia")
 MAX_CONTATOS = int(os.getenv("MAX_CONTATOS", "6000"))
 
@@ -91,6 +91,8 @@ def _resumo(crm: dict) -> dict:
         "com_email": sum(1 for c in cont if c.get("email")),
         "por_status": dict(por_status),
         "por_segmento": {k: dict(v) for k, v in por_seg.items()},
+        "nomes_segmentos": {k: v.get("nome", k) for k, v in (config.SEGMENTOS or {}).items()},
+        "cliente": config.NOME,
         "por_fonte": dict(Counter(c.get("fonte", "?") for c in cont)),
         "envios_por_dia": {d: n for d, n in crm["envios_por_dia"].items()
                            if d >= limite.date().isoformat()},
@@ -159,6 +161,6 @@ def enviar_github() -> None:
         git("init", "-q")
         git("checkout", "-q", "-b", BRANCH)
         git("add", "-A")
-        git("-c", "user.name=Agente ELLO", "-c", "user.email=agente@users.noreply.github.com",
+        git("-c", f"user.name=Agente {config.NOME_CURTO}", "-c", "user.email=agente@users.noreply.github.com",
             "commit", "-q", "-m", f"Prospecção {iso()}")
         git("push", "-q", "-f", url, f"HEAD:{BRANCH}")

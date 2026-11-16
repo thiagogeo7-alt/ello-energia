@@ -1,0 +1,10 @@
+# Tipos de empresa que o agente de prospecção procura (só para quem vende para empresas).
+#  buscas : o que digitar no Google Maps
+#  cnae   : começo do código de atividade na Receita (consulte em concla.ibge.gov.br)
+#  angulo : por que a oferta faz sentido para esse tipo de empresa
+
+exemplo:
+  nome: Clínicas
+  buscas: [clínica médica, clínica odontológica]
+  cnae: ["86"]
+  angulo: agenda cheia depende de pacientes novos todo mês

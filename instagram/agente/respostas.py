@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 
 from . import claude, config, estado, instagram
 
-SISTEMA = f"""Você atende o Instagram da ELLO Energia. Responde comentários e mensagens
+SISTEMA = f"""Você atende o Instagram da {config.NOME}. Responde comentários e mensagens
 com simpatia, em português do Brasil, em no máximo 2 frases curtas. Siga o guia da marca.
 
 {config.MARCA}
@@ -14,13 +14,13 @@ Como decidir (todo comentário que não for spam vira contato no WhatsApp):
   "resposta": resposta pública curta (até 1 frase) avisando que mandou no direct, variando o texto
     (ex.: "Te mandei no direct! 📩", "Olha seu direct 😉"). Para elogios, agradeça e avise do direct.
   "dm": mensagem privada de 1 a 3 frases: responda a dúvida (se houver) e convide para o WhatsApp,
-    onde a análise da conta é grátis. NÃO coloque o link: ele é adicionado automaticamente.
+    onde {config.OFERTA}. NÃO coloque o link: ele é adicionado automaticamente.
 - Para MENSAGENS DIRETAS (tipo "dm"): "resposta" responde a dúvida em até 2 frases e convida para o WhatsApp
   {config.LINK_WHATSAPP_IG} (link sem ponto final logo depois)
 - "interesse": true quando houver pergunta ou interesse (preço, como funciona, "quero", valor da conta etc.).
 - Crítica: responda com respeito, sem discutir, e ofereça ajuda no WhatsApp.
 - Spam, ofensa, golpe, política ou algo sem relação: "acao": "ignorar".
-- Nunca prometa valores exatos nem mais de 50% de economia. Nunca peça dados pessoais por ali.
+- Nunca prometa valores exatos. Nunca peça dados pessoais por ali.
 
 Responda SOMENTE com JSON."""
 
@@ -38,17 +38,13 @@ def _recente(ts: str, dias: int = 7) -> bool:
     return data > datetime.now(timezone.utc) - timedelta(days=dias)
 
 
-DM_PALAVRA_CHAVE = (
-    "Oi! Que bom que você quer economizar 😊\n\n"
-    "A análise da sua conta de luz é grátis: é só mandar uma foto da sua última conta no nosso WhatsApp "
-    "que em até 24h te enviamos quanto dá para economizar (até 50%%), sem obra e sem placas no telhado.\n\n"
-    "👉 %s" % config.LINK_WHATSAPP_IG
-)
+DM_PALAVRA_CHAVE = config.texto_whatsapp(config.IG.get("dm_palavra_chave") or (
+    "Oi! Que bom que você se interessou 😊\n\nFale com a gente no WhatsApp:\n\n👉 {link}"))
 RESPOSTAS_PUBLICAS = ["Te chamei no direct! 📩", "Mandei no seu direct! 😉", "Olha o direct! ⚡", "Já te enviei no direct! 📲"]
 
 
 def _palavras_chave(est: dict) -> set[str]:
-    palavras = {"ECONOMIZAR"}
+    palavras = {config.PALAVRA_CHAVE}
     palavras |= {p["palavra_chave"].upper() for p in est["publicacoes"][-20:] if p.get("palavra_chave")}
     return palavras
 
@@ -78,8 +74,8 @@ def executar() -> None:
                         publica = RESPOSTAS_PUBLICAS[len(feitos_c) % len(RESPOSTAS_PUBLICAS)]
                     except Exception as e:
                         print(f"Direct indisponível para {c['id']} ({e}); WhatsApp vai na resposta pública")
-                        publica = ("Que bom! 😊 A análise da sua conta é grátis: manda uma foto dela no nosso "
-                                   f"WhatsApp {config.WHATSAPP_LEGIVEL} 📲")
+                        publica = config.texto_whatsapp(config.IG.get("resposta_sem_direct")
+                                                         or "Que bom! 😊 Chama no nosso WhatsApp {whatsapp} 📲")
                     instagram.responder_comentario(c["id"], publica)
                 except Exception as e:
                     print(f"Falha ao responder a palavra-chave {c['id']}: {e}")
@@ -136,7 +132,7 @@ def executar() -> None:
             if d.get("acao") == "responder" and d.get("resposta"):
                 if p["tipo"] == "comentario":
                     # Manda o WhatsApp no direct e avisa em público; se o direct falhar, o número vai na resposta pública
-                    dm = (d.get("dm") or "A análise da sua conta de luz é grátis pelo nosso WhatsApp 😊").strip()
+                    dm = (d.get("dm") or config.IG.get("dm_padrao") or "Fale com a gente pelo WhatsApp 😊").strip()
                     try:
                         instagram.resposta_privada(p["id"], f"{dm}\n\n👉 {config.LINK_WHATSAPP_IG}")
                         publica = d["resposta"]

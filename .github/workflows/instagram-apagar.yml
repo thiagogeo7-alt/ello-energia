@@ -3,6 +3,10 @@ name: Instagram - Apagar publicação
 on:
   workflow_dispatch:
     inputs:
+      cliente:
+        description: "Cliente (nome da pasta em clientes/; todos = todos os ligados)"
+        type: string
+        default: ello
       media_id:
         description: "ID da publicação a apagar (não tem volta)"
         type: string
@@ -11,12 +15,29 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: agente-instagram
-  cancel-in-progress: false
 
 jobs:
+  clientes:
+    runs-on: ubuntu-latest
+    outputs:
+      lista: ${{ steps.lista.outputs.lista }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: lista
+        run: pip install -q pyyaml && python nucleo/lista.py instagram "${{ github.event_name == 'schedule' && 'todos' || inputs.cliente }}" >> "$GITHUB_OUTPUT"
+
   rodar:
+    needs: clientes
+    if: needs.clientes.outputs.lista != '[]'
+    name: ${{ matrix.cliente }}
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include: ${{ fromJSON(needs.clientes.outputs.lista) }}
+    concurrency:
+      group: agente-instagram-${{ matrix.cliente }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -25,12 +46,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Baixar os dados do agente (branch "dados")
+      - name: Baixar os dados do agente (branch do cliente)
         env:
           URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
         run: |
-          git clone -q --depth 20 --branch dados "$URL" dados 2>/dev/null || {
-            mkdir -p dados && cd dados && git init -q && git checkout -q -b dados && git remote add origin "$URL"; }
+          git clone -q --depth 20 --branch "${{ matrix.dados }}" "$URL" dados 2>/dev/null || {
+            mkdir -p dados && cd dados && git init -q && git checkout -q -b "${{ matrix.dados }}" && git remote add origin "$URL"; }
 
       - uses: actions/setup-python@v5
         with:
@@ -44,12 +65,9 @@ jobs:
         env:
           SIMULAR: '0'
           DADOS_DIR: ${{ github.workspace }}/instagram/dados
-          IG_TOKEN: ${{ secrets.IG_TOKEN }}
-          IG_USER_ID: ${{ secrets.IG_USER_ID }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          FAL_KEY: ${{ secrets.FAL_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
-          MODO_CENA: ${{ vars.MODO_CENA }}
-          PAINEL_SENHA: ${{ secrets.PAINEL_SENHA }}
           MEDIA_ID: ${{ inputs.media_id }}
+          CLIENTE: ${{ matrix.cliente }}
+          SEGREDOS_JSON: ${{ toJSON(secrets) }}
+          VARIAVEIS_JSON: ${{ toJSON(vars) }}
         run: python -m agente apagar "$MEDIA_ID"

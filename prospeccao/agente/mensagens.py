@@ -2,22 +2,23 @@
 import json
 
 from . import claude, config
-from .segmentos import SEGMENTOS
+from .segmentos import SEGMENTO_PADRAO, SEGMENTOS
 
-SISTEMA = f"""Você escreve e-mails de prospecção B2B para a ELLO Energia, em português do Brasil.
+_INSTRUCOES_SEG = "\n".join(f"- Segmento {s['nome']}: {s['instrucao'].strip()}"
+                            for s in SEGMENTOS.values() if s.get("instrucao"))
+
+SISTEMA = f"""Você escreve e-mails de prospecção B2B para a {config.NOME}, em português do Brasil.
 Objetivo: conseguir uma resposta ou uma conversa rápida. Tom: humano, direto, respeitoso, sem cara de spam.
 
 Regras:
 - No máximo 90 palavras no corpo. Parágrafos curtos. Texto simples, sem negrito, sem emojis.
 - Personalize com o nome da empresa e o tipo de negócio. Nunca invente fatos sobre a empresa.
-- Benefício central: economia de até 50% na conta de luz com energia solar compartilhada, sem obra,
-  sem placas e sem investimento, continuando com a mesma distribuidora.
-- Nunca mencione fidelidade, multa, contrato ou cancelamento.
-- Termine com UMA pergunta simples de sim/não (ex.: "Faz sentido eu te mandar uma simulação?").
+- Benefício central: {" ".join(str(config.P.get("beneficio_central") or "").split())}.
+{(config.P.get("regras") or "").strip()}
+- Termine com UMA pergunta simples de sim/não (ex.: "{config.P.get("pergunta_final_exemplo") or "Faz sentido conversarmos 15 minutos?"}").
 - Não coloque links no primeiro e-mail. Não use palavras como "grátis!!!", "promoção", "imperdível".
 - Assunto curto (até 6 palavras), em minúsculas, natural, sem ponto de exclamação.
-- Se o segmento for condomínio mas o nome indicar uma administradora (ex.: "Administração", "Administradora", "Gestão"),
-  fale com ela como quem cuida de vários condomínios e pode levar a economia para os clientes dela.
+{_INSTRUCOES_SEG}
 - Não escreva assinatura nem rodapé: eles são adicionados automaticamente.
 
 Fatos da marca que você pode usar:
@@ -31,23 +32,18 @@ TIPOS = {
     "lembrete2": "último lembrete, 7 dias depois: até 40 palavras, educado, dizendo que não vai insistir mais",
 }
 
-MODELOS = {
-    "inicial": ("conta de luz - {empresa}",
-                "Olá, tudo bem?\n\nSou da ELLO Energia, aqui de Campinas. Ajudamos {tipo} a pagar até 50% menos "
-                "na conta de luz com energia solar compartilhada: sem obra, sem placas e sem investimento. "
-                "Vocês continuam com a mesma distribuidora.\n\nNo caso de vocês, {angulo}.\n\n"
-                "Faz sentido eu te mandar uma simulação com base na última conta?"),
-    "lembrete1": ("re: conta de luz - {empresa}",
-                  "Olá! Passando para saber se viu minha mensagem. Com uma conta de luz recente eu consigo te mostrar, "
-                  "sem compromisso, quanto a {empresa} economizaria por mês. Posso te mandar?"),
-    "lembrete2": ("re: conta de luz - {empresa}",
-                  "Olá! Não quero lotar sua caixa, então esta é minha última mensagem. Se em algum momento quiserem "
-                  "reduzir a conta de luz, é só responder este e-mail. Obrigado!"),
+_PADRAO = {
+    "inicial": ("contato - {empresa}", "Olá, tudo bem?\n\nSou da " + config.NOME + ". Ajudamos {tipo} a crescer.\n\n"
+                "No caso de vocês, {angulo}.\n\nFaz sentido conversarmos 15 minutos?"),
+    "lembrete1": ("re: contato - {empresa}", "Olá! Passando para saber se viu minha mensagem. Posso te explicar em 15 minutos?"),
+    "lembrete2": ("re: contato - {empresa}", "Olá! Esta é minha última mensagem. Se precisarem, é só responder este e-mail. Obrigado!"),
 }
+MODELOS = {t: ((config.P.get("modelos") or {}).get(t, {}).get("assunto") or _PADRAO[t][0],
+               (config.P.get("modelos") or {}).get(t, {}).get("corpo") or _PADRAO[t][1]) for t in _PADRAO}
 
 
 def _modelo(c: dict, tipo: str) -> dict:
-    seg = SEGMENTOS.get(c.get("segmento") or "comercio", SEGMENTOS["comercio"])
+    seg = SEGMENTOS.get(c.get("segmento") or "", SEGMENTOS.get(SEGMENTO_PADRAO) or {"nome": "empresas", "angulo": ""})
     empresa = c.get("empresa") or "sua empresa"
     a, b = MODELOS[tipo]
     fmt = {"empresa": empresa, "tipo": seg["nome"].lower(), "angulo": seg["angulo"]}

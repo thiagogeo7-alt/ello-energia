@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 
 from . import config, emailer, estado, mensagens
-from .segmentos import SEGMENTOS
+from .segmentos import SEGMENTO_PADRAO, SEGMENTOS
 
 
 def limite_hoje(crm: dict) -> int:
@@ -43,7 +43,7 @@ def _novos(crm: dict, n: int) -> list[tuple[dict, str]]:
     por_seg = {k: [] for k in SEGMENTOS}
     for c in crm["contatos"].values():
         if c["status"] == "novo" and not EVITAR.search(c.get("empresa") or ""):
-            por_seg.setdefault(c.get("segmento") or "comercio", []).append(c)
+            por_seg.setdefault(c.get("segmento") or SEGMENTO_PADRAO, []).append(c)
     for lst in por_seg.values():
         lst.sort(key=lambda c: (c.get("fonte") != "site", c.get("criado", "")))
     escolhidos = []

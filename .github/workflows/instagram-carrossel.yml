@@ -6,6 +6,10 @@ on:
     - cron: "13 15,16,17,18,19,20 * * 2,4"
   workflow_dispatch:
     inputs:
+      cliente:
+        description: "Cliente (nome da pasta em clientes/; todos = todos os ligados)"
+        type: string
+        default: ello
       simular:
         description: "Simular (não publica nem gasta)"
         type: boolean
@@ -14,35 +18,31 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: agente-instagram
-  cancel-in-progress: false
 
 jobs:
-  verificar:
-    # Execuções agendadas: o GitHub às vezes pula horários, então tentamos várias vezes no dia
-    # e este passo garante que só a primeira tentativa que der certo publica.
-    if: github.event_name == 'schedule' && vars.AGENTE_ATIVO == 'sim'
+  clientes:
+    # Agendamentos só rodam depois que a variável AGENTE_ATIVO = sim for criada no GitHub
+    if: github.event_name == 'workflow_dispatch' || vars.AGENTE_ATIVO == 'sim'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     outputs:
-      rodar: ${{ steps.decisao.outputs.rodar }}
+      lista: ${{ steps.lista.outputs.lista }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: instagram/agenda.py
-          sparse-checkout-cone-mode: false
-      - id: decisao
-        env:
-          URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
-        run: |
-          git clone -q --depth 1 --branch dados "$URL" dados 2>/dev/null || mkdir -p dados
-          python3 instagram/agenda.py carrossel dados/estado.json >> "$GITHUB_OUTPUT"
+      - id: lista
+        run: pip install -q pyyaml && python nucleo/lista.py instagram "${{ github.event_name == 'schedule' && 'todos' || inputs.cliente }}" >> "$GITHUB_OUTPUT"
 
   rodar:
-    needs: verificar
-    # Manual: roda sempre. Agendado: só quando o verificador mandar publicar.
-    if: always() && (github.event_name == 'workflow_dispatch' || needs.verificar.outputs.rodar == 'true')
+    needs: clientes
+    if: needs.clientes.outputs.lista != '[]'
+    name: ${{ matrix.cliente }}
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include: ${{ fromJSON(needs.clientes.outputs.lista) }}
+    concurrency:
+      group: agente-instagram-${{ matrix.cliente }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 25
     defaults:
@@ -51,12 +51,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Baixar os dados do agente (branch "dados")
+      - name: Baixar os dados do agente (branch do cliente)
         env:
           URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
         run: |
-          git clone -q --depth 20 --branch dados "$URL" dados 2>/dev/null || {
-            mkdir -p dados && cd dados && git init -q && git checkout -q -b dados && git remote add origin "$URL"; }
+          git clone -q --depth 20 --branch "${{ matrix.dados }}" "$URL" dados 2>/dev/null || {
+            mkdir -p dados && cd dados && git init -q && git checkout -q -b "${{ matrix.dados }}" && git remote add origin "$URL"; }
 
       - uses: actions/setup-python@v5
         with:
@@ -72,11 +72,8 @@ jobs:
         env:
           SIMULAR: ${{ inputs.simular && '1' || '0' }}
           DADOS_DIR: ${{ github.workspace }}/instagram/dados
-          IG_TOKEN: ${{ secrets.IG_TOKEN }}
-          IG_USER_ID: ${{ secrets.IG_USER_ID }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          FAL_KEY: ${{ secrets.FAL_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
-          MODO_CENA: ${{ vars.MODO_CENA }}
-          PAINEL_SENHA: ${{ secrets.PAINEL_SENHA }}
+          CLIENTE: ${{ matrix.cliente }}
+          SEGREDOS_JSON: ${{ toJSON(secrets) }}
+          VARIAVEIS_JSON: ${{ toJSON(vars) }}
         run: python -m agente carrossel

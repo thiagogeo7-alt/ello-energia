@@ -183,7 +183,17 @@ ul.linha time{color:var(--muted);font-size:.8rem}
 (function(){
   "use strict";
   var REPO = "thiagogeo7-alt/ello-energia";
-  var BASE = new URLSearchParams(location.search).get("fonte") || ("https://raw.githubusercontent.com/" + REPO + "/dados/");
+  var Q = new URLSearchParams(location.search);
+  /* Cada cliente tem o próprio painel: /painel/?cliente=nome-da-pasta&nome=Nome+da+Empresa (a ELLO é o padrão) */
+  var CLIENTE = (Q.get("cliente") || "ello").toLowerCase().replace(/[^a-z0-9-]/g, "");
+  var SUF = CLIENTE === "ello" ? "" : "-" + CLIENTE;
+  if (CLIENTE !== "ello") {
+    var nomeCli = Q.get("nome") || CLIENTE;
+    document.title = "Painel de marketing | " + nomeCli;
+    var mc = document.querySelector(".marca");
+    if (mc) { var sv = mc.querySelector("svg"); if (sv) sv.remove(); mc.querySelector("b").textContent = nomeCli; }
+  }
+  var BASE = Q.get("fonte") || ("https://raw.githubusercontent.com/" + REPO + "/" + (SUF ? "dados" + SUF : "dados") + "/");
   var fmt = new Intl.NumberFormat("pt-BR");
   var usd = new Intl.NumberFormat("pt-BR", {style:"currency", currency:"USD", minimumFractionDigits:2});
   var dataBR = function(iso){ var d = new Date(iso); return isNaN(d) ? "-" : d.toLocaleDateString("pt-BR", {day:"2-digit", month:"2-digit"}); };
@@ -355,7 +365,7 @@ ul.linha time{color:var(--muted);font-size:.8rem}
   }
 
   /* ================= PROSPECÇÃO ================= */
-  var PBASE = new URLSearchParams(location.search).get("fonteP") || ("https://raw.githubusercontent.com/" + REPO + "/prospeccao-dados/");
+  var PBASE = Q.get("fonteP") || ("https://raw.githubusercontent.com/" + REPO + "/prospeccao-dados" + SUF + "/");
   var SEGN = {comercio:"Pequenos comércios", condominio:"Condomínios", industria:"Indústrias e galpões", servicos:"Escritórios e serviços", outros:"Outros"};
   var PEV = {envio_inicial:"Primeiro e-mail enviado", envio_lembrete1:"1º lembrete enviado", envio_lembrete2:"Último lembrete enviado",
     resposta_interessado:"Resposta: interessado", resposta_pergunta:"Resposta: dúvida respondida", resposta_nao_interessado:"Resposta: sem interesse",
@@ -364,6 +374,7 @@ ul.linha time{color:var(--muted);font-size:.8rem}
   var pct = function(a,b){ return b ? Math.round(a*100/b) + "%" : "–"; };
 
   function pRender(r){
+    if (r.nomes_segmentos) { for (var k in r.nomes_segmentos) { SEGN[k] = r.nomes_segmentos[k]; } }
     var st = r.por_status || {}, n = function(k){ return st[k] || 0; };
     var contatados = Object.keys(st).filter(function(k){ return k !== "novo"; }).reduce(function(a,k){ return a + st[k]; }, 0);
     var responderam = n("interessado") + n("reuniao") + n("descartado") + n("descadastrado") + n("respondeu");

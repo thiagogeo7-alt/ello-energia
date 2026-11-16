@@ -30,13 +30,13 @@ jobs:
           H=$(TZ=America/Sao_Paulo date +%-H); M=$(TZ=America/Sao_Paulo date +%-M); D=$(TZ=America/Sao_Paulo date +%u)
           echo "Agora em Brasília: dia $D, ${H}h${M}"
           if [ "$AGENTE_ATIVO" = "sim" ]; then
-            gh workflow run instagram-respostas.yml -R "$REPO" -f simular=false && echo "→ Instagram: respostas"
+            gh workflow run instagram-respostas.yml -R "$REPO" -f simular=false -f cliente=todos && echo "→ Instagram: respostas"
           fi
           if [ "$PROSPECCAO_ATIVA" = "sim" ] && [ "$D" -le 5 ] && [ "$M" -lt 15 ]; then
             if [ "$H" -ge 8 ] && [ "$H" -le 20 ]; then
-              gh workflow run prospeccao-respostas.yml -R "$REPO" -f simular=false && echo "→ Prospecção: ler respostas"
+              gh workflow run prospeccao-respostas.yml -R "$REPO" -f simular=false -f cliente=todos && echo "→ Prospecção: ler respostas"
             fi
             if [ "$H" = "9" ] || [ "$H" = "14" ]; then
-              gh workflow run prospeccao-envio.yml -R "$REPO" -f simular=false && echo "→ Prospecção: enviar e-mails"
+              gh workflow run prospeccao-envio.yml -R "$REPO" -f simular=false -f cliente=todos && echo "→ Prospecção: enviar e-mails"
             fi
           fi

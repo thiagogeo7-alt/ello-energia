@@ -1,0 +1,97 @@
+# =====================================================================
+#  FICHA DO CLIENTE — copie esta pasta (clientes/_modelo) com o nome do cliente,
+#  por exemplo clientes/clinica-sorriso, e preencha os campos abaixo.
+#  O jeito mais fácil: rode o workflow "Produto - Novo cliente" no GitHub, que cria
+#  esta pasta já preenchida por IA a partir do site e da descrição do cliente.
+#
+#  Senhas e tokens NUNCA ficam aqui. Eles vão no GitHub → Settings → Secrets,
+#  com o prefixo do cliente (ex.: CLINICA_SORRISO_IG_TOKEN).
+# =====================================================================
+
+nome: "NOME DA EMPRESA"
+nome_curto: "NOME"            # aparece no logo do carrossel
+cidade: "Cidade"
+uf: "SP"
+site: "https://site-do-cliente.com.br/"
+# prefixo_segredos: "CLINICA_SORRISO_"   # (opcional) o padrão é o nome da pasta em maiúsculas + "_"
+
+whatsapp:
+  numero: "55DDNUMERO"         # só números, com 55 e DDD
+  legivel: "(DD) 9XXXX-XXXX"
+  mensagem_instagram: "Oi! Vim pelo Instagram e quero saber mais"
+
+cores:                         # use as cores da marca do cliente (códigos #RRGGBB)
+  escuro: "#111827"
+  fundo: "#0F172A"
+  fundo_brilho: "#1E3A5F"
+  marinho: "#1E293B"
+  destaque: "#F59E0B"
+  destaque_claro: "#FCD34D"
+  destaque_carrossel: "#F59E0B"
+  secundaria: "#2563EB"
+  secundaria_clara: "#60A5FA"
+  azul_carrossel: "#2563EB"
+  alerta: "#DC2626"
+  botao_carrossel: "#16A34A"
+
+instagram:
+  ligado: nao                  # mude para "sim" só depois do teste
+  ig_user_id: ""               # opcional (o agente descobre sozinho)
+  palavra_chave: QUERO
+  oferta: "a primeira avaliação é gratuita"
+  dm_palavra_chave: |-
+    Oi! Que bom que você se interessou 😊
+
+    Fale com a nossa equipe no WhatsApp e agende sua avaliação gratuita:
+
+    👉 {link}
+  dm_padrao: "Fale com a gente pelo WhatsApp 😊"
+  resposta_sem_direct: "Que bom! 😊 Chama no nosso WhatsApp {whatsapp} 📲"
+  tela_final:
+    titulo_1: "SUA FRASE"
+    titulo_2: "DE IMPACTO"
+    subtitulo: "O QUE A EMPRESA RESOLVE"
+    slogan: "Slogan da marca."
+    mais: "e muito mais!"
+    ganhe_1: "e ganhe sua"
+    ganhe_2: "avaliação GRÁTIS"
+  virada_padrao: "TEM JEITO!"
+  rodape_carrossel: "O que a empresa faz · Cidade"
+  simbolo_carrossel: ""        # ex.: marca/simbolo.svg (opcional)
+  paleta_desenho: "navy blue and amber"     # cores dos desenhos, em inglês
+  exemplo_explicativo: "problema → como a empresa resolve → resultado"
+  exemplo_reacao: "surpresa com o problema"
+  exemplo_animacao: "setas aparecendo, ícones se mexendo"
+  exemplo_dialogo: "the woman on the left talks to her friend, gesturing"
+  ambientes: "casa, escritório, loja, café, rua"
+  argumentos:
+    - "Dor: o problema que o cliente sente no dia a dia"
+    - "Como funciona: o passo a passo do serviço"
+    - "Mitos x verdades sobre o serviço"
+    - "Resultado: como fica a vida depois de resolver"
+  modo_cena: imagem
+  reels_teste: sim
+  copiar_stories: sim
+
+prospeccao:
+  ligado: nao
+  email_remetente: "contato@dominio-do-cliente.com.br"
+  nome_remetente: "Ana | NOME DA EMPRESA"
+  assistente: "Ana"
+  smtp_host: smtp.hostinger.com
+  imap_host: imap.hostinger.com
+  link_agenda: ""              # link do Google Agenda / Cal.com
+  rodape_empresa: "Razão Social · CNPJ 00.000.000/0001-00 · Cidade/UF"
+  limite_dia: 30
+  buscas_google_mes: 300
+  municipio_receita: ""        # vazio = o agente descobre pelo nome da cidade
+  beneficio_central: "O QUE A EMPRESA ENTREGA E POR QUE ISSO IMPORTA PARA O CLIENTE"
+  resumo_oferta: "resumo da oferta em uma linha"
+  pedido_interessado: "pergunte o melhor dia e horário para uma conversa de 15 minutos"
+  convite_pergunta: "convide para uma conversa rápida"
+  pergunta_final_exemplo: "Faz sentido conversarmos 15 minutos esta semana?"
+  regras: ""
+  regras_respostas: "Nunca prometa preços ou resultados garantidos. Nunca peça dados pessoais."
+  resposta_reserva: "Obrigado pelo retorno! Qual o melhor horário para conversarmos?"
+  modelos: {}                  # opcional: e-mails prontos de reserva
+  bairros: []                  # vazio = o agente sugere os bairros com mais empresas

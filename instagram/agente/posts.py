@@ -1,20 +1,22 @@
-"""Cria um carrossel educativo com a identidade da ELLO e publica no feed."""
+"""Cria um carrossel educativo com a identidade do cliente e publica no feed."""
 import html
 from datetime import datetime
 from pathlib import Path
 
 from . import aprendizado, claude, config, dados_git, estado, instagram
 
-MODELO_HTML = (Path(__file__).parent / "carrossel.html").read_text(encoding="utf-8")
+MODELO_HTML = config.cores((Path(__file__).parent / "carrossel.html").read_text(encoding="utf-8"))
+_ARQ_SIMBOLO = (config.PASTA_CLIENTE / config.IG.get("simbolo_carrossel", "")) if config.IG.get("simbolo_carrossel") else None
+SIMBOLO = _ARQ_SIMBOLO.read_text(encoding="utf-8").strip() if _ARQ_SIMBOLO and _ARQ_SIMBOLO.is_file() else ""
 
-SISTEMA = f"""Você é o redator do Instagram da ELLO Energia. Cria carrosséis educativos,
+SISTEMA = f"""Você é o redator do Instagram da {config.NOME}. Cria carrosséis educativos,
 claros e úteis, que as pessoas salvam e mandam para amigos. Siga à risca o guia da marca.
 
 {config.MARCA}
 
 Responda SOMENTE com um JSON válido."""
 
-PEDIDO = """Crie o próximo carrossel da ELLO (5 slides).
+PEDIDO = """Crie o próximo carrossel da {marca} (5 slides).
 
 Desempenho dos carrosséis anteriores:
 {historico}
@@ -47,10 +49,12 @@ def _renderizar(slides: list[dict], pasta: Path) -> list[Path]:
         for i, s in enumerate(slides, 1):
             classe = ESTILOS[min(i - 1, len(ESTILOS) - 1)]
             tipo = "capa" if i == 1 else ("final" if i == total else "conteudo")
-            cta = f'<div class="cta">WhatsApp (19) 99562-1927</div>' if tipo == "final" else ""
+            cta = f'<div class="cta">WhatsApp {html.escape(config.WHATSAPP_LEGIVEL)}</div>' if tipo == "final" else ""
             doc = (MODELO_HTML
+                   .replace("{{simbolo}}", SIMBOLO).replace("{{nome_curto}}", html.escape(config.NOME_CURTO))
+                   .replace("{{rodape}}", html.escape(config.IG.get("rodape_carrossel") or f"{config.NOME} · {config.CLIENTE.get('cidade', '')}"))
                    .replace("{{classe}}", f"{classe} {tipo}")
-                   .replace("{{cor_logo}}", "#0A1A33" if classe == "ambar" else "#F5A524")
+                   .replace("{{cor_logo}}", config.cores("#0A1A33" if classe == "ambar" else "#F5A524"))
                    .replace("{{n}}", str(i)).replace("{{total}}", str(total))
                    .replace("{{titulo}}", html.escape(s["titulo"]))
                    .replace("{{texto}}", html.escape(s.get("texto", "")))
@@ -70,7 +74,7 @@ def executar() -> dict:
     aprendizado.atualizar_metricas(est)
 
     ideia = claude.perguntar_json(
-        SISTEMA, PEDIDO.format(historico=aprendizado.resumo_para_claude(est, "carrossel")),
+        SISTEMA, PEDIDO.format(historico=aprendizado.resumo_para_claude(est, "carrossel"), marca=config.NOME_CURTO),
         simulado={
             "tema": "Mitos da energia solar", "gancho": "3 mitos que fazem você pagar mais",
             "slides": [

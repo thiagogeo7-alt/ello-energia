@@ -1,1 +1,1 @@
-"""Agente de prospecção da ELLO Energia."""
+"""Agente de prospecção (produto multi-cliente)."""

@@ -6,6 +6,10 @@ on:
     - cron: "0 17 * * 1-5"
   workflow_dispatch:
     inputs:
+      cliente:
+        description: "Cliente (nome da pasta em clientes/; todos = todos os ligados)"
+        type: string
+        default: ello
       simular:
         description: "Simular (não envia e-mails nem gasta cota)"
         type: boolean
@@ -18,13 +22,30 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: prospeccao
-  cancel-in-progress: false
 
 jobs:
-  rodar:
+  clientes:
     if: github.event_name == 'workflow_dispatch' || vars.PROSPECCAO_ATIVA == 'sim'
+    runs-on: ubuntu-latest
+    outputs:
+      lista: ${{ steps.lista.outputs.lista }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: lista
+        run: pip install -q pyyaml && python nucleo/lista.py prospeccao "${{ github.event_name == 'schedule' && 'todos' || inputs.cliente }}" >> "$GITHUB_OUTPUT"
+
+  rodar:
+    needs: clientes
+    if: needs.clientes.outputs.lista != '[]'
+    name: ${{ matrix.cliente }}
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include: ${{ fromJSON(needs.clientes.outputs.lista) }}
+    concurrency:
+      group: prospeccao-${{ matrix.cliente }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
@@ -36,7 +57,7 @@ jobs:
       - name: Baixar os dados da prospecção
         env:
           URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
-        run: git clone -q --depth 1 --branch prospeccao-dados "$URL" dados/prospeccao 2>/dev/null || mkdir -p dados/prospeccao
+        run: git clone -q --depth 1 --branch "${{ matrix.prospeccao }}" "$URL" dados/prospeccao 2>/dev/null || mkdir -p dados/prospeccao
 
       - uses: actions/setup-python@v5
         with:
@@ -51,16 +72,7 @@ jobs:
           SIMULAR: ${{ (inputs.simular && !inputs.previa) && '1' || '0' }}
           DADOS_DIR: ${{ github.workspace }}/prospeccao/dados
           GITHUB_TOKEN: ${{ github.token }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          PAINEL_SENHA: ${{ secrets.PAINEL_SENHA }}
-          GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
-          SMTP_SENHA: ${{ secrets.SMTP_SENHA }}
-          EMAIL_REMETENTE: ${{ vars.EMAIL_REMETENTE }}
-          NOME_REMETENTE: ${{ vars.NOME_REMETENTE }}
-          SMTP_HOST: ${{ vars.SMTP_HOST }}
-          IMAP_HOST: ${{ vars.IMAP_HOST }}
-          LINK_AGENDA: ${{ vars.LINK_AGENDA }}
-          LINK_SITE: ${{ vars.LINK_SITE }}
-          RODAPE_EMPRESA: ${{ vars.RODAPE_EMPRESA }}
-          LIMITE_DIA: ${{ vars.LIMITE_DIA }}
+          CLIENTE: ${{ matrix.cliente }}
+          SEGREDOS_JSON: ${{ toJSON(secrets) }}
+          VARIAVEIS_JSON: ${{ toJSON(vars) }}
         run: python -m agente ${{ inputs.previa && 'previa' || 'enviar' }}

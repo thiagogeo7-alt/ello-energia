@@ -1,4 +1,4 @@
-"""Monta o Reels no formato do vídeo modelo da ELLO.
+"""Monta o Reels no formato do vídeo modelo (cores, logo e textos vêm da ficha do cliente).
 
 Formato novo (montar_roteiro, 20–30 s): 3–4 cenas com balões de diálogo, passos explicativos ou legendas,
 seguidas da tela da marca.
@@ -20,9 +20,27 @@ from . import config
 W, H, FPS = 1080, 1920, 30
 CENA_S = 5.0
 FADE_S = 0.3
-PASTA_MARCA = config.RAIZ / "marca"
-LOGO = (PASTA_MARCA / "logo-ello.svg").read_text(encoding="utf-8")
+PASTA_MARCA = config.PASTA_CLIENTE / "marca"
+PADRAO_PRODUTO = config.RAIZ / "marca-padrao"   # usado quando o cliente não tem o próprio arquivo
+
+
+def _logo() -> str:
+    """Logo do cliente: logo.svg (preferido) ou logo.png; sem logo, o nome escrito."""
+    import base64
+    svg, png = PASTA_MARCA / "logo.svg", PASTA_MARCA / "logo.png"
+    if svg.exists():
+        return svg.read_text(encoding="utf-8")
+    if png.exists():
+        return f'<img style="width:100%" src="data:image/png;base64,{base64.b64encode(png.read_bytes()).decode()}">'
+    return (f'<div style="color:#fff;font-weight:900;font-size:120px;text-align:center;line-height:1">'
+            f'{html.escape(config.NOME_CURTO)}</div>')
+
+
+LOGO = _logo()
 TRILHA = PASTA_MARCA / "trilha-cartela.m4a"     # trilha da tela final (troque pelo áudio que quiser)
+if not TRILHA.exists():
+    TRILHA = PADRAO_PRODUTO / "trilha-cartela.m4a"
+TF = config.TELA_FINAL
 
 FONTES = '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">'
 
@@ -77,7 +95,7 @@ BALAO = '<svg viewBox="0 0 24 24"><path fill="#0A1A33" d="M4 3h16a2 2 0 0 1 2 2v
 
 
 def _doc(css: str, corpo: str, fundo: bool = True) -> str:
-    return (f'<!DOCTYPE html><html><head><meta charset="utf-8">{FONTES}<style>{BASE_CSS}{css}</style></head>'
+    return config.cores(f'<!DOCTYPE html><html><head><meta charset="utf-8">{FONTES}<style>{BASE_CSS}{css}</style></head>'
             f'<body>{"<div class=fundo></div>" if fundo else ""}{corpo}</body></html>')
 
 
@@ -94,18 +112,20 @@ def _quadros_cartela(r: dict) -> list[tuple[str, float]]:
     """Sequência da tela da marca: (html, duração em segundos)."""
     e = html.escape
     logo = f'<div class="logo">{LOGO}</div>'
-    titulo = '<h1>ENERGIA QUE<span>CONECTA</span></h1><div class="sub">A SOLUÇÃO PRA CONTA DE LUZ</div>'
+    titulo = (f'<h1>{e(TF.get("titulo_1", config.NOME_CURTO.upper()))}<span>{e(TF.get("titulo_2", ""))}</span></h1>'
+              f'<div class="sub">{e(TF.get("subtitulo", ""))}</div>')
     itens = r["beneficios"][:4]
     quadros = [(_doc(CARTELA_CSS, logo), 0.7), (_doc(CARTELA_CSS, logo + titulo), 0.7)]
     for n in range(1, len(itens) + 1):
         lista = "<ul>" + "".join(f"<li><i>{CHECK}</i>{e(t)}</li>" for t in itens[:n]) + "</ul>"
         quadros.append((_doc(CARTELA_CSS, logo + titulo + lista), 0.55))
     lista = "<ul>" + "".join(f"<li><i>{CHECK}</i>{e(t)}</li>" for t in itens) + "</ul>"
-    quadros.append((_doc(CARTELA_CSS, logo + titulo + lista + '<div class="mais">e muito mais!</div>'), 1.0))
-    final = f'<div class="logo grande">{LOGO}</div><div class="slogan">Tudo se conecta.</div>'
+    quadros.append((_doc(CARTELA_CSS, logo + titulo + lista + f'<div class="mais">{e(TF.get("mais", "e muito mais!"))}</div>'), 1.0))
+    final = f'<div class="logo grande">{LOGO}</div><div class="slogan">{e(TF.get("slogan", ""))}</div>'
     quadros.append((_doc(CARTELA_CSS, final), 0.8))
     cta = (f'<div class="comente">Comente</div><div class="botao">{BALAO}{e(r["palavra_chave"].upper())}</div>'
-           '<div class="ganhe">e ganhe a análise da sua conta<br><b>de luz GRÁTIS</b></div><div class="seta"></div>')
+           f'<div class="ganhe">{e(TF.get("ganhe_1", "e fale com a gente"))}<br><b>{e(TF.get("ganhe_2", "no WhatsApp"))}</b></div>'
+           '<div class="seta"></div>')
     quadros.append((_doc(CARTELA_CSS, final + cta), round(9.0 - sum(d for _, d in quadros), 3)))
     return quadros
 

@@ -1,4 +1,4 @@
-"""Envio (SMTP) e leitura (IMAP) de e-mails da caixa da ELLO."""
+"""Envio (SMTP) e leitura (IMAP) de e-mails da caixa do cliente."""
 import email
 import imaplib
 import smtplib
@@ -14,15 +14,16 @@ CAIXA_SIMULADA: list = []   # em simulação, os e-mails "enviados" ficam aqui
 
 def _rodape_texto() -> str:
     return (f"\n\n--\n{config.NOME_REMETENTE}\n{config.RODAPE_EMPRESA}\n"
-            f"WhatsApp {config.WHATSAPP} · {config.LINK_SITE}\n\n"
+            + " · ".join(x for x in (f"WhatsApp {config.WHATSAPP}" if config.WHATSAPP else "", config.LINK_SITE) if x)
+            + "\n\n"
             "Encontramos seu contato em fontes públicas da empresa. "
             "Se não quiser receber mais mensagens, é só responder SAIR.")
 
 
 def montar(destino: str, assunto: str, corpo: str, responder_a: dict | None = None) -> EmailMessage:
     msg = EmailMessage()
-    dominio = (config.EMAIL_REMETENTE.split("@")[-1] or "ello.local")
-    msg["From"] = formataddr((config.NOME_REMETENTE, config.EMAIL_REMETENTE or "simulado@ello.local"))
+    dominio = (config.EMAIL_REMETENTE.split("@")[-1] or "cliente.local")
+    msg["From"] = formataddr((config.NOME_REMETENTE, config.EMAIL_REMETENTE or "simulado@cliente.local"))
     msg["To"] = destino
     msg["Subject"] = assunto
     msg["Message-ID"] = make_msgid(domain=dominio)

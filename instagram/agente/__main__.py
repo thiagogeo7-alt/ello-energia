@@ -61,7 +61,7 @@ def main() -> None:
         est["publicacoes"].append({
             "data": estado.agora(), "tipo": "reel", "estrategia": r.get("estrategia"), "formato": r.get("formato"),
             "argumento": r.get("argumento"), "argumento_base": r.get("argumento"), "tema": r.get("tema"),
-            "gancho": r.get("gancho"), "palavra_chave": r.get("palavra_chave", "ECONOMIZAR"),
+            "gancho": r.get("gancho"), "palavra_chave": r.get("palavra_chave", config.PALAVRA_CHAVE),
             "textos": [c.get("texto") for c in r.get("cenas", [])], "legenda": legenda, "media_id": media_id,
             "permalink": instagram.permalink(media_id), "modo": "cenas",
         })

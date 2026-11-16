@@ -12,20 +12,15 @@ import requests
 
 from . import config, estado
 from .rede import ErroAPI, chamar
-from .segmentos import SEGMENTOS, segmento_por_cnae
+from .segmentos import SEGMENTO_PADRAO, SEGMENTOS, segmento_por_cnae
 
-BAIRROS = ["Centro", "Cambuí", "Taquaral", "Barão Geraldo", "Sousas", "Castelo", "Guanabara",
-           "Nova Campinas", "Ouro Verde", "Campos Elíseos", "Jardim Proença", "Bonfim",
-           "Vila Industrial", "Swift", "Parque Prado", "Chapadão", "Botafogo", "São Bernardo",
-           "Vila Itapura", "Jardim do Trevo", "Parque Industrial", "Jardim Aurélia", "Bosque",
-           "Mansões Santo Antônio", "Jardim Garcia", "Vila Nova", "Jardim Nova Europa", "DIC"]
 
 DOMINIOS_IGNORAR = ("instagram.com", "facebook.com", "linktr.ee", "wa.me", "whatsapp.com", "ifood.com",
                     "google.com", "goo.gl", "youtube.com", "tiktok.com", "linkedin.com", "twitter.com", "x.com")
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 LIXO = ("example", "exemplo", "sentry", "wixpress", "@2x", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg",
         "seudominio", "seuemail", "email@", "domain.com", "noreply", "no-reply", "godaddy", "u003e")
-UA = {"User-Agent": "Mozilla/5.0 (compatible; ELLO-prospeccao/1.0; +https://elloeconomia-energia.com/)"}
+UA = {"User-Agent": f"Mozilla/5.0 (compatible; prospeccao/1.0; +{config.LINK_SITE or 'https://github.com'})"}
 
 
 # ---------- Utilidades ----------
@@ -96,6 +91,7 @@ def coletar_google(crm: dict, max_buscas: int | None = None) -> int:
         print(f"Cota mensal de buscas no Google já usada ({usadas}). Nada a fazer até o mês que vem.")
         return 0
     feitas = set(crm["consultas_feitas"])
+    BAIRROS = bairros(crm)
     fila = [f"{termo} em {bairro}, {config.CIDADE} {config.UF}"
             for bairro in BAIRROS for s in SEGMENTOS.values() for termo in s["buscas"]]
     fila = [q for q in fila if q not in feitas]
@@ -127,7 +123,7 @@ def coletar_google(crm: dict, max_buscas: int | None = None) -> int:
             endereco = lg.get("formattedAddress", "")
             bairro = endereco.split(" - ")[1].split(",")[0] if " - " in endereco else ""
             if adicionar(crm, f"g:{lg['id']}", emails[0], lg.get("displayName", {}).get("text", ""),
-                         termo_seg.get(termo, "comercio"), "site", site=site,
+                         termo_seg.get(termo, SEGMENTO_PADRAO), "site", site=site,
                          telefone=lg.get("nationalPhoneNumber", ""), bairro=bairro):
                 novos += 1
     estado.evento(crm, "coleta_google", detalhe=f"{novos} contatos novos")
@@ -136,6 +132,46 @@ def coletar_google(crm: dict, max_buscas: int | None = None) -> int:
 
 
 # ---------- Base aberta de CNPJ (Receita Federal) ----------
+
+def bairros(crm: dict) -> list[str]:
+    """Bairros da ficha do cliente; se estiver vazia, o Claude sugere uma vez e guardamos."""
+    if config.BAIRROS:
+        return config.BAIRROS
+    if crm.get("bairros"):
+        return crm["bairros"]
+    from . import claude
+    try:
+        r = claude.perguntar_json(
+            "Você conhece bem as cidades brasileiras. Responda SOMENTE com JSON.",
+            f"Liste os 25 bairros com mais comércio e empresas em {config.CIDADE}/{config.UF}, "
+            'incluindo o Centro. Devolva {"bairros": ["...", ...]}',
+            modelo=config.MODELO_RAPIDO, max_tokens=800, simulado={"bairros": ["Centro"]})
+        lista = [str(b).strip() for b in r.get("bairros", []) if str(b).strip()][:30]
+    except Exception as e:
+        print(f"Aviso: não consegui sugerir bairros ({e}); buscando na cidade toda.")
+        lista = []
+    crm["bairros"] = lista or ["Centro"]
+    return crm["bairros"]
+
+
+def _sem_acento(t: str) -> str:
+    import unicodedata
+    return "".join(ch for ch in unicodedata.normalize("NFD", t.upper()) if unicodedata.category(ch) != "Mn").strip()
+
+
+def _municipios_receita(comp: str, pasta: Path) -> set[str]:
+    """Códigos da Receita para o nome da cidade do cliente (o estado desempata cidades com nome igual)."""
+    if config.MUNICIPIO_RECEITA:
+        return {config.MUNICIPIO_RECEITA}
+    arq = _baixar(f"{config.RECEITA_BASE}/{comp}/Municipios.zip", pasta / "municipios.zip")
+    alvo = _sem_acento(config.CIDADE)
+    codigos = {row[0] for row in _linhas_zip(arq) if len(row) >= 2 and _sem_acento(row[1]) == alvo}
+    if not codigos:
+        raise ErroAPI(f"Cidade '{config.CIDADE}' não encontrada na tabela da Receita. "
+                      "Preencha municipio_receita na ficha do cliente.")
+    print(f"Código(s) da Receita para {config.CIDADE}: {sorted(codigos)}")
+    return codigos
+
 
 def _auth():
     return (config.RECEITA_TOKEN, "") if "webdav" in config.RECEITA_BASE else None
@@ -201,7 +237,7 @@ def _linhas_zip(arq: Path):
 
 
 def coletar_cnpj(crm: dict, max_novos: int = 2500, pasta_tmp: str = "/tmp/cnpj") -> int:
-    """Lê os 10 arquivos de Estabelecimentos, filtra Campinas + ativas + CNAE dos segmentos + com e-mail,
+    """Lê os 10 arquivos de Estabelecimentos, filtra a cidade do cliente + ativas + CNAE dos segmentos + com e-mail,
     e cruza com Empresas para pegar a razão social e excluir empresários individuais (MEI)."""
     comp = _competencia_recente()
     if crm.get("cnpj_competencia") == comp:
@@ -210,10 +246,11 @@ def coletar_cnpj(crm: dict, max_novos: int = 2500, pasta_tmp: str = "/tmp/cnpj")
     tmp = Path(pasta_tmp)
     tmp.mkdir(parents=True, exist_ok=True)
     achados, contagem_email = {}, {}
+    municipios = _municipios_receita(comp, tmp)
     for i in range(10):
         arq = _baixar(f"{config.RECEITA_BASE}/{comp}/Estabelecimentos{i}.zip", tmp / f"est{i}.zip")
         for row in _linhas_zip(arq):
-            if len(row) < 28 or row[20] != config.MUNICIPIO_RECEITA or row[5] != "02":
+            if len(row) < 28 or row[20] not in municipios or row[5] != "02" or (config.UF and row[19] != config.UF):
                 continue
             email = row[27].strip().lower()
             seg = segmento_por_cnae(row[11])

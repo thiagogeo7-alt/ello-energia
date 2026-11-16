@@ -9,7 +9,7 @@ O agente roda sozinho no GitHub, de graça, nos horários abaixo:
 | **Respostas** | A cada 15 minutos | Quem comenta a palavra-chave recebe DM com o WhatsApp; os demais comentários e DMs são respondidos |
 | **Token** | Toda segunda | Renova o acesso ao Instagram |
 
-- **Para mudar o tom, as regras ou os temas**, edite o arquivo [`marca.md`](marca.md). O agente lê esse arquivo toda vez.
+- **Para mudar o tom, as regras ou os temas**, edite o arquivo [`clientes/ello/marca.md`](../clientes/ello/marca.md) (e os textos/cores em [`clientes/ello/cliente.yaml`](../clientes/ello/cliente.yaml)). O agente lê esse arquivo toda vez.
 - **Painel de resultados:** https://elloeconomia-energia.com/painel/ (publicações, métricas, respostas, custos e leads).
 - **Histórico e métricas** ficam no branch `dados`, no arquivo `estado.json`. Os **leads** ficam em `leads.enc`, criptografados com a senha do segredo `PAINEL_SENHA` (o repositório é público; assim os dados pessoais ficam protegidos, conforme a LGPD).
 - **Para pausar tudo**, apague a variável `AGENTE_ATIVO` (veja o passo 7 abaixo).
@@ -24,7 +24,7 @@ O agente roda sozinho no GitHub, de graça, nos horários abaixo:
 
 Para usar vídeo de verdade com IA (Kling 3.0, ~US$ 0,56 por Reels), crie a variável `MODO_CENA` = `video` em *Settings → Secrets and variables → Actions → Variables*. O GitHub é grátis.
 
-**Logo e trilha:** ficam na pasta [`marca/`](marca). A trilha da tela final (`trilha-cartela.m4a`) veio do vídeo modelo; para trocar, substitua o arquivo mantendo o nome.
+**Logo e trilha:** ficam na pasta [`clientes/ello/marca/`](../clientes/ello/marca). A trilha da tela final (`trilha-cartela.m4a`) veio do vídeo modelo; para trocar, substitua o arquivo mantendo o nome.
 
 ---
 

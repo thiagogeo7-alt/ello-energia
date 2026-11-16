@@ -1,4 +1,4 @@
-"""Cria e publica o Reels da ELLO (20–30 s).
+"""Cria e publica o Reels do cliente (20–30 s).
 
 Rodízio de formatos (diálogo entre duas pessoas, explicativo com desenhos, reação) e de argumentos
 (planeta e bolso, como funciona, sem obra, comércio...). Cada cena é uma imagem gerada por IA com
@@ -11,37 +11,34 @@ from pathlib import Path
 from . import aprendizado, claude, config, dados_git, estado, instagram, montagem, video
 
 FORMATOS = ["dialogo", "explicativo", "reacao"]
-ARGUMENTOS = [
-    "Planeta e bolso: energia limpa do sol, menos CO₂, e economia de até 50% na conta",
-    "Bolso: a conta de luz alta pesando no orçamento da casa",
-    "Como funciona: usina solar gera energia, ela entra na rede e vira crédito na sua conta",
-    "Sem obra e sem placa: serve para apartamento, casa alugada ou quem não tem telhado",
-    "Comércio: energia é custo fixo e economizar nela sobra dinheiro todo mês",
-    "Mesma distribuidora: nada muda na rotina, a economia aparece direto na fatura",
-    "Condomínio: áreas comuns, elevador e portaria com conta menor para todos",
-    "Mitos x verdades: precisa de placa? é caro? muda a distribuidora?",
+ARGUMENTOS = config.ARGUMENTOS or [
+    "Problema e solução: a dor do cliente e como a marca resolve",
+    "Como funciona: o passo a passo do serviço, simples",
+    "Mitos x verdades sobre o serviço",
+    "Bastidores: como a equipe trabalha",
 ]
 
 ESTILO_FOTO = ("ultra-realistic vertical photo, professional photography, 35mm lens, natural light, realistic skin "
                "and textures, generic non-famous people, Brazilian setting, no text, no captions, no logos")
-ESTILO_DESENHO = ("clean flat vector illustration, simple friendly explainer style, navy blue (#0E2240) and golden "
-                  "yellow (#F5B731) palette with white, soft shadows, vertical composition, centered subject, "
+ESTILO_DESENHO = ("clean flat vector illustration, simple friendly explainer style, " +
+                  (config.IG.get("paleta_desenho") or f"{config.CLIENTE['cores'].get('marinho', '#0E2240')} and "
+                                                    f"{config.CLIENTE['cores'].get('destaque', '#F5B731')}")
+                  + " palette with white, soft shadows, vertical composition, centered subject, "
                   "lots of empty space in the lower third, absolutely no text, no letters, no numbers, no logos")
 
-SISTEMA = f"""Você é o roteirista e diretor de vídeo do Instagram da ELLO Energia.
+SISTEMA = f"""Você é o roteirista e diretor de vídeo do Instagram da {config.NOME}.
 Cada Reels tem de 20 a 30 segundos: 3 cenas de ~4 s (imagens geradas por IA com movimento de câmera
 e textos por cima) e depois a tela da marca, montada automaticamente.
 
 Formatos:
 - "dialogo": duas pessoas conversando (vizinhas, casal, sócios, síndico e morador, amigos no café...).
-  Uma conta o problema, a outra conta a solução (ELLO). Cada cena mostra AS DUAS PESSOAS juntas no mesmo
+  Uma conta o problema, a outra conta a solução ({config.NOME_CURTO}). Cada cena mostra AS DUAS PESSOAS juntas no mesmo
   ambiente, e o texto da cena é a fala de quem está falando (A ou B). Descreva as duas pessoas sempre do
   mesmo jeito em todas as cenas (idade, cabelo, roupa, ambiente) para parecerem as mesmas.
-- "explicativo": desenhos simples explicando o negócio passo a passo (ex.: sol → usina solar → rede da
-  distribuidora → crédito na conta → economia e planeta mais limpo). Cada cena é uma ilustração e o texto
+- "explicativo": desenhos simples explicando o negócio passo a passo (ex.: {config.IG.get("exemplo_explicativo") or "problema → solução → resultado"}). Cada cena é uma ilustração e o texto
   é a legenda curta do passo. Nas ilustrações, NUNCA peça texto escrito (o texto é colocado depois).
-- "reacao": uma pessoa com emoção forte e humor leve (ex.: susto com a conta) e, nas cenas seguintes,
-  a virada (alívio, conta menor, sorriso). O texto da cena é uma legenda curta.
+- "reacao": uma pessoa com emoção forte e humor leve (ex.: {config.IG.get("exemplo_reacao") or "surpresa com o problema"}) e, nas cenas seguintes,
+  a virada (alívio, problema resolvido, sorriso). O texto da cena é uma legenda curta.
 
 Siga à risca o guia da marca abaixo.
 
@@ -49,7 +46,7 @@ Siga à risca o guia da marca abaixo.
 
 Responda SOMENTE com um JSON válido."""
 
-PEDIDO = """Crie o próximo Reels da ELLO.
+PEDIDO = """Crie o próximo Reels da {marca}.
 
 FORMATO OBRIGATÓRIO: {formato}
 ARGUMENTO PRINCIPAL OBRIGATÓRIO: {argumento}
@@ -58,7 +55,7 @@ O que já sabemos do desempenho da conta:
 {historico}
 
 Seja criativo e diferente dos temas recentes: varie personagens (idade, gênero, aparência) e ambientes
-(cozinha, sala, varanda, escritório, padaria, salão, academia, portaria de condomínio, café).
+({ambientes}).
 
 Devolva este JSON:
 {{
@@ -73,7 +70,7 @@ Devolva este JSON:
   "cenas": [
     {{
       "prompt_imagem": "prompt em INGLÊS do PRIMEIRO QUADRO da cena (foto realista nos formatos dialogo/reacao; ilustração no explicativo)",
-      "movimento": "prompt em INGLÊS do que ACONTECE na cena em vídeo de 3 a 5 s: uma ação contínua e clara (gestos, expressões, quem está falando, objetos se mexendo) e o movimento da câmera. No dialogo, diga quem fala (ex.: 'the woman on the left talks to her neighbor, gesturing with the bill'). No explicativo, anime o desenho (sol brilhando, energia fluindo pelos fios, números caindo). Sem texto na tela.",
+      "movimento": "prompt em INGLÊS do que ACONTECE na cena em vídeo de 3 a 5 s: uma ação contínua e clara (gestos, expressões, quem está falando, objetos se mexendo) e o movimento da câmera. No dialogo, diga quem fala (ex.: '{ex_dialogo}'). No explicativo, anime o desenho ({ex_animacao}). Sem texto na tela.",
       "quem": "A" ou "B" (só no dialogo),
       "texto": "fala, passo ou legenda em português, até 55 caracteres (cabe em ~3,5 s falando). ESTE TEXTO SERÁ FALADO EM VOZ ALTA: escreva como as pessoas falam de verdade, natural, com emoção (sem siglas difíceis; escreva números por extenso quando ajudar a leitura, ex.: 'seiscentos reais')",
       "destaque": "opcional: etiqueta vermelha curta (ex.: valor de conta fictício), até 12 caracteres"
@@ -82,7 +79,7 @@ Devolva este JSON:
   "virada": "frase final curta, MAIÚSCULAS, até 14 caracteres",
   "vozes": {{"A": "voz da pessoa A", "B": "voz da pessoa B", "narrador": "voz do narrador"}} — escolha da lista: {vozes}. Combine com idade e gênero dos personagens (no dialogo A e B; nos outros formatos o narrador lê os textos das cenas),
   "trilha": "prompt em INGLÊS para uma música instrumental de fundo de 30 s que combine com o clima do vídeo (gênero, instrumentos, andamento, energia); varie bastante entre os vídeos (ex.: brazilian bossa nova acoustic guitar, upbeat funk carioca beat, lo-fi chill, sunny tropical house, warm acoustic pop, light comedic pizzicato). Sem voz/vocals.",
-  "palavra_chave": "UMA palavra para comentar, MAIÚSCULAS (padrão: ECONOMIZAR)",
+  "palavra_chave": "UMA palavra para comentar, MAIÚSCULAS (padrão: {palavra})",
   "beneficios": ["4 itens da lista de benefícios aprovados do guia da marca"],
   "legenda": "legenda em português: 1ª linha gancho forte, 2 a 3 linhas curtas, convite para comentar a palavra-chave, a linha obrigatória sobre vídeo com IA, e 3 a 5 hashtags"
 }}"""
@@ -106,6 +103,15 @@ SIMULADO = {
 }
 
 
+if config.CLIENTE["id"] != "ello":   # roteiro de teste genérico para os outros clientes
+    SIMULADO = {**SIMULADO, "argumento": "Problema e solução", "tema": "Teste", "palavra_chave": config.PALAVRA_CHAVE,
+                "cenas": [{"prompt_imagem": "two friends talking in a cafe", "quem": "A", "texto": "Você conhece a " + config.NOME_CURTO + "?"},
+                          {"prompt_imagem": "same two friends smiling", "quem": "B", "texto": "Conheço! Resolveu meu problema."},
+                          {"prompt_imagem": "same two friends laughing", "quem": "B", "texto": "Comenta aí que te mando o contato."}],
+                "virada": config.VIRADA_PADRAO, "beneficios": ["Atendimento rápido", "Qualidade garantida", "Preço justo", "Fale no WhatsApp"],
+                "legenda": "Teste\nComente " + config.PALAVRA_CHAVE + ".\n🎬 Vídeo criado com inteligência artificial."}
+
+
 def _escolher(est: dict) -> tuple[str, str]:
     """Rodízio: não repete o formato do último Reels nem os 3 últimos argumentos."""
     reels = [p for p in est["publicacoes"] if p.get("tipo") == "reel"]
@@ -126,7 +132,11 @@ def executar(cena_local: str | None = None) -> dict:
     formato, argumento = _escolher(est)
     formato = __import__("os").getenv("FORMATO", "").strip() or formato
     lista_vozes = "; ".join(f"{k} ({v})" for k, v in video.VOZES.items())
-    pedido = PEDIDO.format(historico=historico, formato=formato, argumento=argumento, vozes=lista_vozes)
+    pedido = PEDIDO.format(historico=historico, formato=formato, argumento=argumento, vozes=lista_vozes,
+                           marca=config.NOME_CURTO, palavra=config.PALAVRA_CHAVE,
+                           ambientes=config.IG.get("ambientes") or "casa, escritório, loja, rua, café",
+                           ex_dialogo=config.IG.get("exemplo_dialogo") or "the person on the left talks to a friend, gesturing",
+                           ex_animacao=config.IG.get("exemplo_animacao") or "elementos se mexendo, setas aparecendo")
     tema = __import__("os").getenv("TEMA", "").strip()
     if tema:
         pedido += f"\n\nTEMA OBRIGATÓRIO deste Reels (use exatamente esta ideia): {tema}"
@@ -136,7 +146,7 @@ def executar(cena_local: str | None = None) -> dict:
     if len(r["cenas"]) < 2:
         raise RuntimeError(f"Roteiro com poucas cenas: {r.get('cenas')}")
 
-    r["palavra_chave"] = (r.get("palavra_chave") or "ECONOMIZAR").split()[0].upper()
+    r["palavra_chave"] = (r.get("palavra_chave") or config.PALAVRA_CHAVE).split()[0].upper()
     legenda = r["legenda"]
     if "inteligência artificial" not in legenda.lower():
         legenda += "\n\n🎬 Vídeo criado com inteligência artificial."

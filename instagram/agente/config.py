@@ -1,9 +1,17 @@
-"""Configurações lidas das variáveis de ambiente (segredos do GitHub).
+"""Configurações lidas da ficha do cliente (clientes/<id>/) e dos segredos do GitHub.
 
 Nada de senha ou token fica escrito no código.
 """
 import os
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))   # raiz do repositório
+from nucleo import cliente as _cliente   # noqa: E402
+
+CLIENTE = _cliente.carregar()
+_cliente.aplicar_ambiente(CLIENTE)
+IG = CLIENTE["instagram"]
 
 # Limpa espaços e quebras de linha que às vezes vêm junto ao colar as chaves
 for _n in ("IG_TOKEN", "ANTHROPIC_API_KEY", "FAL_KEY", "IG_USER_ID"):
@@ -11,13 +19,16 @@ for _n in ("IG_TOKEN", "ANTHROPIC_API_KEY", "FAL_KEY", "IG_USER_ID"):
         os.environ[_n] = os.environ[_n].strip().strip('"').strip("'")
 
 RAIZ = Path(__file__).resolve().parent.parent          # pasta instagram/
-MARCA = (RAIZ / "marca.md").read_text(encoding="utf-8")
+PASTA_CLIENTE = _cliente.pasta(CLIENTE["id"])
+MARCA = _cliente.marca_md(CLIENTE)
+NOME = CLIENTE.get("nome", "")
+NOME_CURTO = CLIENTE.get("nome_curto", NOME)
 
 SIMULAR = os.getenv("SIMULAR", "0") == "1"
 
 # Instagram (API com login do Instagram)
 IG_TOKEN = os.getenv("IG_TOKEN", "")
-IG_USER_ID = os.getenv("IG_USER_ID") or "17841463714896383"   # @ello.economia.energia
+IG_USER_ID = os.getenv("IG_USER_ID") or ""   # vem do segredo ou da ficha do cliente
 # A Meta tem dois "endereços" de API conforme o tipo de token; o agente descobre sozinho qual usar.
 IG_API_HOSTS = ["https://graph.instagram.com/v25.0", "https://graph.facebook.com/v25.0"]
 IG_API = os.getenv("IG_API") or IG_API_HOSTS[0]
@@ -40,16 +51,15 @@ VIDEO_COM_AUDIO = os.getenv("VIDEO_COM_AUDIO", "1") == "1"
 # Estado (histórico, métricas, comentários já respondidos) fica no branch "dados"
 DADOS_DIR = Path(os.getenv("DADOS_DIR", RAIZ / "dados-local"))
 REPO = os.getenv("GITHUB_REPOSITORY", "thiagogeo7-alt/ello-energia")
-DADOS_BRANCH = os.getenv("DADOS_BRANCH", "dados")
-MIDIA_BRANCH = "midia"   # guarda só a mídia da publicação atual (não acumula histórico)
+DADOS_BRANCH = os.getenv("DADOS_BRANCH") or CLIENTE["branches"]["instagram"]
+MIDIA_BRANCH = CLIENTE["branches"]["midia"]   # guarda só a mídia da publicação atual (não acumula histórico)
 URL_MIDIA_BASE = f"https://raw.githubusercontent.com/{REPO}/{MIDIA_BRANCH}"
 
-WHATSAPP = "5519995621927"
-LINK_WHATSAPP = f"https://wa.me/{WHATSAPP}"
+WHATSAPP = "".join(ch for ch in str(CLIENTE["whatsapp"].get("numero", "")) if ch.isdigit())
+LINK_WHATSAPP = _cliente.link_whatsapp(CLIENTE, "")
 # Link que já abre o WhatsApp com a mensagem escrita (e mostra que o contato veio do Instagram)
-LINK_WHATSAPP_IG = (f"https://wa.me/{WHATSAPP}?text=Oi!%20Vim%20pelo%20Instagram%20e%20quero%20a%20"
-                    "an%C3%A1lise%20gr%C3%A1tis%20da%20minha%20conta%20de%20luz")
-WHATSAPP_LEGIVEL = "(19) 99562-1927"
+LINK_WHATSAPP_IG = _cliente.link_whatsapp(CLIENTE)
+WHATSAPP_LEGIVEL = CLIENTE["whatsapp"].get("legivel") or WHATSAPP
 
 
 def exigir(*nomes: str) -> None:
@@ -69,3 +79,19 @@ def exigir(*nomes: str) -> None:
 REELS_TESTE = (os.getenv("REELS_TESTE") or "sim").strip().lower() == "sim"
 # Copiar cada Reels e carrossel para os Stories
 COPIAR_STORIES = (os.getenv("COPIAR_STORIES") or "sim").strip().lower() == "sim"
+
+# Textos do cliente usados nas automações
+PALAVRA_CHAVE = str(IG.get("palavra_chave") or "QUERO").split()[0].upper()
+OFERTA = IG.get("oferta") or "o atendimento é rápido"
+TELA_FINAL = IG.get("tela_final") or {}
+VIRADA_PADRAO = IG.get("virada_padrao") or "TEM JEITO!"
+ARGUMENTOS = IG.get("argumentos") or []
+
+
+def cores(texto: str) -> str:
+    """Aplica as cores da marca do cliente a um HTML/CSS desenhado com as cores originais."""
+    return _cliente.aplicar_cores(texto, CLIENTE)
+
+
+def texto_whatsapp(modelo: str) -> str:
+    return (modelo or "").replace("{link}", LINK_WHATSAPP_IG).replace("{whatsapp}", WHATSAPP_LEGIVEL)
