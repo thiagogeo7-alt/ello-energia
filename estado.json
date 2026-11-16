@@ -69,6 +69,34 @@
       "legenda": "A conta de luz da padaria veio assim? 😱\n\nQuem tem comércio em Campinas sabe: forno, geladeira e vitrine ligados o dia todo pesam no fim do mês.\nCom a energia solar compartilhada da ELLO, você pode economizar até 50% na conta de luz.\nSem obra, sem placa no telhado e você continua com a sua distribuidora.\n\nComente ECONOMIZAR e receba a análise da sua conta de luz GRÁTIS. 👇\nOu chama no WhatsApp: (19) 99562-1927\n\n🎬 Vídeo criado com inteligência artificial.\n\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
       "media_id": "18348963751267093",
       "permalink": "https://www.instagram.com/reel/DfxyHgKid-P/",
+      "modo": "imagem",
+      "metricas": {
+        "reach": 0,
+        "likes": 0,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 0
+      },
+      "pontuacao": 0.0
+    },
+    {
+      "data": "2026-11-16T00:48:49+00:00",
+      "tipo": "reel",
+      "estrategia": "variacao",
+      "tema": "Conta de luz alta em academia de bairro",
+      "gancho": "O dono de uma academia abre a conta de luz na recepção, cospe o shake de susto, arregala os olhos e desaba de costas em uma pilha de colchonetes.",
+      "palavra_chave": "ECONOMIZAR",
+      "prompt": "Ultra-realistic, cinematic, vertical 9:16, 5 seconds, natural daylight coming through large gym windows, handheld close-up camera. A Brazilian man in his early 50s, dark skin, short graying beard, wearing a plain sleeveless gym shirt with no logos, stands behind the reception counter of a small neighborhood gym in Campinas, Brazil. Treadmills and weight racks are softly blurred in the background. Second 0-1: he sips a protein shake with one hand and opens a paper electricity bill with the other, relaxed expression, camera at chest height slowly pushing in. Second 1-2: he reads the bill, freezes, his eyes grow huge and his eyebrows shoot up. Second 2-3: he spits the shake out in a comic burst, the plastic cup falls, his mouth hangs open in disbelief, camera pushes closer to his face. Second 3-4: he grabs his head with both hands, knees buckling in exaggerated but believable despair, the bill trembling in his fingers. Second 4-5: he falls backwards in slow motion onto a stack of blue yoga mats, arms spread, the bill floating down onto his chest. Realistic skin texture, shallow depth of field, warm natural tones. No text, no captions, no logos anywhere in the image.",
+      "textos": [
+        "CONTA DE LUZ DA",
+        "ACADEMIA ASSIM?",
+        "R$ 3.248,60",
+        "TEM JEITO!"
+      ],
+      "legenda": "Sua conta de luz da academia veio assim? 😱\n\nEsteira, ar-condicionado e luz ligados o dia todo pesam no fim do mês.\nCom a energia solar compartilhada da ELLO, você pode economizar até 50% na conta.\nSem obra, sem placa no telhado e você continua com a sua distribuidora.\n\n👉 Comente ECONOMIZAR e receba no direct a análise da sua conta de luz grátis. Ou chama no WhatsApp: (19) 99562-1927\n\n🎬 Vídeo criado com inteligência artificial.\n\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
+      "media_id": "18087033980707768",
+      "permalink": "https://www.instagram.com/reel/DfyGqIUB0e0/",
       "modo": "imagem"
     }
   ],
@@ -99,6 +127,16 @@
       "data": "2026-11-15T21:49:13+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-16T00:47:41+00:00",
+      "servico": "fal.ai cena (imagem)",
+      "usd": 0.02
+    },
+    {
+      "data": "2026-11-16T00:48:49+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -116,8 +154,13 @@
       "data": "2026-11-15T21:49:13+00:00",
       "tipo": "reel",
       "detalhe": "Conta de luz alta na padaria de bairro (madrugada de fornada)"
+    },
+    {
+      "data": "2026-11-16T00:48:49+00:00",
+      "tipo": "reel",
+      "detalhe": "Conta de luz alta em academia de bairro"
     }
   ],
   "total_leads": 0,
-  "atualizado_em": "2026-11-16T00:10:17+00:00"
+  "atualizado_em": "2026-11-16T00:48:49+00:00"
 }
