@@ -9,11 +9,15 @@ com simpatia, em português do Brasil, em no máximo 2 frases curtas. Siga o gui
 
 {config.MARCA}
 
-Como decidir:
-- Pergunta ou interesse (preço, como funciona, "quero", valor da conta etc.): responda a dúvida
-  em uma frase e convide para o WhatsApp {config.LINK_WHATSAPP} para receber a proposta grátis.
-  Marque "interesse": true.
-- Elogio ou emoji: agradeça de forma curta e variada.
+Como decidir (todo comentário que não for spam vira contato no WhatsApp):
+- Para COMENTÁRIOS que não forem spam, escreva duas coisas:
+  "resposta": resposta pública curta (até 1 frase) avisando que mandou no direct, variando o texto
+    (ex.: "Te mandei no direct! 📩", "Olha seu direct 😉"). Para elogios, agradeça e avise do direct.
+  "dm": mensagem privada de 1 a 3 frases: responda a dúvida (se houver) e convide para o WhatsApp,
+    onde a análise da conta é grátis. NÃO coloque o link: ele é adicionado automaticamente.
+- Para MENSAGENS DIRETAS (tipo "dm"): "resposta" responde a dúvida em até 2 frases e convida para o WhatsApp
+  {config.LINK_WHATSAPP_IG} (link sem ponto final logo depois)
+- "interesse": true quando houver pergunta ou interesse (preço, como funciona, "quero", valor da conta etc.).
 - Crítica: responda com respeito, sem discutir, e ofereça ajuda no WhatsApp.
 - Spam, ofensa, golpe, política ou algo sem relação: "acao": "ignorar".
 - Nunca prometa valores exatos nem mais de 50% de economia. Nunca peça dados pessoais por ali.
@@ -23,7 +27,7 @@ Responda SOMENTE com JSON."""
 PEDIDO = """Itens novos para avaliar (comentários e mensagens diretas):
 {itens}
 
-Devolva: {{"respostas": [{{"id": "...", "acao": "responder" ou "ignorar", "resposta": "...", "interesse": true/false}}]}}"""
+Devolva: {{"respostas": [{{"id": "...", "acao": "responder" ou "ignorar", "resposta": "...", "dm": "... (só para comentários)", "interesse": true/false}}]}}"""
 
 
 def _recente(ts: str, dias: int = 7) -> bool:
@@ -38,7 +42,7 @@ DM_PALAVRA_CHAVE = (
     "Oi! Que bom que você quer economizar 😊\n\n"
     "A análise da sua conta de luz é grátis: é só mandar uma foto da sua última conta no nosso WhatsApp "
     "que em até 24h te enviamos quanto dá para economizar (até 50%%), sem obra e sem placas no telhado.\n\n"
-    "👉 %s" % config.LINK_WHATSAPP
+    "👉 %s" % config.LINK_WHATSAPP_IG
 )
 RESPOSTAS_PUBLICAS = ["Te chamei no direct! 📩", "Mandei no seu direct! 😉", "Olha o direct! ⚡", "Já te enviei no direct! 📲"]
 
@@ -113,7 +117,7 @@ def executar() -> None:
         SISTEMA, PEDIDO.format(itens=itens), modelo=config.MODELO_RAPIDO,
         simulado={"respostas": [
             {"id": p["id"], "acao": "responder", "interesse": "?" in p["texto"] or "conta" in p["texto"],
-             "resposta": "Oi! Dá sim 😊 Chama a gente no WhatsApp que mandamos sua proposta grátis: " + config.LINK_WHATSAPP}
+             "resposta": "Te mandei no direct! 📩", "dm": "Oi! Dá sim 😊 Chama a gente no WhatsApp que mandamos sua análise grátis."}
             for p in pendentes]},
     ).get("respostas", [])
 
@@ -125,7 +129,16 @@ def executar() -> None:
         try:
             if d.get("acao") == "responder" and d.get("resposta"):
                 if p["tipo"] == "comentario":
-                    instagram.responder_comentario(p["id"], d["resposta"])
+                    # Manda o WhatsApp no direct e avisa em público; se o direct falhar, o número vai na resposta pública
+                    dm = (d.get("dm") or "A análise da sua conta de luz é grátis pelo nosso WhatsApp 😊").strip()
+                    try:
+                        instagram.resposta_privada(p["id"], f"{dm}\n\n👉 {config.LINK_WHATSAPP_IG}")
+                        publica = d["resposta"]
+                        estado.registrar(est, "dm_whatsapp", "WhatsApp enviado no direct")
+                    except Exception as e:
+                        print(f"Direct indisponível para {p['id']} ({e}); WhatsApp vai na resposta pública")
+                        publica = f"{dm} Chama no WhatsApp: {config.WHATSAPP_LEGIVEL} 📲"
+                    instagram.responder_comentario(p["id"], publica)
                 else:
                     instagram.enviar_mensagem(p["usuario_id"], d["resposta"])
         except Exception as e:   # um erro não pode travar as outras respostas
