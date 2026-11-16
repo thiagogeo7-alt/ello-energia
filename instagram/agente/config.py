@@ -62,3 +62,10 @@ def exigir(*nomes: str) -> None:
             "Faltam segredos no GitHub: " + ", ".join(faltando)
             + ". Cadastre em Settings → Secrets and variables → Actions."
         )
+
+
+# Reels de teste (Trial Reels): mostrados primeiro para quem NÃO segue a página.
+# SS_PERFORMANCE = o Instagram libera para os seguidores automaticamente se o Reels for bem.
+REELS_TESTE = (os.getenv("REELS_TESTE") or "sim").strip().lower() == "sim"
+# Copiar cada Reels e carrossel para os Stories
+COPIAR_STORIES = (os.getenv("COPIAR_STORIES") or "sim").strip().lower() == "sim"

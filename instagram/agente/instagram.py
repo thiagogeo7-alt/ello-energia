@@ -1,5 +1,6 @@
 """Cliente da API do Instagram (login pelo Instagram, sem Página do Facebook)."""
 import os
+import json
 import time
 
 from . import config
@@ -56,13 +57,17 @@ def _aguardar_container(container_id: str, limite_s: int = 600) -> None:
     raise ErroAPI("Instagram demorou demais para processar a mídia.")
 
 
-def publicar_reel(video_url: str, legenda: str, capa_url: str | None = None) -> str:
+def publicar_reel(video_url: str, legenda: str, capa_url: str | None = None, teste: bool | None = None) -> str:
+    """teste=True publica como Reels de teste (vai primeiro para quem não segue a página)."""
+    teste = config.REELS_TESTE if teste is None else teste
     if config.SIMULAR:
-        print(f"[simulação] publicaria Reel: {video_url}")
+        print(f"[simulação] publicaria Reel{' de teste' if teste else ''}: {video_url}")
         return "SIM_REEL_123"
     dados = {"media_type": "REELS", "video_url": video_url, "caption": legenda, "share_to_feed": "true"}
     if capa_url:
         dados["cover_url"] = capa_url
+    if teste:
+        dados["trial_params"] = json.dumps({"graduation_strategy": "SS_PERFORMANCE"})
     container = _post(f"{uid()}/media", **dados)["id"]
     _aguardar_container(container)
     return _post(f"{uid()}/media_publish", creation_id=container)["id"]
@@ -81,6 +86,30 @@ def publicar_carrossel(imagens_url: list[str], legenda: str) -> str:
                 children=",".join(filhos), caption=legenda)["id"]
     _aguardar_container(pai, limite_s=180)
     return _post(f"{uid()}/media_publish", creation_id=pai)["id"]
+
+
+def publicar_story(midia_url: str, video: bool) -> str:
+    """Publica uma foto ou vídeo nos Stories (somem em 24 h)."""
+    if config.SIMULAR:
+        print(f"[simulação] publicaria Story: {midia_url}")
+        return "SIM_STORY_123"
+    campo = "video_url" if video else "image_url"
+    container = _post(f"{uid()}/media", media_type="STORIES", **{campo: midia_url})["id"]
+    _aguardar_container(container, limite_s=600 if video else 180)
+    return _post(f"{uid()}/media_publish", creation_id=container)["id"]
+
+
+def copiar_para_stories(midia_url: str, video: bool) -> str | None:
+    """Cópia nos Stories sem atrapalhar a publicação principal se algo falhar."""
+    if not config.COPIAR_STORIES:
+        return None
+    try:
+        sid = publicar_story(midia_url, video)
+        print(f"Copiado para os Stories: {sid}")
+        return sid
+    except Exception as e:
+        print(f"Aviso: não consegui copiar para os Stories ({e})")
+        return None
 
 
 # ---------- Leitura e métricas ----------

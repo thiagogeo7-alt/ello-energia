@@ -88,9 +88,23 @@ def executar() -> dict:
     pasta = Path(tempfile.mkdtemp())
     arquivos = _renderizar(ideia["slides"], pasta)
     arquivos = [a.rename(pasta / f"carrossel-{carimbo}-{a.name}") for a in arquivos]
-    urls = dados_git.publicar_midia(arquivos)   # imagens precisam estar públicas antes de publicar
+    # Versão 9:16 do 1º slide para os Stories (fundo desfocado do próprio slide)
+    story = pasta / f"carrossel-{carimbo}-story.jpg"
+    try:
+        import subprocess
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(arquivos[0]), "-filter_complex",
+                        "[0]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=30:5,"
+                        "eq=brightness=-0.15[f];[0]scale=1000:-1[s];[f][s]overlay=(W-w)/2:(H-h)/2",
+                        "-q:v", "2", str(story)], check=True)
+    except Exception as e:
+        print(f"Aviso: sem imagem para Story ({e})")
+        story = None
+    urls = dados_git.publicar_midia(arquivos + ([story] if story else []))   # precisam estar públicas
+    url_story = urls.pop() if story else None
 
     media_id = instagram.publicar_carrossel(urls, ideia["legenda"])
+    if url_story and instagram.copiar_para_stories(url_story, video=False):
+        estado.registrar(est, "story", f"Carrossel copiado para os Stories: {ideia.get('tema', '')}")
     est["publicacoes"].append({
         "data": estado.agora(), "tipo": "carrossel", "tema": ideia.get("tema"),
         "gancho": ideia.get("gancho"), "legenda": ideia["legenda"], "imagens": urls, "media_id": media_id,

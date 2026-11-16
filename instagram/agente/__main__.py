@@ -56,6 +56,7 @@ def main() -> None:
         if "inteligência artificial" not in legenda.lower():
             legenda += "\n\n🎬 Vídeo criado com inteligência artificial."
         media_id = instagram.publicar_reel(f"{base}/{mp4}", legenda, capa_url=f"{base}/{mp4[:-4]}.jpg")
+        instagram.copiar_para_stories(f"{base}/{mp4}", video=True)
         est = estado.carregar()
         est["publicacoes"].append({
             "data": estado.agora(), "tipo": "reel", "estrategia": r.get("estrategia"), "formato": r.get("formato"),

@@ -217,6 +217,9 @@ def executar(cena_local: str | None = None) -> dict:
         urls = dados_git.publicar_midia([destino, destino.with_suffix(".jpg")])
 
     media_id = instagram.publicar_reel(urls[0], legenda, capa_url=urls[1])
+    story_id = instagram.copiar_para_stories(urls[0], video=True)
+    if story_id:
+        estado.registrar(est, "story", f"Reels copiado para os Stories: {r.get('tema', '')}")
 
     est["publicacoes"].append({
         "data": estado.agora(), "tipo": "reel", "estrategia": r.get("estrategia"),
@@ -224,7 +227,7 @@ def executar(cena_local: str | None = None) -> dict:
         "tema": r.get("tema"), "gancho": r.get("gancho"), "palavra_chave": r["palavra_chave"],
         "textos": [r.get("texto_topo_1"), r.get("texto_topo_2")] + [c.get("texto") for c in r["cenas"]] + [r.get("virada")],
         "legenda": legenda, "media_id": media_id, "permalink": instagram.permalink(media_id),
-        "modo": "cenas",
+        "modo": "cenas", "teste": config.REELS_TESTE,
     })
     est["custos"].append({"data": estado.agora(), "servico": "Claude (texto)", "usd": 0.03})
     estado.registrar(est, "reel", f"{r.get('tema', '')} ({formato})")
