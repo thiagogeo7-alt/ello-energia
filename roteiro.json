@@ -1,0 +1,40 @@
+{
+  "estrategia": "teste",
+  "formato": "explicativo",
+  "argumento": "Sem obra e sem placa: serve para apartamento, casa alugada ou quem não tem telhado",
+  "tema": "Energia solar para quem mora de aluguel ou em apartamento",
+  "gancho": "Desenhos simples mostram que quem mora de aluguel ou em apartamento também usa energia solar: a usina fica longe, a energia entra na rede e vira crédito na conta, sem obra e sem placa.",
+  "texto_topo_1": "MORA DE ALUGUEL?",
+  "texto_topo_2": "PODE USAR SOL!",
+  "cenas": [
+    {
+      "prompt_imagem": "Flat vector illustration, simple clean style, navy blue and yellow color palette, a Brazilian apartment building and a small rented house side by side under a bright sun, flat rooftops with no solar panels, a friendly smiling resident waving from a window, vertical 9:16 composition, soft shapes, no text, no letters, no numbers, no logos",
+      "texto": "Mora de aluguel ou em apartamento? Dá pra ter energia solar.",
+      "destaque": ""
+    },
+    {
+      "prompt_imagem": "Flat vector illustration, simple clean style, navy blue and yellow color palette, a large solar power plant with rows of solar panels in a sunny green field outside the city, big yellow sun above, city skyline far in the background, vertical 9:16 composition, no text, no letters, no numbers, no logos",
+      "texto": "A usina solar fica em outro lugar e gera a energia por você.",
+      "destaque": ""
+    },
+    {
+      "prompt_imagem": "Flat vector illustration, simple clean style, navy blue and yellow color palette, glowing yellow lines of energy flowing from a solar plant through power lines and utility poles into the electrical grid and toward houses and apartment buildings, vertical 9:16 composition, no text, no letters, no numbers, no logos",
+      "texto": "A energia entra na rede da distribuidora, que continua a mesma.",
+      "destaque": ""
+    },
+    {
+      "prompt_imagem": "Flat vector illustration, simple clean style, navy blue and yellow color palette, a happy family in a small apartment living room looking at a blank electricity bill sheet with a big yellow check mark and a small green leaf, a sun and a coin symbol floating nearby, vertical 9:16 composition, no text, no letters, no numbers, no logos",
+      "texto": "Vira crédito na conta de luz: sem obra e economia de até 50%.",
+      "destaque": "ATÉ 50%"
+    }
+  ],
+  "virada": "TEM JEITO!",
+  "palavra_chave": "ECONOMIZAR",
+  "beneficios": [
+    "Sem obra e sem placa no telhado",
+    "Continua com a sua distribuidora",
+    "Economia de até 50% na conta",
+    "Análise da conta GRÁTIS"
+  ],
+  "legenda": "Mora de aluguel ou em apartamento e acha que energia solar não é pra você? 🌞\nÉ sim! Na energia solar compartilhada, a usina fica em outro lugar e gera os créditos.\nEles são abatidos direto na sua conta de luz, com economia de até 50%. Sem obra, sem placa no telhado e continuando com a sua distribuidora.\nComente ECONOMIZAR e receba a análise da sua conta de luz GRÁTIS. Se preferir, chama no WhatsApp: (19) 99562-1927.\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #energiacompartilhada #economia"
+}
