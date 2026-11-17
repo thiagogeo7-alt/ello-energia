@@ -9,23 +9,42 @@ Imprime: lista=[{"cliente": "ello", "dados": "...", ...}]   (formato de saída d
   instagram.carrosseis_por_semana (2 ou 1) na ficha do cliente.
 """
 import json
+import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from nucleo import cliente  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "instagram"))
+import agenda  # noqa: E402  (regras de dia/horário/uma vez por dia, as mesmas do agente)
+
+
+def _estado(branch: str) -> dict:
+    """Lê o estado.json do cliente direto do branch de dados (sem baixar o resto)."""
+    try:
+        subprocess.run(["git", "fetch", "-q", "--depth", "1", "origin", branch], check=True,
+                       capture_output=True, timeout=60)
+        return json.loads(subprocess.run(["git", "show", "FETCH_HEAD:estado.json"], check=True,
+                                         capture_output=True, timeout=30).stdout or b"{}")
+    except (subprocess.SubprocessError, ValueError, OSError):
+        return {}
+
 
 def no_ritmo(c: dict, tarefa: str) -> bool:
-    """O plano do cliente prevê esta publicação hoje? (horário de Brasília)"""
-    hoje = datetime.now(timezone.utc) - timedelta(hours=3)
+    """Execuções automáticas: é dia previsto no plano, está no horário e ainda não publicou hoje?"""
+    if tarefa not in agenda.REGRAS:
+        return True
+    agora = datetime.now(agenda.BRASILIA)
     ig = c.get("instagram") or {}
-    if tarefa == "reels":   # o agendamento roda nos dias ímpares (~15 por mês)
-        return int(ig.get("reels_por_mes") or 15) >= 15 or hoje.day % 4 == 1   # 8 por mês: dias 1, 5, 9...
-    if tarefa == "carrossel":   # o agendamento roda terça e quinta
-        return int(ig.get("carrosseis_por_semana") or 2) >= 2 or hoje.weekday() == 1   # 1 por semana: terça
-    return True
+    if tarefa == "reels" and int(ig.get("reels_por_mes") or 15) < 15 and agora.day % 4 != 1:
+        return False   # plano de 8 Reels por mês: dias 1, 5, 9, 13...
+    if tarefa == "carrossel" and int(ig.get("carrosseis_por_semana") or 2) < 2 and agora.weekday() != 1:
+        return False   # plano de 1 carrossel por semana: terça
+    rodar, motivo = agenda.decidir(tarefa, _estado(c["branches"]["instagram"]), agora)
+    print(f"{c['id']}: {'publicar' if rodar else 'pular'} ({motivo})", file=sys.stderr)
+    return rodar
 
 
 def main() -> None:
