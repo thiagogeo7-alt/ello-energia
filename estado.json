@@ -160,7 +160,32 @@
       "media_id": "18071644595610927",
       "permalink": "https://www.instagram.com/reel/Df3Cx71hCrz/",
       "modo": "cenas",
-      "teste": true
+      "teste": true,
+      "metricas": {
+        "reach": 0,
+        "likes": 0,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 0
+      },
+      "pontuacao": 0.0
+    },
+    {
+      "data": "2026-11-17T22:53:32+00:00",
+      "tipo": "carrossel",
+      "tema": "Mitos x verdades da energia solar compartilhada",
+      "gancho": "3 mitos sobre energia solar compartilhada: veja o que é mito e o que é verdade.",
+      "legenda": "Você ainda acredita nesses 3 mitos sobre energia solar? ☀️\n\nPrecisa de placa no telhado? Não. Tem custo de adesão? Não. Muda de distribuidora? Também não.\nA usina solar gera créditos que são abatidos direto na sua conta de luz, com economia de até 50%.\nSalve este post e mande para quem ainda tem essas dúvidas. 💡\n\nSimule sua economia no link da bio ou chama no WhatsApp: (19) 99562-1927\n\n#energiasolar #contadeluz #energiacompartilhada #campinas #economia",
+      "imagens": [
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261117-2252-1.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261117-2252-2.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261117-2252-3.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261117-2252-4.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261117-2252-5.jpg"
+      ],
+      "media_id": "17930845965430079",
+      "permalink": "https://www.instagram.com/p/Df3DF2bl6CI/"
     }
   ],
   "comentarios_respondidos": [
@@ -281,6 +306,11 @@
       "data": "2026-11-17T22:51:48+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-17T22:53:32+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -343,8 +373,13 @@
       "data": "2026-11-17T22:51:48+00:00",
       "tipo": "reel",
       "detalhe": "Como a energia solar compartilhada ajuda o comércio a economizar todo mês (explicativo)"
+    },
+    {
+      "data": "2026-11-17T22:53:32+00:00",
+      "tipo": "carrossel",
+      "detalhe": "Mitos x verdades da energia solar compartilhada"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-17T22:51:48+00:00"
+  "atualizado_em": "2026-11-17T22:53:32+00:00"
 }
