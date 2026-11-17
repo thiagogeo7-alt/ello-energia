@@ -16,13 +16,13 @@
       "media_id": "18121036601108157",
       "permalink": "https://www.instagram.com/p/DfvW6IaFxv2/",
       "metricas": {
-        "reach": 4,
+        "reach": 5,
         "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 1.8
+      "pontuacao": 2.0
     },
     {
       "data": "2026-11-15T00:22:56+00:00",
@@ -129,14 +129,38 @@
       "permalink": "https://www.instagram.com/reel/Df0CgKYB-4H/",
       "modo": "cenas",
       "metricas": {
-        "reach": 1,
-        "likes": 0,
+        "reach": 3,
+        "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 1
+        "views": 6
       },
-      "pontuacao": 0.30000000000000004
+      "pontuacao": 3.2
+    },
+    {
+      "data": "2026-11-17T22:51:47+00:00",
+      "tipo": "reel",
+      "estrategia": "teste",
+      "formato": "explicativo",
+      "argumento": "Comércio: energia é custo fixo e economizar nela sobra dinheiro todo mês",
+      "argumento_base": "Comércio: energia é custo fixo e economizar nela sobra dinheiro todo mês",
+      "tema": "Como a energia solar compartilhada ajuda o comércio a economizar todo mês",
+      "gancho": "Desenhos simples mostram que a energia é um custo fixo do comércio e como os créditos da usina solar da ELLO reduzem a conta e fazem sobrar dinheiro no caixa todo mês.",
+      "palavra_chave": "ECONOMIZAR",
+      "textos": [
+        "SUA LOJA PAGA",
+        "LUZ TODO MÊS?",
+        "Luz é custo fixo. Todo mês chega a conta do comércio.",
+        "A usina solar gera energia e manda crédito pra sua conta.",
+        "Economia de até 50% na conta. Sobra mais dinheiro no caixa!",
+        "TEM JEITO!"
+      ],
+      "legenda": "Sua loja paga luz todo santo mês? 💡\nEnergia é custo fixo, e é nele que dá pra economizar.\nCom a energia solar compartilhada da ELLO, a usina gera créditos que são abatidos direto na conta de luz do seu comércio. Economia de até 50%, sem obra e sem placa no telhado.\nComente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS. 👇\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #economia #energiacompartilhada",
+      "media_id": "18071644595610927",
+      "permalink": "https://www.instagram.com/reel/Df3Cx71hCrz/",
+      "modo": "cenas",
+      "teste": true
     }
   ],
   "comentarios_respondidos": [
@@ -232,6 +256,31 @@
       "data": "2026-11-16T19:59:51+00:00",
       "servico": "fal.ai trilha",
       "usd": 0.01
+    },
+    {
+      "data": "2026-11-17T22:48:33+00:00",
+      "servico": "fal.ai imagens (3 cenas)",
+      "usd": 0.06
+    },
+    {
+      "data": "2026-11-17T22:48:50+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.017
+    },
+    {
+      "data": "2026-11-17T22:49:30+00:00",
+      "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+      "usd": 0.58
+    },
+    {
+      "data": "2026-11-17T22:49:36+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
+    },
+    {
+      "data": "2026-11-17T22:51:48+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -284,8 +333,18 @@
       "data": "2026-11-16T18:50:56+00:00",
       "tipo": "reel",
       "detalhe": "Energia solar para quem mora de aluguel em apartamento (dialogo)"
+    },
+    {
+      "data": "2026-11-17T22:51:47+00:00",
+      "tipo": "story",
+      "detalhe": "Reels copiado para os Stories: Como a energia solar compartilhada ajuda o comércio a economizar todo mês"
+    },
+    {
+      "data": "2026-11-17T22:51:48+00:00",
+      "tipo": "reel",
+      "detalhe": "Como a energia solar compartilhada ajuda o comércio a economizar todo mês (explicativo)"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-17T17:44:53+00:00"
+  "atualizado_em": "2026-11-17T22:51:48+00:00"
 }
