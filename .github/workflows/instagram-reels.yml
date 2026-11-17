@@ -1,8 +1,10 @@
-name: Instagram - Reels com vídeo IA (~15 por mês)
+name: Instagram - Reels com vídeo IA (dias ímpares, ~15 por mês)
 
 on:
   schedule:
-    - cron: "0 21 */2 * *"   # dias ímpares, 18h de Brasília
+    # Várias tentativas (17h47 às 22h47 de Brasília); o verificador só publica em dia ímpar e uma vez por dia
+    - cron: "47 20,21,22,23 * * *"
+    - cron: "47 0,1 * * *"
   workflow_dispatch:
     inputs:
       simular:
@@ -31,9 +33,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  verificar:
+    # Execuções agendadas: o GitHub às vezes pula horários, então tentamos várias vezes no dia
+    # e este passo garante que só a primeira tentativa que der certo publica.
+    if: github.event_name == 'schedule' && vars.AGENTE_ATIVO == 'sim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      rodar: ${{ steps.decisao.outputs.rodar }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: instagram/agenda.py
+          sparse-checkout-cone-mode: false
+      - id: decisao
+        env:
+          URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
+        run: |
+          git clone -q --depth 1 --branch dados "$URL" dados 2>/dev/null || mkdir -p dados
+          python3 instagram/agenda.py reels dados/estado.json >> "$GITHUB_OUTPUT"
+
   rodar:
-    # Agendamentos só rodam depois que a variável AGENTE_ATIVO = sim for criada no GitHub
-    if: github.event_name == 'workflow_dispatch' || vars.AGENTE_ATIVO == 'sim'
+    needs: verificar
+    # Manual: roda sempre. Agendado: só quando o verificador mandar publicar.
+    if: always() && (github.event_name == 'workflow_dispatch' || needs.verificar.outputs.rodar == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 40
     defaults:

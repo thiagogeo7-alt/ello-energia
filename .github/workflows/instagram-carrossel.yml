@@ -2,7 +2,8 @@ name: Instagram - Carrossel (terça e quinta)
 
 on:
   schedule:
-    - cron: "0 15 * * 2,4"   # 12h de Brasília
+    # Várias tentativas (12h13 às 17h13 de Brasília) às terças e quintas; publica uma vez por dia
+    - cron: "13 15,16,17,18,19,20 * * 2,4"
   workflow_dispatch:
     inputs:
       simular:
@@ -18,9 +19,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  verificar:
+    # Execuções agendadas: o GitHub às vezes pula horários, então tentamos várias vezes no dia
+    # e este passo garante que só a primeira tentativa que der certo publica.
+    if: github.event_name == 'schedule' && vars.AGENTE_ATIVO == 'sim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      rodar: ${{ steps.decisao.outputs.rodar }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: instagram/agenda.py
+          sparse-checkout-cone-mode: false
+      - id: decisao
+        env:
+          URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
+        run: |
+          git clone -q --depth 1 --branch dados "$URL" dados 2>/dev/null || mkdir -p dados
+          python3 instagram/agenda.py carrossel dados/estado.json >> "$GITHUB_OUTPUT"
+
   rodar:
-    # Agendamentos só rodam depois que a variável AGENTE_ATIVO = sim for criada no GitHub
-    if: github.event_name == 'workflow_dispatch' || vars.AGENTE_ATIVO == 'sim'
+    needs: verificar
+    # Manual: roda sempre. Agendado: só quando o verificador mandar publicar.
+    if: always() && (github.event_name == 'workflow_dispatch' || needs.verificar.outputs.rodar == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 25
     defaults:
