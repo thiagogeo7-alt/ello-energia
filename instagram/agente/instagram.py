@@ -138,9 +138,45 @@ def metricas(media_id: str, reel: bool = True) -> dict:
     try:
         dados = _get(f"{media_id}/insights", metric=",".join(nomes)).get("data", [])
     except ErroAPI as e:
+        if "does not exist" in str(e):
+            print(f"Post {media_id} não existe mais no Instagram (apagado): deixa de ser medido.")
+            return {"removido": True}
         print(f"Aviso: sem métricas para {media_id}: {e}")
         return {}
     return {m["name"]: (m.get("values") or [{}])[0].get("value", 0) for m in dados}
+
+
+def conta() -> dict:
+    """Seguidores e total de publicações da conta."""
+    if config.SIMULAR:
+        return {"followers_count": 128, "media_count": 9, "username": "ello.economia.energia"}
+    try:
+        return _get(uid(), fields="followers_count,media_count,username")
+    except ErroAPI as e:
+        print(f"Aviso: não consegui ler os dados da conta: {e}")
+        return {}
+
+
+def metricas_conta(dias: int = 7) -> dict:
+    """Totais da conta nos últimos `dias` (alcance, visualizações, visitas ao perfil, cliques no link,
+    contas engajadas, interações). Cada métrica é pedida separadamente: se uma não existir na versão
+    da API, as outras continuam funcionando."""
+    if config.SIMULAR:
+        return {"reach": 3400, "views": 5100, "profile_views": 96, "website_clicks": 7,
+                "accounts_engaged": 61, "total_interactions": 180}
+    import time
+    ate = int(time.time())
+    desde = ate - dias * 86400
+    resultado = {}
+    for nome in ("reach", "views", "profile_views", "website_clicks", "accounts_engaged", "total_interactions"):
+        try:
+            dados = _get(f"{uid()}/insights", metric=nome, period="day", metric_type="total_value",
+                         since=desde, until=ate).get("data", [])
+            if dados:
+                resultado[nome] = (dados[0].get("total_value") or {}).get("value", 0)
+        except ErroAPI as e:
+            print(f"Aviso: métrica da conta '{nome}' indisponível: {str(e)[:120]}")
+    return resultado
 
 
 def permalink(media_id: str) -> str:

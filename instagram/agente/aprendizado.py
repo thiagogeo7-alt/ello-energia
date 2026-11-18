@@ -16,7 +16,7 @@ def pontuacao(m: dict, leads: int = 0) -> float:
 def atualizar_metricas(estado: dict, dias: int = 30) -> None:
     limite = datetime.now(timezone.utc) - timedelta(days=dias)
     for p in estado["publicacoes"]:
-        if not p.get("media_id"):
+        if not p.get("media_id") or p.get("removido"):
             continue
         try:
             data = datetime.fromisoformat(p["data"])
@@ -25,10 +25,17 @@ def atualizar_metricas(estado: dict, dias: int = 30) -> None:
         if data < limite:
             continue
         m = instagram.metricas(p["media_id"], reel=p.get("tipo") == "reel")
+        if m.get("removido"):
+            p["removido"] = True
+            continue
         if m:
             p["metricas"] = m
             p["pontuacao"] = pontuacao(m, p.get("leads", 0))
     estado["metricas_atualizadas_em"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def estado_agora() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
 def atualizar_metricas_do_dia(estado: dict) -> None:
@@ -39,7 +46,11 @@ def atualizar_metricas_do_dia(estado: dict) -> None:
         if datetime.now(timezone.utc) - ultima < timedelta(hours=20):
             return
         atualizar_metricas(estado)
-        print("Métricas das publicações atualizadas.")
+        seguidores = instagram.conta().get("followers_count")
+        if isinstance(seguidores, int):
+            estado.setdefault("seguidores", []).append({"data": estado_agora(), "total": seguidores})
+            estado["seguidores"] = estado["seguidores"][-120:]
+        print("Métricas das publicações e seguidores atualizados.")
     except Exception as e:
         print(f"Aviso: não consegui atualizar as métricas ({e})")
 

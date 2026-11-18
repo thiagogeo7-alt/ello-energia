@@ -7,6 +7,7 @@ name: Despertador (chamado pelo cron-job.org a cada 15 min)
 #   - Prospecção: enviar e-mails (dias úteis, 9h e 14h)
 #   - Instagram: Reels (dias ímpares, 17h–22h) e carrossel (terça e quinta, 12h–17h), de hora em hora;
 #     o próprio workflow confere se já publicou hoje, então nunca sai repetido
+#   - Instagram: relatório semanal de estratégia (segunda, 8h–11h; sai uma vez por semana)
 on:
   workflow_dispatch:
 
@@ -36,6 +37,9 @@ jobs:
             DIA=$(TZ=America/Sao_Paulo date +%-d)
             if [ "$M" -lt 15 ] && [ $((DIA % 2)) -eq 1 ] && [ "$H" -ge 17 ] && [ "$H" -le 22 ]; then
               gh workflow run instagram-reels.yml -R "$REPO" -f simular=false -f agendado=true && echo "→ Instagram: Reels (se ainda não saiu hoje)"
+            fi
+            if [ "$D" = "1" ] && [ "$M" -lt 15 ] && [ "$H" -ge 8 ] && [ "$H" -le 11 ]; then
+              gh workflow run instagram-relatorio.yml -R "$REPO" -f simular=false -f agendado=true && echo "→ Instagram: relatório semanal (se ainda não saiu)"
             fi
             if [ "$M" -lt 15 ] && { [ "$D" = "2" ] || [ "$D" = "4" ]; } && [ "$H" -ge 12 ] && [ "$H" -le 17 ]; then
               gh workflow run instagram-carrossel.yml -R "$REPO" -f simular=false -f agendado=true && echo "→ Instagram: carrossel (se ainda não saiu hoje)"

@@ -26,12 +26,34 @@ def _data_brasilia(texto: str):
         return None
 
 
+def _experimentos():
+    """Carrega agente/experimentos.py direto do arquivo (só biblioteca padrão, sem o resto do agente)."""
+    import importlib.util
+    from pathlib import Path
+    arq = Path(__file__).resolve().parent / "agente" / "experimentos.py"
+    if not arq.exists():
+        return None
+    spec = importlib.util.spec_from_file_location("experimentos", arq)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def hora_do_teste(estado: dict) -> int | None:
+    """Teste A/B de horário: a partir de que hora o Reels de hoje deve sair (17, 19 ou 21)."""
+    exp = _experimentos()
+    return int(exp.escolher(estado, "horario")) if exp else None
+
+
 def decidir(tarefa: str, estado: dict, agora: datetime) -> tuple[bool, str]:
     e_dia, hora_minima, tipo = REGRAS[tarefa]
+    if tarefa == "reels":
+        hora_minima = hora_do_teste(estado) or hora_minima
     if not e_dia(agora):
         return False, "hoje não é dia desta publicação"
     if agora.hour < hora_minima:
-        return False, f"ainda não são {hora_minima}h"
+        return False, f"ainda não são {hora_minima}h (horário do teste A/B de hoje)" if tarefa == "reels" \
+            else f"ainda não são {hora_minima}h"
     hoje = agora.date()
     for p in estado.get("publicacoes", []):
         if p.get("tipo") == tipo and _data_brasilia(p.get("data", "")) == hoje:

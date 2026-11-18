@@ -8,7 +8,7 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 
-from . import aprendizado, claude, config, dados_git, estado, instagram, montagem, video
+from . import aprendizado, claude, config, dados_git, estado, experimentos, instagram, montagem, video
 
 FORMATOS = ["dialogo", "explicativo", "reacao"]
 ARGUMENTOS = [
@@ -54,6 +54,7 @@ PEDIDO = """Crie o próximo Reels da ELLO.
 FORMATO OBRIGATÓRIO: {formato}
 ARGUMENTO PRINCIPAL OBRIGATÓRIO: {argumento}
 PÚBLICO E AMBIENTE OBRIGATÓRIOS (quem aparece e onde): {publico}
+ESTILO DO GANCHO OBRIGATÓRIO (texto_topo_1 e texto_topo_2, teste A/B em andamento): {gancho}
 
 O que já sabemos do desempenho da conta:
 {historico}
@@ -146,13 +147,16 @@ def executar(cena_local: str | None = None) -> dict:
     formato = __import__("os").getenv("FORMATO", "").strip() or formato
     lista_vozes = "; ".join(f"{k} ({v})" for k, v in video.VOZES.items())
     publico = _publico(est)
+    gancho = experimentos.escolher(est, "gancho")
     pedido = PEDIDO.format(historico=historico, formato=formato, argumento=argumento, vozes=lista_vozes,
-                           publico=publico)
+                           publico=publico, gancho=experimentos.instrucao_gancho(gancho))
+    print(f"Teste A/B: gancho = {gancho}")
     tema = __import__("os").getenv("TEMA", "").strip()
     if tema:
         pedido += f"\n\nTEMA OBRIGATÓRIO deste Reels (use exatamente esta ideia): {tema}"
     r = claude.perguntar_json(SISTEMA, pedido, simulado=SIMULADO)
     r["formato"] = formato
+    r["teste_gancho"], r["publico"] = gancho, publico   # ficam no roteiro.json da prévia
     r["cenas"] = (r.get("cenas") or [])[:3]
     if len(r["cenas"]) < 2:
         raise RuntimeError(f"Roteiro com poucas cenas: {r.get('cenas')}")
@@ -245,6 +249,7 @@ def executar(cena_local: str | None = None) -> dict:
     est["publicacoes"].append({
         "data": estado.agora(), "tipo": "reel", "ref": estado.proximo_ref(est, "reel"), "estrategia": r.get("estrategia"),
         "formato": formato, "argumento": r.get("argumento"), "argumento_base": argumento, "publico": publico,
+        "testes": {"gancho": gancho, "horario": experimentos.faixa_horario()},
         "tema": r.get("tema"), "gancho": r.get("gancho"), "palavra_chave": r["palavra_chave"],
         "textos": [r.get("texto_topo_1"), r.get("texto_topo_2")] + [c.get("texto") for c in r["cenas"]] + [r.get("virada")],
         "legenda": legenda, "media_id": media_id, "permalink": instagram.permalink(media_id),

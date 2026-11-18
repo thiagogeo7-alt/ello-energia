@@ -108,6 +108,11 @@ ul.linha time{color:var(--muted);font-size:.8rem}
       </div>
     </div>
 
+    <div class="cartao" style="margin-bottom:20px" id="cartaoRelatorio" hidden>
+      <h2>Relatório semanal de estratégia</h2>
+      <div id="relatorio"></div>
+    </div>
+
     <div class="cartao" style="margin-bottom:20px">
       <h2>Publicações</h2>
       <div class="rolar"><table id="tabela"></table></div>
@@ -274,7 +279,19 @@ ul.linha time{color:var(--muted);font-size:.8rem}
       }).join("") + '</tbody>';
   }
 
-  var NOMES = {reel:"Reels publicado", carrossel:"Carrossel publicado", resposta_comentario:"Respondeu um comentário", resposta_dm:"Respondeu uma DM", dm_palavra_chave:"DM automática (palavra-chave)"};
+  var NOMES = {reel:"Reels publicado", carrossel:"Carrossel publicado", resposta_comentario:"Respondeu um comentário", resposta_dm:"Respondeu uma DM", dm_palavra_chave:"DM automática (palavra-chave)", relatorio:"Relatório semanal enviado"};
+  function relatorio(e){
+    var rs = e.relatorios || []; if (!rs.length) return;
+    var x = rs[rs.length - 1], r = x.relatorio || {};
+    function lista(t, itens){ return (itens && itens.length) ? '<p style="margin:12px 0 4px"><b>' + t + '</b></p><ul style="margin:0;padding-left:20px">' + itens.map(function(i){ return '<li>' + esc(i) + '</li>'; }).join("") + '</ul>' : ""; }
+    $("relatorio").innerHTML = '<p style="color:var(--ink2);margin:0 0 6px">' + esc(x.periodo || "") + '</p>' +
+      '<p style="font-size:1.1em;margin:0 0 8px"><b>' + esc(r.manchete || "") + '</b></p>' +
+      '<p style="margin:0">' + esc(r.o_que_aconteceu || "") + '</p>' +
+      lista("O que funcionou", r.funcionou) + lista("O que não funcionou", r.nao_funcionou) +
+      (r.testes_ab ? '<p style="margin:12px 0 4px"><b>Testes A/B</b></p><p style="margin:0">' + esc(r.testes_ab) + '</p>' : "") +
+      lista("O agente vai priorizar", r.acoes_agente) + lista("Sugestões para a equipe", r.acoes_equipe);
+    $("cartaoRelatorio").hidden = false;
+  }
   function acoes(e){
     var lista = e.acoes.slice(-15).reverse();
     $("acoes").innerHTML = lista.length ? lista.map(function(a){
@@ -345,7 +362,7 @@ ul.linha time{color:var(--muted);font-size:.8rem}
       ["publicacoes","custos","acoes"].forEach(function(k){ e[k] = e[k] || []; });
       $("atualizado").textContent = "Dados de " + (e.atualizado_em ? horaBR(e.atualizado_em) : "–");
       $("avisos").innerHTML = "";
-      kpis(e); grafico(e); tabela(e); acoes(e); custos(e); agenda();
+      kpis(e); grafico(e); tabela(e); acoes(e); custos(e); agenda(); relatorio(e);
     }).catch(function(){
       $("atualizado").textContent = "Sem dados ainda";
       $("avisos").innerHTML = '<div class="aviso">O agente ainda não gravou dados. Assim que a primeira publicação ou resposta acontecer, este painel se preenche sozinho.</div>';

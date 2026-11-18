@@ -39,6 +39,11 @@ def main() -> None:
         from . import posts
         posts.executar()
         dados_git.enviar("Carrossel publicado")
+    elif tarefa == "relatorio":
+        import os
+        from . import relatorio
+        if relatorio.executar(agendado=os.getenv("AGENDADO") == "1"):
+            dados_git.enviar("Relatório semanal")
     elif tarefa == "respostas":
         from . import respostas
         respostas.executar()
@@ -46,7 +51,7 @@ def main() -> None:
     elif tarefa == "publicar-previa":
         # Publica uma prévia já aprovada (branch "previa-<formato>"), sem gerar outra
         import json, os
-        from . import estado, instagram
+        from . import estado, experimentos, instagram
         formato = sys.argv[2]
         pasta = Path(sys.argv[3])
         r = json.loads((pasta / "roteiro.json").read_text())
@@ -59,7 +64,10 @@ def main() -> None:
         instagram.copiar_para_stories(f"{base}/{mp4}", video=True)
         est = estado.carregar()
         est["publicacoes"].append({
-            "data": estado.agora(), "tipo": "reel", "estrategia": r.get("estrategia"), "formato": r.get("formato"),
+            "data": estado.agora(), "tipo": "reel", "ref": estado.proximo_ref(est, "reel"),
+            "publico": r.get("publico"),
+            "testes": {"gancho": r.get("teste_gancho"), "horario": experimentos.faixa_horario()},
+            "estrategia": r.get("estrategia"), "formato": r.get("formato"),
             "argumento": r.get("argumento"), "argumento_base": r.get("argumento"), "tema": r.get("tema"),
             "gancho": r.get("gancho"), "palavra_chave": r.get("palavra_chave", "ECONOMIZAR"),
             "textos": [c.get("texto") for c in r.get("cenas", [])], "legenda": legenda, "media_id": media_id,
