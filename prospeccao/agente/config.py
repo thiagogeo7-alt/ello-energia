@@ -35,6 +35,8 @@ SMTP_USUARIO = os.getenv("SMTP_USUARIO") or EMAIL_REMETENTE
 SMTP_SENHA = (os.getenv("SMTP_SENHA") or "")
 
 # Ritmo e regras
+# Assunto do primeiro e-mail (variável ASSUNTO_EMAIL no GitHub para trocar sem mexer no código)
+ASSUNTO_EMAIL = (os.getenv("ASSUNTO_EMAIL") or "Economize Já na Conta de Energia").strip()
 LIMITE_DIA = int((os.getenv("LIMITE_DIA") or "30"))
 DIAS_FOLLOWUP = [3, 7]                    # 1º e 2º lembrete, em dias corridos após o envio anterior
 LINK_AGENDA = (os.getenv("LINK_AGENDA") or "https://cal.com/ello-energia/conversa")  # link do Google Agenda / Cal.com para marcar reunião

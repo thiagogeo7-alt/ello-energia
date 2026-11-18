@@ -15,7 +15,7 @@ Regras:
 - Nunca mencione fidelidade, multa, contrato ou cancelamento.
 - Termine com UMA pergunta simples de sim/não (ex.: "Faz sentido eu te mandar uma simulação?").
 - Não coloque links no primeiro e-mail. Não use palavras como "grátis!!!", "promoção", "imperdível".
-- Assunto curto (até 6 palavras), em minúsculas, natural, sem ponto de exclamação.
+- O assunto é definido automaticamente (não precisa caprichar nele); devolva qualquer assunto curto.
 - Se o segmento for condomínio mas o nome indicar uma administradora (ex.: "Administração", "Administradora", "Gestão"),
   fale com ela como quem cuida de vários condomínios e pode levar a economia para os clientes dela.
 - Não escreva assinatura nem rodapé: eles são adicionados automaticamente.
@@ -72,4 +72,15 @@ def escrever(lote: list[tuple[dict, str]]) -> list[dict]:
     except Exception as e:
         print(f"Aviso: Claude falhou ao escrever ({e}); usando modelos prontos.")
         por_n = {}
-    return [por_n.get(i) or _modelo(c, t) for i, (c, t) in enumerate(lote)]
+    emails = [dict(por_n.get(i) or _modelo(c, t)) for i, (c, t) in enumerate(lote)]
+    for e, (c, t) in zip(emails, lote):
+        e["assunto"] = assunto(c, t)
+    return emails
+
+
+def assunto(contato: dict, tipo: str) -> str:
+    """Assunto padrão do primeiro e-mail; os lembretes respondem no mesmo assunto (ficam na mesma conversa)."""
+    if tipo == "inicial":
+        return config.ASSUNTO_EMAIL
+    anterior = (contato.get("enviados") or [{}])[0].get("assunto") or config.ASSUNTO_EMAIL
+    return anterior if anterior.lower().startswith("re:") else f"Re: {anterior}"

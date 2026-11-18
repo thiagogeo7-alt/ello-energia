@@ -63,6 +63,7 @@ jobs:
           LINK_SITE: ${{ vars.LINK_SITE }}
           RODAPE_EMPRESA: ${{ vars.RODAPE_EMPRESA }}
           LIMITE_DIA: ${{ vars.LIMITE_DIA }}
+          ASSUNTO_EMAIL: ${{ vars.ASSUNTO_EMAIL }}
         run: python -m agente ${{ inputs.previa && 'previa' || 'enviar' }}
 
       - name: Avisar a equipe por e-mail se falhar
