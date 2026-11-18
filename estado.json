@@ -16,13 +16,13 @@
       "media_id": "18121036601108157",
       "permalink": "https://www.instagram.com/p/DfvW6IaFxv2/",
       "metricas": {
-        "reach": 5,
+        "reach": 6,
         "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 2.0,
+      "pontuacao": 2.2,
       "ref": "C1"
     },
     {
@@ -52,7 +52,8 @@
         "views": 0
       },
       "pontuacao": 1.0,
-      "ref": "R1"
+      "ref": "R1",
+      "removido": true
     },
     {
       "data": "2026-11-15T21:49:12+00:00",
@@ -81,7 +82,8 @@
         "views": 3
       },
       "pontuacao": 1.9000000000000001,
-      "ref": "R2"
+      "ref": "R2",
+      "removido": true
     },
     {
       "data": "2026-11-16T00:48:49+00:00",
@@ -102,14 +104,14 @@
       "permalink": "https://www.instagram.com/reel/DfyGqIUB0e0/",
       "modo": "imagem",
       "metricas": {
-        "reach": 3,
+        "reach": 4,
         "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 4
+        "views": 6
       },
-      "pontuacao": 3.0,
+      "pontuacao": 3.4000000000000004,
       "ref": "R3"
     },
     {
@@ -133,14 +135,14 @@
       "permalink": "https://www.instagram.com/reel/Df0CgKYB-4H/",
       "modo": "cenas",
       "metricas": {
-        "reach": 3,
+        "reach": 4,
         "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 6
+        "views": 8
       },
-      "pontuacao": 3.2,
+      "pontuacao": 3.6,
       "ref": "R4"
     },
     {
@@ -167,14 +169,14 @@
       "modo": "cenas",
       "teste": true,
       "metricas": {
-        "reach": 1,
+        "reach": 2,
         "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 3
+        "views": 8
       },
-      "pontuacao": 1.5,
+      "pontuacao": 2.2,
       "ref": "R5"
     },
     {
@@ -194,13 +196,13 @@
       "permalink": "https://www.instagram.com/p/Df3DF2bl6CI/",
       "ref": "C2",
       "metricas": {
-        "reach": 1,
+        "reach": 2,
         "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 1.2
+      "pontuacao": 1.4
     }
   ],
   "comentarios_respondidos": [
@@ -393,9 +395,68 @@
       "data": "2026-11-17T22:53:32+00:00",
       "tipo": "carrossel",
       "detalhe": "Mitos x verdades da energia solar compartilhada"
+    },
+    {
+      "data": "2026-11-18T22:24:26+00:00",
+      "tipo": "relatorio",
+      "detalhe": "Semana de começo: 909 contas alcançadas e 5 pessoas interessadas, mas ninguém clicou no link do perfil."
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-18T22:15:40+00:00",
-  "metricas_atualizadas_em": "2026-11-18T12:15:02+00:00"
+  "atualizado_em": "2026-11-18T22:24:26+00:00",
+  "metricas_atualizadas_em": "2026-11-18T22:24:04+00:00",
+  "seguidores": [
+    {
+      "data": "2026-11-18T22:24:08+00:00",
+      "total": 11
+    }
+  ],
+  "relatorios": [
+    {
+      "data": "2026-11-18T22:24:26+00:00",
+      "semana": "2026-S47",
+      "periodo": "11/11 a 18/11/2026",
+      "conta": {
+        "seguidores": 11,
+        "reach": 909,
+        "views": 1094,
+        "profile_views": 42,
+        "website_clicks": 0,
+        "accounts_engaged": 19,
+        "total_interactions": 39
+      },
+      "prospeccao": {
+        "empresas na base": 2500,
+        "e-mails enviados na semana": 30,
+        "situação 'enviado'": 29,
+        "situação 'novo'": 2470,
+        "situação 'invalido'": 1
+      },
+      "leads_semana": 5,
+      "relatorio": {
+        "manchete": "Semana de começo: 909 contas alcançadas e 5 pessoas interessadas, mas ninguém clicou no link do perfil.",
+        "o_que_aconteceu": "O perfil alcançou 909 contas (alcance é o número de pessoas diferentes que viram o conteúdo) e teve 1.094 visualizações. Dessas pessoas, 42 entraram no perfil, mas 0 clicaram no link. A conta tem 11 seguidores, e 19 contas interagiram, com 39 interações no total. Cinco pessoas demonstraram interesse, o primeiro resultado concreto da conta. Os 5 posts da semana tiveram números muito pequenos (alcance de 2 a 6 cada), e os dados não mostram de onde veio a maior parte dos 909.",
+        "funcionou": [
+          "R4 (Reels do apartamento de aluguel, em formato de diálogo) teve a maior pontuação da semana, 3,6, com 8 visualizações e alcance 4. É pouco, mas é a melhor tendência até agora.",
+          "R3 (Reels da academia) ficou em segundo, com pontuação 3,4. Os dois Reels com situações do dia a dia do cliente ficaram à frente dos carrosséis.",
+          "Chegaram 5 interessados na semana e 42 pessoas visitaram o perfil, sinal de que há curiosidade."
+        ],
+        "nao_funcionou": [
+          "Os cliques no link do perfil foram 0, mesmo com 42 visitas. O caminho até a simulação ainda não está convencendo.",
+          "Nenhum post teve salvamento, compartilhamento ou comentário. Também não aparece nenhum interessado ligado a um post específico, então não dá para dizer qual conteúdo trouxe os 5.",
+          "C2 (Mitos x verdades) teve a menor pontuação, 1,4, com alcance 2. Com números tão pequenos, isso é só um sinal inicial, não uma conclusão."
+        ],
+        "testes_ab": "Os dois testes (estilo do gancho e horário de publicação) ainda estão coletando dados. Nenhuma variante tem post válido contado, e o mínimo é de 3 posts com 3 dias ou mais por variante. Ainda não há vencedora.",
+        "acoes_agente": [
+          "Distribuir os próximos Reels entre os 4 estilos de gancho (pergunta, número, provocação, história) e os 3 horários (17h, 19h, 21h), um por post, para os testes começarem a render conclusões.",
+          "Escolher temas novos, sem repetir padaria, academia, comércio em geral nem inquilino de apartamento. Sugestões: síndico de condomínio, clínica, restaurante e família com conta a partir de R$ 150. Manter o formato de diálogo, que foi o melhor da semana.",
+          "Trocar a chamada para ação por \"Chama no WhatsApp: (19) 99562-1927\" nos Reels, já que o link da bio teve 0 cliques. Reforçar \"sem obra, sem placa, sem custo de adesão\" e economia \"até 50%\"."
+        ],
+        "acoes_equipe": [
+          "Responder pessoalmente os 5 interessados no WhatsApp e perguntar de forma simples como conheceram a ELLO. Isso mostra qual conteúdo está trazendo gente.",
+          "Verificar se o link do perfil abre direito no celular e se o WhatsApp responde rápido. Há visitas ao perfil, mas ninguém clicou."
+        ]
+      }
+    }
+  ]
 }
