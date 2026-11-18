@@ -9,8 +9,8 @@ def pontuacao(m: dict, leads: int = 0) -> float:
     if not m and not leads:
         return 0.0
     m = m or {}
-    return (m.get("views", 0) * 0.1 + m.get("reach", 0) * 0.2 + m.get("likes", 0)
-            + m.get("comments", 0) * 3 + m.get("saved", 0) * 4 + m.get("shares", 0) * 5 + leads * 15)
+    return round(m.get("views", 0) * 0.1 + m.get("reach", 0) * 0.2 + m.get("likes", 0)
+                 + m.get("comments", 0) * 3 + m.get("saved", 0) * 4 + m.get("shares", 0) * 5 + leads * 15, 1)
 
 
 def atualizar_metricas(estado: dict, dias: int = 30) -> None:
@@ -73,7 +73,17 @@ def resumo_para_claude(estado: dict, tipo: str) -> str:
     return (f"MELHORES publicações:\n{melhores}\n\nPIORES publicações:\n{piores}\n\n" + recentes_texto(estado))
 
 
+def prioridades_texto(estado: dict) -> str:
+    """Prioridades do último relatório semanal, para o roteirista seguir."""
+    rs = estado.get("relatorios") or []
+    acoes = (rs[-1].get("relatorio") or {}).get("acoes_agente") if rs else None
+    if not acoes:
+        return ""
+    return ("\n\nPRIORIDADES DA SEMANA (do relatório de estratégia; siga quando não conflitarem com o guia da "
+            "marca, a palavra-chave e as instruções obrigatórias acima):\n- " + "\n- ".join(acoes))
+
+
 def recentes_texto(estado: dict) -> str:
     recentes = "; ".join(f"{p.get('tema', '')}" + (f" ({p['publico']})" if p.get("publico") else "")
                          for p in estado["publicacoes"][-8:])
-    return f"Posts recentes (NÃO repetir tema nem tipo de negócio): {recentes}"
+    return f"Posts recentes (NÃO repetir tema nem tipo de negócio): {recentes}" + prioridades_texto(estado)
