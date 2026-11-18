@@ -22,7 +22,8 @@
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 2.0
+      "pontuacao": 2.0,
+      "ref": "C1"
     },
     {
       "data": "2026-11-15T00:22:56+00:00",
@@ -50,7 +51,8 @@
         "shares": 0,
         "views": 0
       },
-      "pontuacao": 1.0
+      "pontuacao": 1.0,
+      "ref": "R1"
     },
     {
       "data": "2026-11-15T21:49:12+00:00",
@@ -78,7 +80,8 @@
         "shares": 0,
         "views": 3
       },
-      "pontuacao": 1.9000000000000001
+      "pontuacao": 1.9000000000000001,
+      "ref": "R2"
     },
     {
       "data": "2026-11-16T00:48:49+00:00",
@@ -106,7 +109,8 @@
         "shares": 0,
         "views": 4
       },
-      "pontuacao": 3.0
+      "pontuacao": 3.0,
+      "ref": "R3"
     },
     {
       "data": "2026-11-16T18:50:55+00:00",
@@ -136,7 +140,8 @@
         "shares": 0,
         "views": 6
       },
-      "pontuacao": 3.2
+      "pontuacao": 3.2,
+      "ref": "R4"
     },
     {
       "data": "2026-11-17T22:51:47+00:00",
@@ -162,14 +167,15 @@
       "modo": "cenas",
       "teste": true,
       "metricas": {
-        "reach": 0,
-        "likes": 0,
+        "reach": 1,
+        "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 0
+        "views": 3
       },
-      "pontuacao": 0.0
+      "pontuacao": 1.5,
+      "ref": "R5"
     },
     {
       "data": "2026-11-17T22:53:32+00:00",
@@ -185,7 +191,16 @@
         "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261117-2252-5.jpg"
       ],
       "media_id": "17930845965430079",
-      "permalink": "https://www.instagram.com/p/Df3DF2bl6CI/"
+      "permalink": "https://www.instagram.com/p/Df3DF2bl6CI/",
+      "ref": "C2",
+      "metricas": {
+        "reach": 1,
+        "likes": 1,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0
+      },
+      "pontuacao": 1.2
     }
   ],
   "comentarios_respondidos": [
@@ -381,5 +396,6 @@
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-18T07:02:51+00:00"
+  "atualizado_em": "2026-11-18T12:15:02+00:00",
+  "metricas_atualizadas_em": "2026-11-18T12:15:02+00:00"
 }
