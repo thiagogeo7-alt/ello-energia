@@ -6,6 +6,10 @@ on:
     - cron: "13 15,16,17,18,19,20 * * 2,4"
   workflow_dispatch:
     inputs:
+      agendado:
+        description: "Uso do Despertador: só publica se for dia e ainda não houver publicação hoje"
+        type: boolean
+        default: false
       simular:
         description: "Simular (não publica nem gasta)"
         type: boolean
@@ -22,7 +26,7 @@ jobs:
   verificar:
     # Execuções agendadas: o GitHub às vezes pula horários, então tentamos várias vezes no dia
     # e este passo garante que só a primeira tentativa que der certo publica.
-    if: github.event_name == 'schedule' && vars.AGENTE_ATIVO == 'sim'
+    if: (github.event_name == 'schedule' || inputs.agendado) && vars.AGENTE_ATIVO == 'sim'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -42,7 +46,7 @@ jobs:
   rodar:
     needs: verificar
     # Manual: roda sempre. Agendado: só quando o verificador mandar publicar.
-    if: always() && (github.event_name == 'workflow_dispatch' || needs.verificar.outputs.rodar == 'true')
+    if: always() && ((github.event_name == 'workflow_dispatch' && !inputs.agendado) || needs.verificar.outputs.rodar == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 25
     defaults:

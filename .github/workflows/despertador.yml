@@ -5,6 +5,8 @@ name: Despertador (chamado pelo cron-job.org a cada 15 min)
 #   - Instagram: responder comentários e DMs (toda vez)
 #   - Prospecção: ler respostas de e-mail (de hora em hora, dias úteis 8h–20h)
 #   - Prospecção: enviar e-mails (dias úteis, 9h e 14h)
+#   - Instagram: Reels (dias ímpares, 17h–22h) e carrossel (terça e quinta, 12h–17h), de hora em hora;
+#     o próprio workflow confere se já publicou hoje, então nunca sai repetido
 on:
   workflow_dispatch:
 
@@ -31,6 +33,13 @@ jobs:
           echo "Agora em Brasília: dia $D, ${H}h${M}"
           if [ "$AGENTE_ATIVO" = "sim" ]; then
             gh workflow run instagram-respostas.yml -R "$REPO" -f simular=false && echo "→ Instagram: respostas"
+            DIA=$(TZ=America/Sao_Paulo date +%-d)
+            if [ "$M" -lt 15 ] && [ $((DIA % 2)) -eq 1 ] && [ "$H" -ge 17 ] && [ "$H" -le 22 ]; then
+              gh workflow run instagram-reels.yml -R "$REPO" -f simular=false -f agendado=true && echo "→ Instagram: Reels (se ainda não saiu hoje)"
+            fi
+            if [ "$M" -lt 15 ] && { [ "$D" = "2" ] || [ "$D" = "4" ]; } && [ "$H" -ge 12 ] && [ "$H" -le 17 ]; then
+              gh workflow run instagram-carrossel.yml -R "$REPO" -f simular=false -f agendado=true && echo "→ Instagram: carrossel (se ainda não saiu hoje)"
+            fi
           fi
           if [ "$PROSPECCAO_ATIVA" = "sim" ] && [ "$D" -le 5 ] && [ "$M" -lt 15 ]; then
             if [ "$H" -ge 8 ] && [ "$H" -le 20 ]; then
