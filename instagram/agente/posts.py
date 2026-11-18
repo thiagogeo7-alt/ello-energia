@@ -106,7 +106,7 @@ def executar() -> dict:
     if url_story and instagram.copiar_para_stories(url_story, video=False):
         estado.registrar(est, "story", f"Carrossel copiado para os Stories: {ideia.get('tema', '')}")
     est["publicacoes"].append({
-        "data": estado.agora(), "tipo": "carrossel", "tema": ideia.get("tema"),
+        "data": estado.agora(), "tipo": "carrossel", "ref": estado.proximo_ref(est, "carrossel"), "tema": ideia.get("tema"),
         "gancho": ideia.get("gancho"), "legenda": ideia["legenda"], "imagens": urls, "media_id": media_id,
         "permalink": instagram.permalink(media_id),
     })

@@ -2,7 +2,7 @@
 import json
 import re
 
-from . import claude, config, emailer, estado
+from . import aviso, claude, config, emailer, estado
 
 SISTEMA = f"""Você cuida das respostas aos e-mails de prospecção da ELLO Energia (energia solar compartilhada,
 economia de até 50% na conta de luz, sem obra, sem placas, sem investimento, mesma distribuidora).
@@ -47,6 +47,7 @@ def _indices(crm: dict):
 def executar() -> None:
     config.exigir("EMAIL_REMETENTE", "SMTP_SENHA", "ANTHROPIC_API_KEY", "PAINEL_SENHA")
     crm = estado.carregar()
+    quentes = []
     por_email, por_mid = _indices(crm)
     entrada = emailer.ler_novos()
     if not entrada:
@@ -113,6 +114,7 @@ def executar() -> None:
                 c["status"] = "descartado"
             elif classe in ("interessado", "pergunta"):
                 c["status"] = "interessado"
+                quentes.append(f"{c.get('empresa') or m['de']} ({m['de']}) — {classe}: {d.get('resumo', '')[:160]}")
             else:
                 c["status"] = "respondeu"
             resposta = (d.get("resposta") or "").strip()
@@ -128,5 +130,9 @@ def executar() -> None:
             mudou = True
         crm["custos"].append({"data": estado.iso(), "servico": "Claude (respostas)", "usd": round(0.003 * len(pendentes), 3)})
     if mudou:
+        if quentes:
+            aviso.enviar(f"{len(quentes)} empresa(s) respondeu(ram) com interesse",
+                         "Respostas com interesse na prospecção por e-mail:\n\n- " + "\n- ".join(quentes)
+                         + "\n\nO agente já respondeu e ofereceu a agenda. Vale um contato pessoal hoje.")
         estado.salvar(crm)
     print(f"Processados: {len(entrada)} e-mails ({len(pendentes)} respostas de contatos).")

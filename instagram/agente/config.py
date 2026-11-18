@@ -46,6 +46,11 @@ URL_MIDIA_BASE = f"https://raw.githubusercontent.com/{REPO}/{MIDIA_BRANCH}"
 
 WHATSAPP = "5519995621927"
 LINK_WHATSAPP = f"https://wa.me/{WHATSAPP}"
+def link_whatsapp_ref(ref: str = "") -> str:
+    """Link do WhatsApp com a mensagem pronta + o código do post (ex.: "(ref R17)") para saber de onde veio o lead."""
+    return LINK_WHATSAPP_IG + (f"%20(ref%20{ref})" if ref else "")
+
+
 # Link que já abre o WhatsApp com a mensagem escrita (e mostra que o contato veio do Instagram)
 LINK_WHATSAPP_IG = (f"https://wa.me/{WHATSAPP}?text=Oi!%20Vim%20pelo%20Instagram%20e%20quero%20a%20"
                     "an%C3%A1lise%20gr%C3%A1tis%20da%20minha%20conta%20de%20luz")

@@ -2,7 +2,7 @@
 import json
 from datetime import datetime, timedelta, timezone
 
-from . import claude, config, estado, instagram
+from . import aprendizado, aviso, claude, config, estado, instagram
 
 SISTEMA = f"""Você atende o Instagram da ELLO Energia. Responde comentários e mensagens
 com simpatia, em português do Brasil, em no máximo 2 frases curtas. Siga o guia da marca.
@@ -38,6 +38,17 @@ def _recente(ts: str, dias: int = 7) -> bool:
     return data > datetime.now(timezone.utc) - timedelta(days=dias)
 
 
+def _dm_palavra_chave(ref: str) -> str:
+    """Direct da palavra-chave com o código do post no link do WhatsApp."""
+    return DM_PALAVRA_CHAVE.replace(config.LINK_WHATSAPP_IG, config.link_whatsapp_ref(ref))
+
+
+def _contar_lead(est: dict, media_id: str) -> None:
+    for pub in est["publicacoes"]:
+        if pub.get("media_id") == media_id:
+            pub["leads"] = pub.get("leads", 0) + 1
+
+
 DM_PALAVRA_CHAVE = (
     "Oi! Que bom que você quer economizar 😊\n\n"
     "A análise da sua conta de luz é grátis: é só mandar uma foto da sua última conta no nosso WhatsApp "
@@ -61,11 +72,14 @@ def executar() -> None:
     eu = instagram.meu_id()
     minhas_contas = {eu}
     palavras = _palavras_chave(est)
+    refs = estado.refs_por_media(est)
+    novos_leads = []
 
     pendentes = []
     for media in instagram.minhas_publicacoes(limite=10):
         if not _recente(media.get("timestamp", ""), dias=30) or not media.get("comments_count", 1):
             continue
+        ref = refs.get(media["id"], "")
         for c in instagram.comentarios(media["id"]):
             ja_tem_resposta = bool((c.get("replies") or {}).get("data"))
             if c["id"] in feitos_c or ja_tem_resposta or not _recente(c.get("timestamp", "")):
@@ -74,7 +88,7 @@ def executar() -> None:
                 # Comentou a palavra-chave: manda DM com o link e responde em público
                 try:
                     try:
-                        instagram.resposta_privada(c["id"], DM_PALAVRA_CHAVE)
+                        instagram.resposta_privada(c["id"], _dm_palavra_chave(ref))
                         publica = RESPOSTAS_PUBLICAS[len(feitos_c) % len(RESPOSTAS_PUBLICAS)]
                     except Exception as e:
                         print(f"Direct indisponível para {c['id']} ({e}); WhatsApp vai na resposta pública")
@@ -86,13 +100,18 @@ def executar() -> None:
                     continue
                 feitos_c.add(c["id"])
                 est["comentarios_respondidos"].append(c["id"])
-                est["leads"].append({"data": estado.agora(), "origem": "instagram_palavra_chave",
+                est["leads"].append({"data": estado.agora(), "origem": "instagram_palavra_chave", "post": ref,
                                      "usuario": c.get("username"), "mensagem": (c.get("text") or "")[:300]})
-                estado.registrar(est, "dm_palavra_chave", "DM automática com o WhatsApp")
+                _contar_lead(est, media["id"])
+                novos_leads.append(f"@{c.get('username')} comentou a palavra-chave no post {ref or '?'}: "
+                                   f"\"{(c.get('text') or '')[:120]}\"")
+                estado.registrar(est, "dm_palavra_chave", f"DM automática com o WhatsApp (post {ref})" if ref
+                                 else "DM automática com o WhatsApp")
                 print(f"palavra-chave de @{c.get('username')}: DM enviada")
                 continue
-            pendentes.append({"id": c["id"], "tipo": "comentario", "usuario": c.get("username"),
-                              "texto": c.get("text", ""), "post": (media.get("caption") or "")[:120]})
+            pendentes.append({"id": c["id"], "tipo": "comentario", "usuario": c.get("username"), "ref": ref,
+                              "media_id": media["id"], "texto": c.get("text", ""),
+                              "post": (media.get("caption") or "")[:120]})
 
     try:
         lista_conversas = instagram.conversas()
@@ -114,10 +133,12 @@ def executar() -> None:
 
     if not pendentes:
         print("Nada novo para responder.")
+        _avisar(novos_leads)
+        aprendizado.atualizar_metricas_do_dia(est)
         estado.salvar(est)
         return
 
-    itens = json.dumps([{k: v for k, v in p.items() if k != "usuario_id"} for p in pendentes],
+    itens = json.dumps([{k: v for k, v in p.items() if k not in ("usuario_id", "media_id", "ref")} for p in pendentes],
                        ensure_ascii=False, indent=1)
     decisoes = claude.perguntar_json(
         SISTEMA, PEDIDO.format(itens=itens), modelo=config.MODELO_RAPIDO,
@@ -138,7 +159,7 @@ def executar() -> None:
                     # Manda o WhatsApp no direct e avisa em público; se o direct falhar, o número vai na resposta pública
                     dm = (d.get("dm") or "A análise da sua conta de luz é grátis pelo nosso WhatsApp 😊").strip()
                     try:
-                        instagram.resposta_privada(p["id"], f"{dm}\n\n👉 {config.LINK_WHATSAPP_IG}")
+                        instagram.resposta_privada(p["id"], f"{dm}\n\n👉 {config.link_whatsapp_ref(p.get('ref', ''))}")
                         publica = d["resposta"]
                         estado.registrar(est, "dm_whatsapp", "WhatsApp enviado no direct")
                     except Exception as e:
@@ -152,10 +173,25 @@ def executar() -> None:
             continue
         (est["comentarios_respondidos"] if p["tipo"] == "comentario" else est["mensagens_respondidas"]).append(p["id"])
         if d.get("interesse"):
-            est["leads"].append({"data": estado.agora(), "origem": f"instagram_{p['tipo']}",
+            est["leads"].append({"data": estado.agora(), "origem": f"instagram_{p['tipo']}", "post": p.get("ref", ""),
                                  "usuario": p.get("usuario"), "mensagem": p["texto"][:300]})
+            if p.get("media_id"):
+                _contar_lead(est, p["media_id"])
+            onde = f"no post {p['ref']}" if p.get("ref") else "no direct"
+            novos_leads.append(f"@{p.get('usuario')} demonstrou interesse {onde}: \"{p['texto'][:120]}\"")
         if d.get("acao") == "responder":
             estado.registrar(est, "resposta_" + p["tipo"], "interessado" if d.get("interesse") else "")
         print(f"{p['tipo']} de @{p.get('usuario')}: {d.get('acao')}")
 
+    _avisar(novos_leads)
+    aprendizado.atualizar_metricas_do_dia(est)
     estado.salvar(est)
+
+
+def _avisar(novos_leads: list[str]) -> None:
+    """Manda um e-mail para a equipe quando aparecem interessados novos."""
+    if novos_leads:
+        aviso.enviar(f"{len(novos_leads)} interessado(s) novo(s) no Instagram",
+                     "Novos interessados no Instagram da ELLO:\n\n- " + "\n- ".join(novos_leads)
+                     + "\n\nEles receberam o link do WhatsApp com o código do post (ex.: ref R17).")
+

@@ -265,10 +265,10 @@ ul.linha time{color:var(--muted);font-size:.8rem}
   function tabela(e){
     var pubs = e.publicacoes.slice().reverse();
     if (!pubs.length){ $("tabela").innerHTML = '<tr><td class="vazio">Nenhuma publicação ainda.</td></tr>'; return; }
-    $("tabela").innerHTML = '<thead><tr><th>Data</th><th>Tipo</th><th>Tema</th><th class="n">Visualiz.</th><th class="n">Alcance</th><th class="n">Curtidas</th><th class="n">Coment.</th><th class="n">Salvos</th><th class="n">Compart.</th><th></th></tr></thead><tbody>' +
+    $("tabela").innerHTML = '<thead><tr><th>Data</th><th>Cód.</th><th>Tipo</th><th>Tema</th><th class="n">Interess.</th><th class="n">Visualiz.</th><th class="n">Alcance</th><th class="n">Curtidas</th><th class="n">Coment.</th><th class="n">Salvos</th><th class="n">Compart.</th><th></th></tr></thead><tbody>' +
       pubs.map(function(p){
         var m = p.metricas || {};
-        return '<tr><td class="num">' + dataBR(p.data) + '</td><td><span class="tag ' + esc(p.tipo) + '">' + (p.tipo === "reel" ? "Reels" : "Carrossel") + '</span></td><td>' + esc(p.tema) + '</td>' +
+        return '<tr><td class="num">' + dataBR(p.data) + '</td><td class="num">' + esc(p.ref || "–") + '</td><td><span class="tag ' + esc(p.tipo) + '">' + (p.tipo === "reel" ? "Reels" : "Carrossel") + '</span></td><td>' + esc(p.tema) + '</td><td class="n num">' + (p.leads || 0) + '</td>' +
           ['views','reach','likes','comments','saved','shares'].map(function(k){ return '<td class="n num">' + (m[k] != null ? fmt.format(m[k]) : "–") + '</td>'; }).join("") +
           '<td>' + (p.permalink ? '<a href="' + esc(p.permalink) + '" target="_blank" rel="noopener">Ver</a>' : '') + '</td></tr>';
       }).join("") + '</tbody>';
@@ -327,8 +327,8 @@ ul.linha time{color:var(--muted);font-size:.8rem}
     }).then(function(buf){
       var leads = JSON.parse(new TextDecoder().decode(buf)).reverse();
       err.textContent = leads.length + " lead(s).";
-      $("leads").innerHTML = '<table><thead><tr><th>Quando</th><th>Origem</th><th>Usuário</th><th>Mensagem</th></tr></thead><tbody>' + leads.map(function(l){
-        return '<tr><td class="num">' + horaBR(l.data) + '</td><td>' + esc((l.origem||"").replace("instagram_","").replace("_"," ")) + '</td><td>' + (l.usuario ? '<a href="https://instagram.com/' + esc(l.usuario) + '" target="_blank" rel="noopener">@' + esc(l.usuario) + '</a>' : "-") + '</td><td>' + esc(l.mensagem) + '</td></tr>';
+      $("leads").innerHTML = '<table><thead><tr><th>Quando</th><th>Origem</th><th>Post</th><th>Usuário</th><th>Mensagem</th></tr></thead><tbody>' + leads.map(function(l){
+        return '<tr><td class="num">' + horaBR(l.data) + '</td><td>' + esc((l.origem||"").replace("instagram_","").replace("_"," ")) + '</td><td class="num">' + esc(l.post || "–") + '</td><td>' + (l.usuario ? '<a href="https://instagram.com/' + esc(l.usuario) + '" target="_blank" rel="noopener">@' + esc(l.usuario) + '</a>' : "-") + '</td><td>' + esc(l.mensagem) + '</td></tr>';
       }).join("") + '</tbody></table>';
     }).catch(function(e){
       err.className = e.message === "vazio" ? "erro ok" : "erro";

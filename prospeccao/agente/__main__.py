@@ -43,6 +43,10 @@ def main() -> None:
         return
     from . import estado
     if tarefa == "coletar-google":
+        if not config.GOOGLE_MAPS_KEY and not config.SIMULAR:
+            print("Coleta pelo Google pulada: o segredo GOOGLE_MAPS_KEY ainda não foi cadastrado. "
+                  "A base da Receita (coleta CNPJ) continua abastecendo os contatos.")
+            return
         from . import coleta
         crm = estado.carregar()
         coleta.coletar_google(crm)

@@ -19,7 +19,7 @@ jobs:
   publicar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Publicar docs/ na branch site
         run: |
           cd docs

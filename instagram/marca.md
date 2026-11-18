@@ -39,6 +39,7 @@ o agente passa a seguir a nova versão na próxima execução.
 
 ## Hashtags base (usar 3 a 5 por post, variando)
 #energiasolar #contadeluz #campinas #economia #energiacompartilhada #energialimpa #campinassp
+Locais (misture 1 ou 2 por post para alcançar quem é da região): #regiaodecampinas #cambui #baraogeraldo #taquaral #sousas #novacampinas #guanabara
 
 ## Temas que funcionam para a ELLO
 - Conta de luz alta no verão / ar-condicionado / bandeira tarifária

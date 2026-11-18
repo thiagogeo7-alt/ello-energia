@@ -30,6 +30,24 @@ def agora() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+def proximo_ref(est: dict, tipo: str) -> str:
+    """Código curto do próximo post: R1, R2... para Reels e C1, C2... para carrosséis."""
+    letra = "R" if tipo == "reel" else "C"
+    return f"{letra}{sum(1 for p in est['publicacoes'] if p.get('tipo') == tipo) + 1}"
+
+
+def refs_por_media(est: dict) -> dict:
+    """media_id → código do post (inclui os posts antigos, numerados na ordem em que saíram)."""
+    cont, refs = {}, {}
+    for p in est["publicacoes"]:
+        letra = "R" if p.get("tipo") == "reel" else "C"
+        cont[letra] = cont.get(letra, 0) + 1
+        p.setdefault("ref", f"{letra}{cont[letra]}")
+        if p.get("media_id"):
+            refs[p["media_id"]] = p["ref"]
+    return refs
+
+
 def registrar(est: dict, tipo: str, detalhe: str = "") -> None:
     """Adiciona um item à linha do tempo do painel (sem dados pessoais)."""
     est["acoes"].append({"data": agora(), "tipo": tipo, "detalhe": detalhe[:140]})

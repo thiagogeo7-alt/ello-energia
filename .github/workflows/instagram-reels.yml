@@ -42,7 +42,7 @@ jobs:
     outputs:
       rodar: ${{ steps.decisao.outputs.rodar }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           sparse-checkout: instagram/agenda.py
           sparse-checkout-cone-mode: false
@@ -63,7 +63,7 @@ jobs:
       run:
         working-directory: instagram
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Baixar os dados do agente (branch "dados")
         env:
@@ -72,7 +72,7 @@ jobs:
           git clone -q --depth 20 --branch dados "$URL" dados 2>/dev/null || {
             mkdir -p dados && cd dados && git init -q && git checkout -q -b dados && git remote add origin "$URL"; }
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -108,3 +108,15 @@ jobs:
           git config user.name "ello-bot"; git config user.email "ello-bot@users.noreply.github.com"
           git add -A && git commit -qm "Prévia ${GITHUB_RUN_ID}"
           git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" previa:previa-${{ inputs.formato }}
+
+      - name: Avisar a equipe por e-mail se falhar
+        if: failure()
+        working-directory: .
+        env:
+          SMTP_SENHA: ${{ secrets.SMTP_SENHA }}
+          EMAIL_REMETENTE: ${{ vars.EMAIL_REMETENTE }}
+          SMTP_HOST: ${{ vars.SMTP_HOST }}
+          ALERTA_EMAIL: ${{ vars.ALERTA_EMAIL }}
+        run: >-
+          python3 scripts/alerta.py "Falhou: ${{ github.workflow }}"
+          "A execução falhou. Detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

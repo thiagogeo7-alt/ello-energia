@@ -53,10 +53,12 @@ PEDIDO = """Crie o próximo Reels da ELLO.
 
 FORMATO OBRIGATÓRIO: {formato}
 ARGUMENTO PRINCIPAL OBRIGATÓRIO: {argumento}
+PÚBLICO E AMBIENTE OBRIGATÓRIOS (quem aparece e onde): {publico}
 
 O que já sabemos do desempenho da conta:
 {historico}
 
+PROIBIDO repetir o tema, o tipo de negócio ou a situação dos posts recentes listados acima.
 Seja criativo e diferente dos temas recentes: varie personagens (idade, gênero, aparência) e ambientes
 (cozinha, sala, varanda, escritório, padaria, salão, academia, portaria de condomínio, café).
 
@@ -68,7 +70,7 @@ Devolva este JSON:
   "tema": "tema curto em português",
   "gancho": "a ideia do vídeo em uma frase",
   "nomes": ["nome da pessoa A", "nome da pessoa B"] (só no formato dialogo; nomes brasileiros comuns),
-  "texto_topo_1": "1ª linha da pergunta-gancho, MAIÚSCULAS, até 18 caracteres",
+  "texto_topo_1": "1ª linha da pergunta-gancho que aparece no 1º segundo e prende quem está rolando o feed (dor concreta, número ou provocação), MAIÚSCULAS, até 18 caracteres",
   "texto_topo_2": "2ª linha, MAIÚSCULAS, até 16 caracteres",
   "cenas": [
     {{
@@ -106,6 +108,23 @@ SIMULADO = {
 }
 
 
+# Quem aparece no vídeo: rodízio para não repetir o mesmo tipo de público/negócio em seguida
+PUBLICOS = [
+    "família em casa própria", "morador de apartamento alugado", "dona de salão de beleza",
+    "dono de restaurante", "síndico de condomínio", "dono de academia de bairro", "dona de padaria",
+    "aposentado preocupado com as contas", "casal jovem no primeiro apartamento", "dono de mercadinho",
+    "dentista com consultório", "dono de oficina mecânica", "dona de pet shop", "pequeno escritório",
+]
+
+
+def _publico(est: dict) -> str:
+    """Escolhe um público que não apareceu nos últimos 6 posts (Reels e carrosséis)."""
+    recentes = " ".join(f"{p.get('publico', '')} {p.get('tema', '')}".lower() for p in est["publicacoes"][-6:])
+    livres = [x for x in PUBLICOS if x.split()[-1].lower() not in recentes and x.lower() not in recentes]
+    opcoes = livres or PUBLICOS
+    return opcoes[len(est["publicacoes"]) % len(opcoes)]
+
+
 def _escolher(est: dict) -> tuple[str, str]:
     """Rodízio: não repete o formato do último Reels nem os 3 últimos argumentos."""
     reels = [p for p in est["publicacoes"] if p.get("tipo") == "reel"]
@@ -126,7 +145,9 @@ def executar(cena_local: str | None = None) -> dict:
     formato, argumento = _escolher(est)
     formato = __import__("os").getenv("FORMATO", "").strip() or formato
     lista_vozes = "; ".join(f"{k} ({v})" for k, v in video.VOZES.items())
-    pedido = PEDIDO.format(historico=historico, formato=formato, argumento=argumento, vozes=lista_vozes)
+    publico = _publico(est)
+    pedido = PEDIDO.format(historico=historico, formato=formato, argumento=argumento, vozes=lista_vozes,
+                           publico=publico)
     tema = __import__("os").getenv("TEMA", "").strip()
     if tema:
         pedido += f"\n\nTEMA OBRIGATÓRIO deste Reels (use exatamente esta ideia): {tema}"
@@ -222,8 +243,8 @@ def executar(cena_local: str | None = None) -> dict:
         estado.registrar(est, "story", f"Reels copiado para os Stories: {r.get('tema', '')}")
 
     est["publicacoes"].append({
-        "data": estado.agora(), "tipo": "reel", "estrategia": r.get("estrategia"),
-        "formato": formato, "argumento": r.get("argumento"), "argumento_base": argumento,
+        "data": estado.agora(), "tipo": "reel", "ref": estado.proximo_ref(est, "reel"), "estrategia": r.get("estrategia"),
+        "formato": formato, "argumento": r.get("argumento"), "argumento_base": argumento, "publico": publico,
         "tema": r.get("tema"), "gancho": r.get("gancho"), "palavra_chave": r["palavra_chave"],
         "textos": [r.get("texto_topo_1"), r.get("texto_topo_2")] + [c.get("texto") for c in r["cenas"]] + [r.get("virada")],
         "legenda": legenda, "media_id": media_id, "permalink": instagram.permalink(media_id),

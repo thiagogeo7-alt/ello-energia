@@ -26,14 +26,14 @@ jobs:
       run:
         working-directory: prospeccao
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Baixar os dados da prospecção
         env:
           URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
         run: git clone -q --depth 1 --branch prospeccao-dados "$URL" dados/prospeccao 2>/dev/null || mkdir -p dados/prospeccao
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -59,3 +59,15 @@ jobs:
           RODAPE_EMPRESA: ${{ vars.RODAPE_EMPRESA }}
           LIMITE_DIA: ${{ vars.LIMITE_DIA }}
         run: python -m agente coletar-cnpj
+
+      - name: Avisar a equipe por e-mail se falhar
+        if: failure()
+        working-directory: .
+        env:
+          SMTP_SENHA: ${{ secrets.SMTP_SENHA }}
+          EMAIL_REMETENTE: ${{ vars.EMAIL_REMETENTE }}
+          SMTP_HOST: ${{ vars.SMTP_HOST }}
+          ALERTA_EMAIL: ${{ vars.ALERTA_EMAIL }}
+        run: >-
+          python3 scripts/alerta.py "Falhou: ${{ github.workflow }}"
+          "A execução falhou. Detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
