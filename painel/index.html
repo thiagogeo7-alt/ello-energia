@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel de marketing | ELLO Energia</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%230A1A33'/%3E%3Ccircle cx='24' cy='24' r='6' fill='%23F5A524'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0A1A33;--amber:#F5A524;--cell:#2F5BEA;--ink:#0A1A33;--ink2:#4A5A72;--muted:#7A889C;--rule:#E1E6EE;--bg:#F4F6FA;--card:#fff;--good:#1E8E4F;--warn:#B26A00}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Archivo",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
+.num{font-variant-numeric:tabular-nums}
+header{background:var(--night);color:#fff}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+.marca{display:flex;align-items:center;gap:12px}
+.marca svg{width:34px;height:34px}
+.marca b{font-variation-settings:"wdth" 125;font-weight:900;font-size:1.2rem;letter-spacing:.02em}
+.marca span{display:block;font-size:.8rem;color:#B9C6DA}
+.atual{font-size:.85rem;color:#B9C6DA;text-align:right}
+.atual button{margin-top:4px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:4px 10px;font:inherit;font-size:.8rem;cursor:pointer}
+nav.abas{display:flex;gap:4px}
+nav.abas button{background:transparent;border:0;color:#B9C6DA;font:inherit;font-weight:600;padding:12px 16px;cursor:pointer;border-bottom:3px solid transparent}
+nav.abas button[aria-selected=true]{color:#fff;border-bottom-color:var(--amber)}
+nav.abas button small{font-weight:500;opacity:.7}
+main{padding:28px 0 60px}
+h2{font-variation-settings:"wdth" 110;font-weight:800;font-size:1.15rem;margin-bottom:12px}
+.grade{display:grid;gap:16px}
+.kpis{grid-template-columns:repeat(6,1fr);margin-bottom:20px}
+@media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px}
+.kpi .rot{font-size:.82rem;color:var(--ink2)}
+.kpi .val{font-variation-settings:"wdth" 120;font-weight:800;font-size:1.75rem;line-height:1.15;margin-top:4px}
+.kpi .sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+.duas{grid-template-columns:1.6fr 1fr;margin-bottom:20px}
+@media(max-width:900px){.duas{grid-template-columns:1fr}}
+.cartao{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:20px;min-width:0}
+.cartao p.dica{font-size:.85rem;color:var(--ink2);margin:-6px 0 12px}
+.grafico{position:relative}
+.grafico svg{width:100%;height:240px;display:block}
+.tip{position:absolute;pointer-events:none;background:var(--night);color:#fff;font-size:.8rem;padding:8px 10px;border-radius:6px;max-width:240px;opacity:0;transition:opacity .1s;z-index:5}
+.vazio{color:var(--muted);font-size:.9rem;padding:24px 0;text-align:center}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{text-align:left;font-weight:600;color:var(--ink2);border-bottom:1px solid var(--rule);padding:8px 10px;white-space:nowrap}
+td{border-bottom:1px solid var(--rule);padding:10px;vertical-align:top}
+td.n,th.n{text-align:right}
+.rolar{overflow-x:auto}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:99px;background:#EEF2F7;color:var(--ink2)}
+.tag.reel{background:#FFF3DC;color:#8A5300}.tag.carrossel{background:#E7EDFF;color:#2443B5}
+a{color:var(--cell)}
+ul.linha{list-style:none}
+ul.linha li{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule);font-size:.88rem}
+ul.linha time{color:var(--muted);font-size:.8rem}
+.agenda li{grid-template-columns:120px 1fr}
+.cadeado{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cadeado input{font:inherit;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;min-width:200px}
+.cadeado button{font:inherit;font-weight:700;background:var(--night);color:#fff;border:0;border-radius:6px;padding:9px 16px;cursor:pointer}
+.erro{color:#C62828;font-size:.85rem;margin-top:8px}
+.erro.ok{color:var(--ink2)}
+.legenda{display:flex;gap:16px;font-size:.82rem;color:var(--ink2);margin-bottom:6px}
+.legenda i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.aviso{background:#FFF7E6;border:1px solid #F3D9A4;color:#6B4A00;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:.9rem}
+.funil{display:grid;gap:10px}
+.funil-linha{display:grid;grid-template-columns:140px 1fr 70px;gap:12px;align-items:center;font-size:.9rem}
+.funil-barra{height:22px;background:#EEF2F7;border-radius:4px;overflow:hidden}
+.funil-barra i{display:block;height:100%;background:#2F5BEA;border-radius:0 4px 4px 0;min-width:2px}
+.funil-linha b{text-align:right;font-variant-numeric:tabular-nums}
+.breve{background:var(--card);border:1px dashed #C7D0DD;border-radius:10px;padding:48px 24px;text-align:center;color:var(--ink2)}
+.breve b{display:block;font-size:1.1rem;color:var(--ink);margin-bottom:6px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <div class="marca">
+      <svg viewBox="290 200 500 260" aria-hidden="true"><path d="M528.4 258.6 A116 116 0 1 0 528.4 401.4" stroke="#7DD6F2" stroke-width="32" fill="none"/><path d="M547.6 258.6 A116 116 0 1 1 547.6 401.4" stroke="#2D6DB0" stroke-width="32" fill="none"/><rect x="400" y="316" width="100" height="28" fill="#7DD6F2"/><rect x="578" y="316" width="100" height="28" fill="#2D6DB0"/><circle cx="538" cy="330" r="24" fill="#F5CF4A"/></svg>
+      <div><b>ELLO</b><span>Painel de marketing</span></div>
+    </div>
+    <div class="atual"><span id="atualizado">Carregando…</span><br><button id="recarregar" type="button">Atualizar agora</button></div>
+  </div>
+  <div class="wrap">
+    <nav class="abas" role="tablist">
+      <button role="tab" aria-selected="true" data-aba="instagram">Instagram</button>
+      <button role="tab" aria-selected="false" data-aba="prospeccao">Prospecção</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="aba-instagram">
+    <div id="avisos"></div>
+    <div class="grade kpis" id="kpis"></div>
+
+    <div class="grade duas">
+      <div class="cartao">
+        <h2>Visualizações por publicação</h2>
+        <p class="dica">Últimas 15 publicações. Passe o mouse sobre as barras para ver os detalhes.</p>
+        <div class="legenda"><span><i style="background:#2F5BEA"></i>Reels</span><span><i style="background:#8EA6F5"></i>Carrossel</span></div>
+        <div class="grafico" id="grafico"><div class="tip" id="tip"></div></div>
+      </div>
+      <div class="cartao">
+        <h2>Próximas publicações</h2>
+        <ul class="linha agenda" id="agenda"></ul>
+      </div>
+    </div>
+
+    <div class="cartao" style="margin-bottom:20px" id="cartaoRelatorio" hidden>
+      <h2>Relatório semanal de estratégia</h2>
+      <div id="relatorio"></div>
+    </div>
+
+    <div class="cartao" style="margin-bottom:20px">
+      <h2>Publicações</h2>
+      <div class="rolar"><table id="tabela"></table></div>
+    </div>
+
+    <div class="grade duas">
+      <div class="cartao">
+        <h2>Últimas ações do agente</h2>
+        <ul class="linha" id="acoes"></ul>
+      </div>
+      <div class="cartao">
+        <h2>Custos por mês (US$)</h2>
+        <div class="rolar"><table id="custos"></table></div>
+      </div>
+    </div>
+
+    <div class="cartao">
+      <h2>Leads do Instagram</h2>
+      <p class="dica">Pessoas que demonstraram interesse em comentários e DMs. Os dados são protegidos por senha (a mesma do segredo PAINEL_SENHA).</p>
+      <form class="cadeado" id="formLeads">
+        <label for="senha" class="sr" style="position:absolute;left:-9999px">Senha do painel</label>
+        <input id="senha" type="password" placeholder="Senha do painel" autocomplete="current-password">
+        <button type="submit">Ver leads</button>
+      </form>
+      <div id="leadsErro" class="erro" role="status"></div>
+      <div class="rolar" id="leads"></div>
+    </div>
+  </section>
+
+  <section id="aba-prospeccao" hidden>
+    <div id="pAvisos"></div>
+    <div class="grade kpis" id="pKpis"></div>
+    <div class="grade duas">
+      <div class="cartao">
+        <h2>Funil da prospecção</h2>
+        <p class="dica">Da base de contatos até a reunião marcada.</p>
+        <div id="pFunil"></div>
+      </div>
+      <div class="cartao">
+        <h2>E-mails enviados por dia</h2>
+        <p class="dica">Últimos 30 dias. O limite sobe aos poucos (10 → 20 → 30 por dia) para não cair no spam.</p>
+        <div class="grafico" id="pGrafico"><div class="tip" id="pTip"></div></div>
+      </div>
+    </div>
+    <div class="cartao" style="margin-bottom:20px">
+      <h2>Resultados por segmento</h2>
+      <div class="rolar"><table id="pSegmentos"></table></div>
+    </div>
+    <div class="grade duas">
+      <div class="cartao">
+        <h2>Últimas ações do agente</h2>
+        <ul class="linha" id="pEventos"></ul>
+      </div>
+      <div class="cartao">
+        <h2>Coleta de contatos</h2>
+        <ul class="linha" id="pColeta"></ul>
+      </div>
+    </div>
+    <div class="cartao">
+      <h2>Interessados e reuniões</h2>
+      <p class="dica">Empresas que responderam com interesse ou marcaram reunião. Protegido pela senha do painel.</p>
+      <form class="cadeado" id="formInteressados">
+        <input id="senhaP" type="password" placeholder="Senha do painel" autocomplete="current-password" aria-label="Senha do painel">
+        <button type="submit">Ver interessados</button>
+      </form>
+      <div id="pErro" class="erro ok" role="status"></div>
+      <div class="rolar" id="pInteressados"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var REPO = "thiagogeo7-alt/ello-energia";
+  var BASE = new URLSearchParams(location.search).get("fonte") || ("https://raw.githubusercontent.com/" + REPO + "/dados/");
+  var fmt = new Intl.NumberFormat("pt-BR");
+  var usd = new Intl.NumberFormat("pt-BR", {style:"currency", currency:"USD", minimumFractionDigits:2});
+  var dataBR = function(iso){ var d = new Date(iso); return isNaN(d) ? "-" : d.toLocaleDateString("pt-BR", {day:"2-digit", month:"2-digit"}); };
+  var horaBR = function(iso){ var d = new Date(iso); return isNaN(d) ? "" : d.toLocaleString("pt-BR", {day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit"}); };
+  var esc = function(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+  var $ = function(id){ return document.getElementById(id); };
+  var DIA = 864e5;
+
+  /* Abas */
+  document.querySelectorAll("nav.abas button").forEach(function(b){
+    b.addEventListener("click", function(){
+      document.querySelectorAll("nav.abas button").forEach(function(x){ x.setAttribute("aria-selected", x === b); });
+      $("aba-instagram").hidden = b.dataset.aba !== "instagram";
+      $("aba-prospeccao").hidden = b.dataset.aba !== "prospeccao";
+    });
+  });
+
+  function soma(m){ m = m || {}; return (m.likes||0) + (m.comments||0) + (m.saved||0) + (m.shares||0); }
+
+  function kpis(e){
+    var agora = Date.now(), desde = agora - 30*DIA;
+    var pubs30 = e.publicacoes.filter(function(p){ return new Date(p.data) >= desde; });
+    var views = pubs30.reduce(function(a,p){ return a + ((p.metricas||{}).views || (p.metricas||{}).reach || 0); }, 0);
+    var inter = pubs30.reduce(function(a,p){ return a + soma(p.metricas); }, 0);
+    var resp = e.acoes.filter(function(a){ return /^(resposta_|dm_)/.test(a.tipo) && new Date(a.data) >= desde; }).length;
+    var mes = new Date().toISOString().slice(0,7);
+    var custoMes = e.custos.filter(function(c){ return (c.data||"").slice(0,7) === mes; }).reduce(function(a,c){ return a + (c.usd||0); }, 0);
+    var reels = pubs30.filter(function(p){ return p.tipo === "reel"; }).length;
+    var itens = [
+      ["Publicações", fmt.format(pubs30.length), reels + " Reels · " + (pubs30.length - reels) + " carrosséis (30 dias)"],
+      ["Visualizações", fmt.format(views), "soma dos últimos 30 dias"],
+      ["Interações", fmt.format(inter), "curtidas, comentários, salvos e compartilhamentos"],
+      ["Respostas automáticas", fmt.format(resp), "comentários e DMs (30 dias)"],
+      ["Leads", fmt.format(e.total_leads || 0), "interessados levados ao WhatsApp"],
+      ["Custo do mês", usd.format(custoMes), "vídeo/imagem + Claude"]
+    ];
+    $("kpis").innerHTML = itens.map(function(k){
+      return '<div class="kpi"><div class="rot">' + k[0] + '</div><div class="val num">' + k[1] + '</div><div class="sub">' + k[2] + '</div></div>';
+    }).join("");
+  }
+
+  function grafico(e){
+    var el = $("grafico"), tip = $("tip");
+    var pubs = e.publicacoes.slice(-15);
+    el.querySelectorAll("svg, .vazio").forEach(function(n){ n.remove(); });
+    if (!pubs.length){ el.insertAdjacentHTML("beforeend", '<div class="vazio">As primeiras publicações vão aparecer aqui.</div>'); return; }
+    var vals = pubs.map(function(p){ var m = p.metricas || {}; return m.views || m.reach || 0; });
+    var max = Math.max.apply(null, vals.concat([10]));
+    var W = 640, H = 240, L = 44, B = 26, T = 10, n = pubs.length, slot = (W - L) / n, bw = Math.min(28, slot * 0.6);
+    var passos = 4, svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Visualizações por publicação">';
+    for (var i = 0; i <= passos; i++){
+      var v = Math.round(max * i / passos), y = H - B - (H - B - T) * i / passos;
+      svg += '<line x1="' + L + '" x2="' + W + '" y1="' + y + '" y2="' + y + '" stroke="#E1E6EE" stroke-width="1"/>';
+      svg += '<text x="' + (L - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" fill="#7A889C">' + fmt.format(v) + '</text>';
+    }
+    pubs.forEach(function(p, i){
+      var h = (H - B - T) * vals[i] / max, x = L + slot * i + (slot - bw) / 2, y = H - B - h, r = Math.min(4, h / 2);
+      var path = h > 0 ? 'M' + x + ' ' + (H - B) + 'V' + (y + r) + 'Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y + 'H' + (x + bw - r) + 'Q' + (x + bw) + ' ' + y + ' ' + (x + bw) + ' ' + (y + r) + 'V' + (H - B) + 'Z' : '';
+      svg += '<g class="barra" data-i="' + i + '"><rect x="' + (L + slot * i) + '" y="' + T + '" width="' + slot + '" height="' + (H - B - T) + '" fill="transparent"/>' +
+             (path ? '<path d="' + path + '" fill="' + (p.tipo === "reel" ? "#2F5BEA" : "#8EA6F5") + '"/>' : '') +
+             '<text x="' + (L + slot * i + slot / 2) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="10" fill="#7A889C">' + dataBR(p.data) + '</text></g>';
+    });
+    svg += '</svg>';
+    el.insertAdjacentHTML("beforeend", svg);
+    el.querySelectorAll(".barra").forEach(function(g){
+      g.addEventListener("mousemove", function(ev){
+        var p = pubs[+g.dataset.i], m = p.metricas || {}, box = el.getBoundingClientRect();
+        tip.innerHTML = '<b>' + esc(p.tema || "Publicação") + '</b><br>' + (p.tipo === "reel" ? "Reels" : "Carrossel") + ' · ' + dataBR(p.data) +
+          '<br>Visualizações: ' + fmt.format(m.views || m.reach || 0) + '<br>Alcance: ' + fmt.format(m.reach || 0) +
+          '<br>Salvos: ' + fmt.format(m.saved || 0) + ' · Compart.: ' + fmt.format(m.shares || 0);
+        tip.style.left = Math.min(ev.clientX - box.left + 12, box.width - 250) + "px";
+        tip.style.top = (ev.clientY - box.top - 10) + "px";
+        tip.style.opacity = 1;
+      });
+      g.addEventListener("mouseleave", function(){ tip.style.opacity = 0; });
+    });
+  }
+
+  function tabela(e){
+    var pubs = e.publicacoes.slice().reverse();
+    if (!pubs.length){ $("tabela").innerHTML = '<tr><td class="vazio">Nenhuma publicação ainda.</td></tr>'; return; }
+    $("tabela").innerHTML = '<thead><tr><th>Data</th><th>Cód.</th><th>Tipo</th><th>Tema</th><th class="n">Interess.</th><th class="n">Visualiz.</th><th class="n">Alcance</th><th class="n">Curtidas</th><th class="n">Coment.</th><th class="n">Salvos</th><th class="n">Compart.</th><th></th></tr></thead><tbody>' +
+      pubs.map(function(p){
+        var m = p.metricas || {};
+        return '<tr><td class="num">' + dataBR(p.data) + '</td><td class="num">' + esc(p.ref || "–") + '</td><td><span class="tag ' + esc(p.tipo) + '">' + (p.tipo === "reel" ? "Reels" : "Carrossel") + '</span></td><td>' + esc(p.tema) + '</td><td class="n num">' + (p.leads || 0) + '</td>' +
+          ['views','reach','likes','comments','saved','shares'].map(function(k){ return '<td class="n num">' + (m[k] != null ? fmt.format(m[k]) : "–") + '</td>'; }).join("") +
+          '<td>' + (p.permalink ? '<a href="' + esc(p.permalink) + '" target="_blank" rel="noopener">Ver</a>' : '') + '</td></tr>';
+      }).join("") + '</tbody>';
+  }
+
+  var NOMES = {reel:"Reels publicado", carrossel:"Carrossel publicado", resposta_comentario:"Respondeu um comentário", resposta_dm:"Respondeu uma DM", dm_palavra_chave:"DM automática (palavra-chave)", relatorio:"Relatório semanal enviado"};
+  function relatorio(e){
+    var rs = e.relatorios || []; if (!rs.length) return;
+    var x = rs[rs.length - 1], r = x.relatorio || {};
+    function lista(t, itens){ return (itens && itens.length) ? '<p style="margin:12px 0 4px"><b>' + t + '</b></p><ul style="margin:0;padding-left:20px">' + itens.map(function(i){ return '<li>' + esc(i) + '</li>'; }).join("") + '</ul>' : ""; }
+    $("relatorio").innerHTML = '<p style="color:var(--ink2);margin:0 0 6px">' + esc(x.periodo || "") + '</p>' +
+      '<p style="font-size:1.1em;margin:0 0 8px"><b>' + esc(r.manchete || "") + '</b></p>' +
+      '<p style="margin:0">' + esc(r.o_que_aconteceu || "") + '</p>' +
+      lista("O que funcionou", r.funcionou) + lista("O que não funcionou", r.nao_funcionou) +
+      (r.testes_ab ? '<p style="margin:12px 0 4px"><b>Testes A/B</b></p><p style="margin:0">' + esc(r.testes_ab) + '</p>' : "") +
+      lista("O agente vai priorizar", r.acoes_agente) + lista("Sugestões para a equipe", r.acoes_equipe);
+    $("cartaoRelatorio").hidden = false;
+  }
+  function acoes(e){
+    var lista = e.acoes.slice(-15).reverse();
+    $("acoes").innerHTML = lista.length ? lista.map(function(a){
+      return '<li><time>' + horaBR(a.data) + '</time><span>' + esc(NOMES[a.tipo] || a.tipo) + (a.detalhe ? ' — <span style="color:var(--ink2)">' + esc(a.detalhe) + '</span>' : '') + '</span></li>';
+    }).join("") : '<li class="vazio" style="display:block">O agente ainda não registrou ações.</li>';
+  }
+
+  function agenda(){
+    var itens = [], d = new Date();
+    for (var i = 0; i < 14 && itens.length < 6; i++){
+      var dia = new Date(d.getFullYear(), d.getMonth(), d.getDate() + i);
+      var dom = dia.getDate(), sem = dia.getDay();
+      var r = new Date(dia); r.setHours(18, 0, 0, 0);
+      var c = new Date(dia); c.setHours(12, 0, 0, 0);
+      if ((sem === 2 || sem === 4) && c > d) itens.push([c, "Carrossel educativo"]);
+      if (dom % 2 === 1 && r > d) itens.push([r, "Reels com IA"]);
+    }
+    itens.sort(function(a,b){ return a[0] - b[0]; });
+    $("agenda").innerHTML = itens.slice(0,6).map(function(it){
+      return '<li><time>' + it[0].toLocaleDateString("pt-BR", {weekday:"short", day:"2-digit", month:"2-digit"}) + ' ' + String(it[0].getHours()).padStart(2,"0") + 'h</time><span>' + it[1] + '</span></li>';
+    }).join("") + '<li style="display:block;color:var(--muted);font-size:.8rem">Respostas a comentários e DMs: a cada 15 minutos.</li>';
+  }
+
+  function custos(e){
+    var meses = {};
+    e.custos.forEach(function(c){ var m = (c.data||"").slice(0,7); if (!m) return; meses[m] = meses[m] || {}; meses[m][c.servico] = (meses[m][c.servico]||0) + (c.usd||0); });
+    var ms = Object.keys(meses).sort().reverse().slice(0,6);
+    if (!ms.length){ $("custos").innerHTML = '<tr><td class="vazio">Nenhum gasto registrado ainda.</td></tr>'; return; }
+    $("custos").innerHTML = '<thead><tr><th>Mês</th><th>Serviço</th><th class="n">Valor</th></tr></thead><tbody>' + ms.map(function(m){
+      var linhas = Object.keys(meses[m]), total = linhas.reduce(function(a,k){ return a + meses[m][k]; }, 0);
+      var rotulo = new Date(m + "-15").toLocaleDateString("pt-BR", {month:"long", year:"numeric"});
+      return linhas.map(function(k, i){ return '<tr><td>' + (i ? "" : rotulo) + '</td><td>' + esc(k) + '</td><td class="n num">' + usd.format(meses[m][k]) + '</td></tr>'; }).join("") +
+        '<tr><td></td><td><b>Total</b></td><td class="n num"><b>' + usd.format(total) + '</b></td></tr>';
+    }).join("") + '</tbody>';
+  }
+
+  /* Leads criptografados (AES-GCM + PBKDF2, igual ao agente) */
+  var b64 = function(s){ return Uint8Array.from(atob(s), function(c){ return c.charCodeAt(0); }); };
+  $("formLeads").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var senha = $("senha").value, err = $("leadsErro");
+    err.textContent = "Abrindo…"; err.className = "erro ok"; $("leads").innerHTML = "";
+    fetch(BASE + "leads.enc?t=" + Date.now()).then(function(r){
+      if (!r.ok) throw new Error("vazio");
+      return r.json();
+    }).then(function(o){
+      return crypto.subtle.importKey("raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveKey"]).then(function(base){
+        return crypto.subtle.deriveKey({name:"PBKDF2", salt:b64(o.salt), iterations:o.iter, hash:"SHA-256"}, base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+      }).then(function(k){ return crypto.subtle.decrypt({name:"AES-GCM", iv:b64(o.iv)}, k, b64(o.dados)); });
+    }).then(function(buf){
+      var leads = JSON.parse(new TextDecoder().decode(buf)).reverse();
+      err.textContent = leads.length + " lead(s).";
+      $("leads").innerHTML = '<table><thead><tr><th>Quando</th><th>Origem</th><th>Post</th><th>Usuário</th><th>Mensagem</th></tr></thead><tbody>' + leads.map(function(l){
+        return '<tr><td class="num">' + horaBR(l.data) + '</td><td>' + esc((l.origem||"").replace("instagram_","").replace("_"," ")) + '</td><td class="num">' + esc(l.post || "–") + '</td><td>' + (l.usuario ? '<a href="https://instagram.com/' + esc(l.usuario) + '" target="_blank" rel="noopener">@' + esc(l.usuario) + '</a>' : "-") + '</td><td>' + esc(l.mensagem) + '</td></tr>';
+      }).join("") + '</tbody></table>';
+    }).catch(function(e){
+      err.className = e.message === "vazio" ? "erro ok" : "erro";
+      err.textContent = e.message === "vazio" ? "Ainda não há leads salvos." : (e.name === "OperationError" ? "Senha incorreta." : "Não consegui carregar os dados. Tente de novo.");
+    });
+  });
+
+  function carregar(){
+    $("atualizado").textContent = "Carregando…";
+    fetch(BASE + "estado.json?t=" + Date.now()).then(function(r){
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).then(function(e){
+      ["publicacoes","custos","acoes"].forEach(function(k){ e[k] = e[k] || []; });
+      $("atualizado").textContent = "Dados de " + (e.atualizado_em ? horaBR(e.atualizado_em) : "–");
+      $("avisos").innerHTML = "";
+      kpis(e); grafico(e); tabela(e); acoes(e); custos(e); agenda(); relatorio(e);
+    }).catch(function(){
+      $("atualizado").textContent = "Sem dados ainda";
+      $("avisos").innerHTML = '<div class="aviso">O agente ainda não gravou dados. Assim que a primeira publicação ou resposta acontecer, este painel se preenche sozinho.</div>';
+      var vazio = {publicacoes:[], custos:[], acoes:[], total_leads:0};
+      kpis(vazio); grafico(vazio); tabela(vazio); acoes(vazio); custos(vazio); agenda();
+    });
+  }
+
+  /* ================= PROSPECÇÃO ================= */
+  var PBASE = new URLSearchParams(location.search).get("fonteP") || ("https://raw.githubusercontent.com/" + REPO + "/prospeccao-dados/");
+  var SEGN = {comercio:"Pequenos comércios", condominio:"Condomínios", industria:"Indústrias e galpões", servicos:"Escritórios e serviços", outros:"Outros"};
+  var PEV = {envio_inicial:"Primeiro e-mail enviado", envio_lembrete1:"1º lembrete enviado", envio_lembrete2:"Último lembrete enviado",
+    resposta_interessado:"Resposta: interessado", resposta_pergunta:"Resposta: dúvida respondida", resposta_nao_interessado:"Resposta: sem interesse",
+    resposta_descadastro:"Pediu para sair (descadastrado)", resposta_outro:"Resposta para você ver", reuniao:"Reunião marcada", devolvido:"E-mail devolvido (endereço inválido)",
+    ausente:"Resposta automática (ausente)", coleta_google:"Coleta no Google", coleta_cnpj:"Coleta na base de CNPJ"};
+  var pct = function(a,b){ return b ? Math.round(a*100/b) + "%" : "–"; };
+
+  function pRender(r){
+    var st = r.por_status || {}, n = function(k){ return st[k] || 0; };
+    var contatados = Object.keys(st).filter(function(k){ return k !== "novo"; }).reduce(function(a,k){ return a + st[k]; }, 0);
+    var responderam = n("interessado") + n("reuniao") + n("descartado") + n("descadastrado") + n("respondeu");
+    var interessados = n("interessado") + n("reuniao");
+    var desde = new Date(Date.now() - 30*DIA).toISOString().slice(0,10);
+    var env30 = Object.keys(r.envios_por_dia||{}).filter(function(d){ return d >= desde; }).reduce(function(a,d){ return a + r.envios_por_dia[d]; }, 0);
+    var mes = new Date().toISOString().slice(0,7);
+    var custo = (r.custos||[]).filter(function(c){ return (c.data||"").slice(0,7) === mes; }).reduce(function(a,c){ return a + (c.usd||0); }, 0);
+    var k = [["Contatos na base", fmt.format(r.total_contatos||0), fmt.format(n("novo")) + " ainda não contatados"],
+             ["E-mails enviados", fmt.format(env30), "últimos 30 dias"],
+             ["Taxa de resposta", pct(responderam, contatados), fmt.format(responderam) + " de " + fmt.format(contatados) + " contatados"],
+             ["Interessados", fmt.format(interessados), "pediram simulação ou tiraram dúvida"],
+             ["Reuniões marcadas", fmt.format(n("reuniao")), "pelo link da agenda"],
+             ["Custo do mês", usd.format(custo), "Claude (textos e respostas)"]];
+    $("pKpis").innerHTML = k.map(function(x){ return '<div class="kpi"><div class="rot">' + x[0] + '</div><div class="val num">' + x[1] + '</div><div class="sub">' + x[2] + '</div></div>'; }).join("");
+
+    var etapas = [["Na base", r.total_contatos||0], ["Contatados", contatados], ["Responderam", responderam], ["Interessados", interessados], ["Reuniões", n("reuniao")]];
+    var topo = Math.max(1, etapas[0][1]);
+    $("pFunil").innerHTML = '<div class="funil">' + etapas.map(function(e){
+      return '<div class="funil-linha"><span>' + e[0] + '</span><div class="funil-barra"><i style="width:' + (100*e[1]/topo) + '%"></i></div><b>' + fmt.format(e[1]) + '</b></div>';
+    }).join("") + '</div>';
+
+    // Envios por dia
+    var el = $("pGrafico"), tip = $("pTip"); el.querySelectorAll("svg, .vazio").forEach(function(x){ x.remove(); });
+    var dias = []; for (var i = 29; i >= 0; i--){ dias.push(new Date(Date.now() - i*DIA).toISOString().slice(0,10)); }
+    var vals = dias.map(function(d){ return (r.envios_por_dia||{})[d] || 0; });
+    if (!vals.some(Boolean)) { el.insertAdjacentHTML("beforeend", '<div class="vazio">Os envios aparecem aqui quando o agente começar a mandar e-mails.</div>'); }
+    else {
+      var W = 640, H = 220, L = 34, B = 24, T = 8, max = Math.max.apply(null, vals.concat([10])), slot = (W - L) / dias.length, bw = slot * 0.6;
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="E-mails enviados por dia">';
+      [0, 0.5, 1].forEach(function(f){ var y = H - B - (H - B - T) * f; svg += '<line x1="' + L + '" x2="' + W + '" y1="' + y + '" y2="' + y + '" stroke="#E1E6EE"/><text x="' + (L - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" fill="#7A889C">' + Math.round(max * f) + '</text>'; });
+      dias.forEach(function(d, i){
+        var h = (H - B - T) * vals[i] / max, x = L + slot * i + (slot - bw) / 2, y = H - B - h;
+        svg += '<g class="pb" data-i="' + i + '"><rect x="' + (L + slot * i) + '" y="' + T + '" width="' + slot + '" height="' + (H - B - T) + '" fill="transparent"/>' +
+          (h ? '<rect x="' + x + '" y="' + y + '" width="' + bw + '" height="' + h + '" rx="3" fill="#2F5BEA"/>' : '') +
+          (i % 5 === 0 ? '<text x="' + (x + bw / 2) + '" y="' + (H - 7) + '" text-anchor="middle" font-size="10" fill="#7A889C">' + d.slice(8,10) + '/' + d.slice(5,7) + '</text>' : '') + '</g>';
+      });
+      el.insertAdjacentHTML("beforeend", svg + '</svg>');
+      el.querySelectorAll(".pb").forEach(function(g){
+        g.addEventListener("mousemove", function(ev){ var i = +g.dataset.i, b = el.getBoundingClientRect();
+          tip.innerHTML = '<b>' + dias[i].slice(8,10) + '/' + dias[i].slice(5,7) + '</b><br>' + vals[i] + ' e-mails enviados';
+          tip.style.left = Math.min(ev.clientX - b.left + 12, b.width - 160) + "px"; tip.style.top = (ev.clientY - b.top - 10) + "px"; tip.style.opacity = 1; });
+        g.addEventListener("mouseleave", function(){ tip.style.opacity = 0; });
+      });
+    }
+
+    var ps = r.por_segmento || {}, segs = Object.keys(ps);
+    $("pSegmentos").innerHTML = segs.length ? '<thead><tr><th>Segmento</th><th class="n">Na base</th><th class="n">Contatados</th><th class="n">Responderam</th><th class="n">Interessados</th><th class="n">Reuniões</th><th class="n">Descadastros</th></tr></thead><tbody>' +
+      segs.map(function(sg){ var v = ps[sg];
+        return '<tr><td>' + esc(SEGN[sg] || sg) + '</td><td class="n num">' + fmt.format(v.total||0) + '</td><td class="n num">' + fmt.format(v.contatados||0) + '</td><td class="n num">' + fmt.format(v.responderam||0) +
+          '</td><td class="n num">' + fmt.format((v.interessado||0) + (v.reuniao||0)) + '</td><td class="n num">' + fmt.format(v.reuniao||0) + '</td><td class="n num">' + fmt.format(v.descadastrado||0) + '</td></tr>';
+      }).join("") + '</tbody>' : '<tr><td class="vazio">A base de contatos ainda está vazia.</td></tr>';
+
+    var ev = (r.eventos||[]).slice(-15).reverse();
+    $("pEventos").innerHTML = ev.length ? ev.map(function(a){
+      return '<li><time>' + horaBR(a.data) + '</time><span>' + esc(PEV[a.tipo] || a.tipo) + (a.segmento ? ' — <span style="color:var(--ink2)">' + esc(SEGN[a.segmento] || a.segmento) + '</span>' : '') + (a.detalhe ? ' <span style="color:var(--ink2)">(' + esc(a.detalhe) + ')</span>' : '') + '</span></li>';
+    }).join("") : '<li class="vazio" style="display:block">Nenhuma ação ainda.</li>';
+
+    var fontes = r.por_fonte || {};
+    $("pColeta").innerHTML = [
+      ["Google + sites", fmt.format(fontes.site || 0) + " contatos"],
+      ["Base CNPJ (Receita)", fmt.format(fontes.cnpj || 0) + " contatos" + (r.cnpj_competencia ? " · base " + esc(r.cnpj_competencia) : "")],
+      ["Buscas no Google (mês)", fmt.format((r.buscas_google||{})[mes] || 0) + " de 900 (cota grátis)"],
+      ["Bloqueados / descadastrados", fmt.format(r.bloqueados || 0)],
+      ["Coletas automáticas", "Google toda segunda · CNPJ todo dia 20"]
+    ].map(function(x){ return '<li><time>' + x[0] + '</time><span>' + x[1] + '</span></li>'; }).join("");
+    $("pAvisos").innerHTML = "";
+  }
+
+  function pCarregar(){
+    fetch(PBASE + "resumo.json?t=" + Date.now()).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(pRender).catch(function(){
+      $("pAvisos").innerHTML = '<div class="aviso">O agente de prospecção ainda não rodou. Assim que a primeira coleta acontecer, os números aparecem aqui.</div>';
+      pRender({total_contatos:0, por_status:{}, por_segmento:{}, envios_por_dia:{}, eventos:[], custos:[]});
+    });
+  }
+
+  var CLS = {interessado:"Interessado", pergunta:"Dúvida", reuniao:"Reunião marcada", nao_interessado:"Sem interesse", outro:"Ver"};
+  $("formInteressados").addEventListener("submit", function(ev){
+    ev.preventDefault(); var err = $("pErro"); err.className = "erro ok"; err.textContent = "Abrindo…"; $("pInteressados").innerHTML = "";
+    var senha = $("senhaP").value;
+    fetch(PBASE + "interessados.enc?t=" + Date.now()).then(function(r){ if (!r.ok) throw new Error("vazio"); return r.json(); }).then(function(o){
+      return crypto.subtle.importKey("raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveKey"]).then(function(b){
+        return crypto.subtle.deriveKey({name:"PBKDF2", salt:b64(o.salt), iterations:o.iter, hash:"SHA-256"}, b, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+      }).then(function(k){ return crypto.subtle.decrypt({name:"AES-GCM", iv:b64(o.iv)}, k, b64(o.dados)); });
+    }).then(function(buf){
+      var l = JSON.parse(new TextDecoder().decode(buf));
+      err.textContent = l.length + " empresa(s).";
+      $("pInteressados").innerHTML = l.length ? '<table><thead><tr><th>Empresa</th><th>Segmento</th><th>Status</th><th>Contato</th><th>O que disseram</th></tr></thead><tbody>' + l.map(function(c){
+        var u = c.ultima_resposta || {};
+        return '<tr><td>' + esc(c.empresa) + (c.bairro ? '<br><small style="color:var(--muted)">' + esc(c.bairro) + '</small>' : '') + '</td><td>' + esc(SEGN[c.segmento] || c.segmento || "") + '</td><td><span class="tag">' + esc(c.status === "reuniao" ? "Reunião marcada" : (CLS[u.classe] || c.status)) +
+          '</span></td><td><a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' + (c.telefone ? '<br>' + esc(c.telefone) : '') + '</td><td>' + esc(u.resumo || "") + '</td></tr>';
+      }).join("") + '</tbody></table>' : "";
+    }).catch(function(e){ err.className = e.message === "vazio" ? "erro ok" : "erro"; err.textContent = e.message === "vazio" ? "Ainda não há interessados." : (e.name === "OperationError" ? "Senha incorreta." : "Não consegui carregar os dados. Tente de novo."); });
+  });
+
+  $("recarregar").addEventListener("click", function(){ carregar(); pCarregar(); });
+  carregar(); pCarregar();
+})();
+</script>
+</body>
+</html>

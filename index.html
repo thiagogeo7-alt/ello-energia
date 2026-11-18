@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELLO Energia | Conta de luz até 50% menor em Campinas, sem obras</title>
+<meta name="description" content="Energia solar compartilhada em Campinas e região. Receba créditos de usinas solares direto na sua conta de luz: sem obras, sem placas e sem trocar de distribuidora.">
+<meta name="theme-color" content="#0A1A33">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ELLO Energia | Sua conta de luz até 50% menor">
+<meta property="og:description" content="Energia solar compartilhada em Campinas e região. Sem obras, sem placas e com a mesma distribuidora.">
+<meta property="og:image" content="https://elloeconomia-energia.com/assets/og.jpg">
+<meta property="og:url" content="https://elloeconomia-energia.com/">
+<link rel="canonical" href="https://elloeconomia-energia.com/">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%230A1A33'/%3E%3Cpath d='M14 24c0-6 4-10 10-10s10 4 10 10-4 10-10 10M34 24c0-6-4-10-10-10s-10 4-10 10 4 10 10 10' stroke='%23F5A524' stroke-width='4.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preload" as="image" href="assets/campinas-noite.webp" imagesrcset="assets/campinas-noite-960.webp 960w, assets/campinas-noite.webp 1600w" imagesizes="100vw">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "ELLO Energia",
+  "description": "Energia solar compartilhada para residências e empresas em Campinas e região.",
+  "telephone": "+55-19-99562-1927",
+  "areaServed": "Campinas e região, SP",
+  "image": "https://elloeconomia-energia.com/assets/og.jpg",
+  "url": "https://elloeconomia-energia.com/",
+  "legalName": "Ello Global LTDA",
+  "taxID": "69.972.832/0001-76",
+  "address": {"@type": "PostalAddress", "streetAddress": "Avenida Nogueira Acioly, 1606, Centro",
+              "addressLocality": "Icó", "addressRegion": "CE", "postalCode": "63430-000", "addressCountry": "BR"}
+}
+</script>
+<style>
+:root{
+  --night:#0A1A33;      /* céu de Campinas à noite */
+  --night-2:#12284A;
+  --amber:#F5A524;      /* luz de poste de sódio */
+  --amber-ink:#8A5300;  /* âmbar legível sobre papel */
+  --cell:#2F5BEA;       /* célula fotovoltaica */
+  --paper:#FFFFFF;
+  --mist:#EEF2F7;
+  --ink:#0A1A33;
+  --ink-2:#4A5A72;
+  --rule:#D6DCE5;
+  --wa:#1FAF5B;
+  --wide:"wdth" 125;
+  --cond:"wdth" 75;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{font-family:"Archivo",system-ui,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1160px,100% - 48px);margin-inline:auto}
+.num{font-variant-numeric:tabular-nums}
+
+/* Tipografia */
+.display{font-variation-settings:var(--wide);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+h1.display{font-size:clamp(2.2rem,5.6vw,4.3rem)}
+h2.display{font-size:clamp(1.9rem,4vw,3rem);margin-bottom:.5em}
+h3{font-size:1.25rem;font-weight:700;line-height:1.3}
+p{max-width:62ch}
+.lede{font-size:1.2rem;line-height:1.55;color:var(--ink-2)}
+
+/* Botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;font:inherit;font-weight:700;font-size:1rem;padding:.95em 1.5em;border-radius:10px;border:0;cursor:pointer;text-decoration:none;transition:background-color .15s,transform .15s}
+.btn svg{width:1.25em;height:1.25em;flex:none}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:#17964D}
+.btn-amber{background:var(--amber);color:var(--night)}
+.btn-amber:hover{background:#FFB940}
+.btn-line{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45)}
+.btn-line:hover{box-shadow:inset 0 0 0 1.5px #fff}
+.btn:active{transform:translateY(1px)}
+
+/* Cabeçalho */
+.top{position:absolute;inset:0 0 auto;z-index:10;padding:22px 0}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
+.brand svg{width:40px;height:40px}
+.brand b{font-variation-settings:var(--wide);font-weight:900;font-size:1.35rem;letter-spacing:.02em;line-height:1}
+.brand span{display:block;font-size:.78rem;font-weight:500;color:#B9C6DA;margin-top:3px}
+.top nav{display:flex;gap:28px;font-weight:600;font-size:.95rem}
+.top nav a{color:#D5DEEC;text-decoration:none}
+.top nav a:hover{color:var(--amber)}
+.top .btn{padding:.7em 1.1em;font-size:.95rem}
+@media (max-width:900px){.top nav{display:none}}
+@media (max-width:480px){.top .btn .lbl{display:none}.top .btn{padding:.7em}}
+
+/* Hero */
+.hero{position:relative;color:#fff;background:var(--night);overflow:hidden;padding:150px 0 96px}
+.hero picture,.hero picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 70%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,26,51,.96) 0%,rgba(10,26,51,.86) 42%,rgba(10,26,51,.35) 100%)}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+@media (max-width:980px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:120px}}
+.hero h1{margin-bottom:24px}
+.hero .lede{color:#C9D5E6;margin-bottom:32px;max-width:34ch}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px;list-style:none;font-size:.95rem;color:#B9C6DA}
+.facts li{display:flex;align-items:center;gap:8px}
+.facts svg{width:18px;height:18px;color:var(--amber)}
+
+/* A fatura (elemento-assinatura) */
+.bill{background:var(--paper);color:var(--ink);border-radius:6px;padding:28px 28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.45);position:relative;max-width:460px;justify-self:end;width:100%}
+@media (max-width:980px){.bill{justify-self:start}}
+@media (max-width:480px){.bill{padding:24px 18px 20px}.lines{font-size:.92rem}.total b{font-size:1.8rem}}
+.bill::before{content:"";position:absolute;left:0;right:0;top:-9px;height:10px;background:radial-gradient(circle at 7px 0,transparent 6px,var(--paper) 6.5px) -7px 0/14px 10px repeat-x}
+.bill-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.bill-head strong{font-variation-settings:var(--wide);font-weight:800;font-size:1.05rem}
+.bill-head small{font-size:.82rem;color:var(--ink-2)}
+.bill label{display:block;font-weight:600;font-size:.95rem;margin:18px 0 6px}
+.slider-row{display:flex;align-items:center;gap:14px}
+.slider-row output{font-variation-settings:var(--wide);font-weight:800;font-size:1.3rem;min-width:7.5ch;text-align:right}
+input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:6px;background:linear-gradient(var(--amber),var(--amber)) 0/var(--p,30%) 100% no-repeat,var(--rule);cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--night);border:4px solid var(--amber)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--night);border:4px solid var(--amber)}
+.lines{list-style:none;margin:18px 0 0;font-size:.98rem}
+.lines li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--rule)}
+.lines li span:last-child{font-weight:600;white-space:nowrap}
+.lines .credit span:last-child{color:var(--cell);font-weight:700}
+.lines .credit span:first-child{display:flex;align-items:center;gap:8px}
+.lines .credit i{width:10px;height:10px;border-radius:2px;background:var(--cell);display:inline-block}
+.total{display:flex;justify-content:space-between;align-items:end;gap:12px;padding:16px 0 6px}
+.total span{font-weight:600}
+.total b{font-variation-settings:var(--wide);font-weight:900;font-size:2.1rem;line-height:1}
+.year{background:var(--mist);border-radius:4px;padding:12px 14px;margin:10px 0 18px;font-size:.95rem}
+.year b{font-weight:800;color:var(--ink)}
+.bill .btn{width:100%}
+.bill .fine{font-size:.78rem;color:var(--ink-2);margin-top:12px;line-height:1.45}
+
+/* Seções */
+section{padding:104px 0}
+@media (max-width:700px){section{padding:72px 0}}
+.head{margin-bottom:48px;max-width:720px}
+
+/* Muda / não muda */
+.change{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink)}
+@media (max-width:760px){.change{grid-template-columns:1fr}}
+.change > div{padding:32px 32px 8px 0}
+.change > div + div{padding-left:32px;border-left:1px solid var(--rule)}
+@media (max-width:760px){.change > div + div{padding-left:0;border-left:0;border-top:1px solid var(--rule)}}
+.change h3{font-variation-settings:var(--wide);font-weight:800;font-size:1.4rem;margin-bottom:18px}
+.change ul{list-style:none}
+.change li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.change li:last-child{border-bottom:0}
+.change li svg{width:22px;height:22px;margin-top:2px}
+.change li b{display:block;font-weight:700}
+.change li span{color:var(--ink-2);font-size:.98rem}
+.yes svg{color:var(--cell)}
+.same svg{color:var(--ink-2)}
+
+/* Como funciona */
+.how{background:var(--night);color:#fff}
+.how .lede{color:#B9C6DA}
+.flow{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;position:relative;counter-reset:passo}
+.flow::before{content:"";position:absolute;top:27px;left:28px;right:28px;height:2px;background:repeating-linear-gradient(90deg,var(--amber) 0 10px,transparent 10px 18px)}
+@media (max-width:860px){.flow{grid-template-columns:1fr;gap:0}.flow::before{top:28px;bottom:28px;left:27px;right:auto;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--amber) 0 10px,transparent 10px 18px)}}
+.flow li{position:relative;counter-increment:passo}
+@media (max-width:860px){.flow li{display:grid;grid-template-columns:56px 1fr;gap:20px;padding-bottom:28px}}
+.flow .dot{width:56px;height:56px;border-radius:50%;background:var(--night-2);border:2px solid var(--amber);display:grid;place-items:center;margin-bottom:20px;position:relative}
+.flow .dot svg{width:24px;height:24px;color:var(--amber)}
+.flow .dot::after{content:counter(passo);position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--amber);color:var(--night);font-size:.78rem;font-weight:800;display:grid;place-items:center}
+.flow h3{margin-bottom:6px}
+.flow p{color:#B9C6DA;font-size:.98rem}
+.law{margin-top:56px;padding-top:28px;border-top:1px solid rgba(255,255,255,.14);display:flex;gap:16px;align-items:flex-start;color:#C9D5E6}
+.law svg{width:26px;height:26px;color:var(--amber);flex:none}
+
+/* Quem somos */
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+@media (max-width:860px){.about .wrap{grid-template-columns:1fr;gap:32px}}
+.about p + p{margin-top:16px}
+.about p{color:var(--ink-2)}
+.pillars{list-style:none;border-top:2px solid var(--ink)}
+.pillars li{padding:22px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:150px 1fr;gap:16px}
+@media (max-width:480px){.pillars li{grid-template-columns:1fr;gap:4px}}
+.pillars b{font-variation-settings:var(--wide);font-weight:800;font-size:1.25rem}
+.pillars span{color:var(--ink-2)}
+
+/* FAQ */
+.faq{background:var(--mist)}
+.faq .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px}
+@media (max-width:860px){.faq .wrap{grid-template-columns:1fr;gap:24px}}
+details{border-bottom:1px solid var(--rule)}
+details:first-of-type{border-top:2px solid var(--ink)}
+summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;font-weight:700;font-size:1.1rem;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";position:absolute;right:8px;top:50%;width:12px;height:12px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateY(-70%) rotate(45deg);transition:transform .2s}
+details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+details p{padding:0 0 22px;color:var(--ink-2)}
+
+/* Formulário */
+.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+@media (max-width:900px){.contact .wrap{grid-template-columns:1fr;gap:40px}}
+.contact ul{list-style:none;margin:28px 0}
+.contact li{display:flex;gap:12px;padding:8px 0;font-weight:600}
+.contact li svg{width:22px;height:22px;color:var(--cell);flex:none;margin-top:2px}
+.direct{color:var(--ink-2)}
+.direct a{font-weight:700;color:var(--ink)}
+form{background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:32px}
+@media (max-width:480px){form{padding:22px}}
+form h3{font-variation-settings:var(--wide);font-weight:800;font-size:1.4rem;margin-bottom:4px}
+form > p{color:var(--ink-2);font-size:.95rem;margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:600;font-size:.92rem;margin-bottom:6px}
+.field input,.field select{width:100%;font:inherit;font-size:1rem;padding:.8em .9em;border:1.5px solid var(--rule);border-radius:8px;background:#fff;color:var(--ink)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--cell);box-shadow:0 0 0 3px rgba(47,91,234,.18)}
+.field.err input,.field.err select{border-color:#C62828}
+.field .msg{display:none;color:#C62828;font-size:.85rem;margin-top:4px}
+.field.err .msg{display:block}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:480px){.two{grid-template-columns:1fr}}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--ink-2);margin:6px 0 20px}
+.consent input{margin-top:4px;width:18px;height:18px;accent-color:var(--cell);flex:none}
+.consent a{color:var(--cell);font-weight:600}
+form .btn{width:100%;font-size:1.05rem}
+.form-note{font-size:.82rem;color:var(--ink-2);text-align:center;margin:12px auto 0}
+
+/* Rodapé */
+footer{background:var(--night);color:#B9C6DA;padding:64px 0 32px;font-size:.95rem}
+.foot{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.12)}
+@media (max-width:760px){.foot{grid-template-columns:1fr}}
+footer h4{color:#fff;font-weight:700;margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--amber)}
+footer .brand{margin-bottom:14px}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;font-size:.85rem}
+
+
+/* Fotos */
+.foto{display:block;width:100%;height:100%;object-fit:cover;border-radius:8px;background:var(--mist)}
+.head-foto{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;margin-bottom:48px}
+.head-foto .head{margin-bottom:0}
+.head-foto figure{aspect-ratio:4/3}
+@media (max-width:860px){.head-foto{grid-template-columns:1fr;gap:28px}}
+
+/* Para quem é */
+.quem{background:var(--mist)}
+.publicos{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:900px){.publicos{grid-template-columns:1fr}}
+.publico{background:var(--paper);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.publico figure{aspect-ratio:4/3}
+.publico .foto{border-radius:0}
+.publico div{padding:22px 22px 26px}
+.publico h3{font-variation-settings:var(--wide);font-weight:800;font-size:1.3rem;margin-bottom:6px}
+.publico p{color:var(--ink-2);font-size:.98rem}
+.publico .exemplo{display:block;margin-top:14px;font-weight:700;color:var(--ink)}
+
+/* Como funciona com foto */
+.how{position:relative;overflow:hidden}
+.how .faixa{aspect-ratio:21/7;margin-bottom:56px;position:relative}
+.how .faixa .foto{border-radius:8px}
+.how .faixa figcaption{position:absolute;left:20px;bottom:16px;background:rgba(10,26,51,.82);color:#fff;font-size:.85rem;padding:6px 12px;border-radius:6px}
+@media (max-width:700px){.how .faixa{aspect-ratio:16/9}}
+
+/* Quem é com foto */
+.about .wrap{grid-template-columns:.8fr 1.2fr}
+.about figure{aspect-ratio:3/4;max-height:560px}
+.about .texto p + p{margin-top:16px}
+.about .texto .pillars{margin-top:32px}
+@media (max-width:860px){.about figure{aspect-ratio:4/3}}
+
+/* Contato com foto */
+.contact .foto-contato{aspect-ratio:16/10;margin:28px 0 8px}
+
+/* Dados da empresa */
+.empresa{font-size:.85rem;line-height:1.6;color:#8FA0B8;margin-top:14px}
+
+/* WhatsApp flutuante */
+.wa-float{position:fixed;right:20px;bottom:20px;z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.wa-float svg{width:30px;height:30px}
+.wa-float:hover{background:#17964D}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91A9.86 9.86 0 0 0 12.04 2Zm0 18.15h-.01a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></symbol>
+  <symbol id="i-same" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 9h14M5 15h14"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-tower" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22 12 2l4 20M6 8h12M5 14h14M9.5 14 15 22M14.5 14 9 22"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#inicio" class="brand" aria-label="ELLO Energia, início">
+      <svg viewBox="9 9 30 30" fill="none" aria-hidden="true">
+        <path d="M14 24c0-6 4-10 10-10s10 4 10 10-4 10-10 10M34 24c0-6-4-10-10-10s-10 4-10 10 4 10 10 10" stroke="#F5A524" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="3.4" fill="#fff"/>
+      </svg>
+      <div><b>ELLO</b><span>Energia solar compartilhada</span></div>
+    </a>
+    <nav aria-label="Principal">
+      <a href="#o-que-muda">O que muda</a>
+      <a href="#para-quem">Para quem</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a href="#proposta">Proposta</a>
+    </nav>
+    <a class="btn btn-wa wa-link" href="https://wa.me/5519995621927" data-msg="Olá! Vim pelo site da ELLO e quero saber quanto posso economizar na conta de luz."><svg><use href="#i-wa"/></svg><span class="lbl">Falar no WhatsApp</span></a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <picture>
+    <source type="image/webp" srcset="assets/campinas-noite-960.webp 960w, assets/campinas-noite.webp 1600w" sizes="100vw">
+    <img src="assets/campinas-noite.webp" alt="Vista noturna de Campinas com prédios iluminados e placas solares nos telhados" fetchpriority="high">
+  </picture>
+  <div class="wrap">
+    <div>
+      <h1 class="display">Sua conta de luz até 50% menor. Sem placa no telhado.</h1>
+      <p class="lede">Usinas solares geram créditos de energia que entram direto na sua fatura. Você continua com a mesma distribuidora, sem obra e sem placas.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-amber" href="#proposta">Quero minha proposta grátis</a>
+        <a class="btn btn-line" href="#como-funciona">Ver como funciona</a>
+      </div>
+      <ul class="facts">
+        <li><svg><use href="#i-shield"/></svg>Regras da ANEEL e Lei 14.300/2022</li>
+        <li><svg><use href="#i-check"/></svg>Adesão 100% digital</li>
+        <li><svg><use href="#i-check"/></svg>Campinas e região</li>
+      </ul>
+    </div>
+
+    <div class="bill" aria-labelledby="sim-title">
+      <div class="bill-head">
+        <strong id="sim-title">Simule sua fatura</strong>
+        <small>estimativa mensal</small>
+      </div>
+      <label for="valor">Quanto vem a sua conta de luz hoje?</label>
+      <div class="slider-row">
+        <input type="range" id="valor" min="150" max="3000" step="10" value="450" aria-describedby="sim-fine">
+        <output for="valor" id="valorOut" class="num">R$ 450</output>
+      </div>
+      <ul class="lines">
+        <li><span>Conta atual</span><span class="num" id="lAtual">R$ 450,00</span></li>
+        <li class="credit"><span><i></i>Crédito de energia ELLO</span><span class="num" id="lCred">− R$ 90,00</span></li>
+      </ul>
+      <div class="total"><span>Sua nova conta</span><b class="num" id="lNova">R$ 360</b></div>
+      <p class="year">Em 12 meses, até <b class="num" id="lAno">R$ 1.080</b> a menos.</p>
+      <a class="btn btn-wa" id="simCta" href="https://wa.me/5519995621927"><svg><use href="#i-wa"/></svg>Receber proposta no WhatsApp</a>
+      <p class="fine" id="sim-fine">Estimativa com desconto de até 50%. O valor real depende do seu consumo, da sua distribuidora e de impostos e taxas que não entram na compensação.</p>
+    </div>
+  </div>
+</section>
+
+<section id="o-que-muda">
+  <div class="wrap">
+    <div class="head-foto">
+      <div class="head">
+        <h2 class="display">Só uma coisa muda: o valor da conta.</h2>
+        <p class="lede">Você não troca de fornecedor e não instala nada. A energia continua chegando pelos mesmos fios de sempre.</p>
+      </div>
+      <figure><img class="foto" src="assets/fotos/familia-cozinha.webp" alt="Família na cozinha de casa, com as luzes acesas, conferindo a conta no tablet" loading="lazy" width="1024" height="768"></figure>
+    </div>
+    <div class="change">
+      <div class="yes">
+        <h3>Muda</h3>
+        <ul>
+          <li><svg><use href="#i-down"/></svg><div><b>O valor da sua fatura</b><span>Os créditos da usina solar abatem parte da conta todo mês.</span></div></li>
+          <li><svg><use href="#i-sun"/></svg><div><b>A origem da sua energia</b><span>Você passa a usar créditos de energia solar, limpa e renovável.</span></div></li>
+        </ul>
+      </div>
+      <div class="same">
+        <h3>Continua igual</h3>
+        <ul>
+          <li><svg><use href="#i-same"/></svg><div><b>Sua distribuidora</b><span>Ela segue entregando a energia e cuidando da rede e das emergências.</span></div></li>
+          <li><svg><use href="#i-same"/></svg><div><b>Sua casa ou empresa</b><span>Sem obra, sem placas no telhado e sem equipamento para comprar.</span></div></li>
+          <li><svg><use href="#i-same"/></svg><div><b>Sua rotina</b><span>Nada muda no dia a dia: a economia aparece direto na fatura.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quem" id="para-quem">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="display">Para quem a ELLO funciona</h2>
+      <p class="lede">Quem tem conta de luz em Campinas e região pode receber os créditos. Quanto maior a conta, maior a economia.</p>
+    </div>
+    <div class="publicos">
+      <article class="publico">
+        <figure><img class="foto" src="assets/fotos/para-casa.webp" alt="Casal relaxando na sala com o ar-condicionado ligado" loading="lazy" width="1024" height="768"></figure>
+        <div><h3>Casas e apartamentos</h3><p>Ar-condicionado, chuveiro e geladeira pesam no fim do mês. Com os créditos solares, a fatura da família fica menor.</p><span class="exemplo">Conta de R$ 500 → até R$ 250 a menos</span></div>
+      </article>
+      <article class="publico">
+        <figure><img class="foto" src="assets/fotos/para-comercio.webp" alt="Dono de padaria sorrindo atrás do balcão" loading="lazy" width="1024" height="768"></figure>
+        <div><h3>Comércios e empresas</h3><p>Fornos, geladeiras e máquinas ligadas o dia todo. Economia na conta é margem de volta para o seu negócio.</p><span class="exemplo">Conta de R$ 2.000 → até R$ 1.000 a menos</span></div>
+      </article>
+      <article class="publico">
+        <figure><img class="foto" src="assets/fotos/para-condominio.webp" alt="Prédio residencial moderno com jardim ao entardecer" loading="lazy" width="1024" height="768"></figure>
+        <div><h3>Condomínios</h3><p>Elevadores, bombas e iluminação das áreas comuns. Reduzir essa conta alivia a taxa de todos os moradores.</p><span class="exemplo">Economia dividida entre todas as unidades</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="como-funciona">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="display">Da usina até a sua fatura</h2>
+      <p class="lede">O caminho que a energia faz até virar desconto na sua conta.</p>
+    </div>
+    <figure class="faixa"><img class="foto" src="assets/fotos/usina-solar.webp" alt="Vista aérea de uma usina solar ao nascer do sol no interior de São Paulo" loading="lazy" width="1024" height="576"><figcaption>Usina solar ao amanhecer</figcaption></figure>
+    <ol class="flow">
+      <li><div class="dot"><svg><use href="#i-sun"/></svg></div><div><h3>A usina gera</h3><p>Nossas usinas solares produzem energia e a injetam na rede da distribuidora.</p></div></li>
+      <li><div class="dot"><svg><use href="#i-tower"/></svg></div><div><h3>A rede distribui</h3><p>Sua distribuidora continua levando a energia até você, como sempre.</p></div></li>
+      <li><div class="dot"><svg><use href="#i-doc"/></svg></div><div><h3>O crédito entra</h3><p>A energia gerada vira crédito, compensado direto na sua fatura.</p></div></li>
+      <li><div class="dot"><svg><use href="#i-home"/></svg></div><div><h3>Você paga menos</h3><p>Todo mês, a economia aparece na conta, sem você fazer nada.</p></div></li>
+    </ol>
+    <div class="law">
+      <svg><use href="#i-shield"/></svg>
+      <p>A geração compartilhada é prevista na Lei 14.300/2022 e segue as regras da ANEEL. A distribuidora local continua responsável pelo fornecimento físico da energia.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="quem-somos">
+  <div class="wrap">
+    <figure><img class="foto" src="assets/fotos/paineis-detalhe.webp" alt="Painéis solares refletindo o sol da manhã" loading="lazy" width="768" height="1024"></figure>
+    <div class="texto">
+      <h2 class="display">Quem é a ELLO</h2>
+      <p>A ELLO é uma plataforma de energia solar compartilhada. Ligamos a geração das nossas usinas à conta de luz de casas e empresas, para que mais gente pague menos sem precisar investir em instalação.</p>
+      <p>Cuidamos de toda a parte burocrática com a distribuidora. Você acompanha a economia na própria fatura.</p>
+    <ul class="pillars">
+      <li><b>Energia</b><span>Usinas solares que geram créditos de energia limpa para você.</span></li>
+      <li><b>Conexão</b><span>Uma plataforma digital que liga a usina à sua conta em poucos minutos.</span></li>
+      <li><b>Evolução</b><span>Economia que se repete todo mês, com transparência.</span></li>
+    </ul>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="duvidas">
+  <div class="wrap">
+    <div>
+      <h2 class="display">Dúvidas frequentes</h2>
+      <p class="lede">Não achou sua pergunta? Fale com a gente no WhatsApp.</p>
+    </div>
+    <div>
+      <details><summary>Isso é legal e seguro?</summary><p>Sim. A geração compartilhada é prevista na Lei 14.300/2022 e regulada pela ANEEL. Você continua cliente da sua distribuidora, que segue responsável pelo fornecimento.</p></details>
+      <details><summary>Preciso instalar alguma coisa?</summary><p>Não. Nada de placas, obra ou equipamento. A energia é gerada nas nossas usinas e chega até você como crédito na fatura.</p></details>
+      <details><summary>Tem custo para aderir?</summary><p>Não há custo de adesão. Você só passa a pagar menos pela energia.</p></details>
+      <details><summary>O desconto é sempre de 50%?</summary><p>Até 50%. O valor exato depende do seu consumo, da sua distribuidora e de impostos e taxas que não entram na compensação. Na proposta gratuita mostramos o número para a sua conta.</p></details>
+      <details><summary>O que preciso para receber a proposta?</summary><p>Uma conta de luz recente. Com ela fazemos a análise gratuita e enviamos a proposta em até 24 horas.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="proposta">
+  <div class="wrap">
+    <div>
+      <h2 class="display">Receba sua proposta em até 24 horas</h2>
+      <p class="lede">Preencha os dados e continue a conversa com nosso time no WhatsApp. Sem compromisso.</p>
+      <figure class="foto-contato"><img class="foto" src="assets/fotos/atendimento.webp" alt="Atendente sorrindo ao telefone com uma conta de luz na mão" loading="lazy" width="1024" height="768"></figure>
+      <ul>
+        <li><svg><use href="#i-check"/></svg>Análise gratuita da sua conta de luz</li>
+        <li><svg><use href="#i-check"/></svg>Atendimento feito por pessoas</li>
+        <li><svg><use href="#i-check"/></svg>Sem custo de adesão e sem obras</li>
+      </ul>
+      <p class="direct">Prefere ligar? <a href="tel:+5519995621927">(19) 99562-1927</a><br>Por e-mail: <a href="mailto:comercial@elloeconomia-energia.com" id="emailLink">comercial@elloeconomia-energia.com</a></p>
+    </div>
+
+    <form id="leadForm" novalidate>
+      <h3>Quero minha proposta grátis</h3>
+      <p>Leva menos de um minuto.</p>
+      <div class="field"><label for="nome">Nome</label><input id="nome" name="nome" autocomplete="name" required><span class="msg">Informe seu nome.</span></div>
+      <div class="two">
+        <div class="field"><label for="fone">WhatsApp</label><input id="fone" name="fone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(19) 99999-9999" required><span class="msg">Informe um WhatsApp com DDD.</span></div>
+        <div class="field"><label for="cidade">Cidade</label><input id="cidade" name="cidade" autocomplete="address-level2" placeholder="Campinas" required><span class="msg">Informe sua cidade.</span></div>
+      </div>
+      <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><span class="msg">Informe um e-mail válido.</span></div>
+      <div class="two">
+        <div class="field"><label for="tipo">Para onde é a conta?</label>
+          <select id="tipo" name="tipo"><option>Casa</option><option>Empresa</option><option>Condomínio</option></select></div>
+        <div class="field"><label for="conta">Valor médio da conta</label>
+          <select id="conta" name="conta"><option value="">Prefiro não dizer</option><option>Até R$ 300</option><option>R$ 300 a R$ 600</option><option>R$ 600 a R$ 1.000</option><option>R$ 1.000 a R$ 3.000</option><option>Acima de R$ 3.000</option></select></div>
+      </div>
+      <label class="consent"><input type="checkbox" id="lgpd" required><span>Autorizo a ELLO a entrar em contato e a tratar meus dados conforme a <a href="privacidade.html">Política de Privacidade</a>.</span></label>
+      <button class="btn btn-wa" type="submit"><svg><use href="#i-wa"/></svg>Enviar e abrir o WhatsApp</button>
+      <p class="form-note" role="status" id="formStatus">Você será levado ao nosso WhatsApp com seus dados já preenchidos.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#inicio" class="brand"><svg viewBox="9 9 30 30" fill="none" aria-hidden="true"><path d="M14 24c0-6 4-10 10-10s10 4 10 10-4 10-10 10M34 24c0-6-4-10-10-10s-10 4-10 10 4 10 10 10" stroke="#F5A524" stroke-width="4.5" stroke-linecap="round"/><circle cx="24" cy="24" r="3.4" fill="#fff"/></svg><div><b>ELLO</b><span>Energia solar compartilhada</span></div></a>
+        <p>Créditos de energia solar direto na sua conta de luz, em Campinas e região.</p>
+        <p class="empresa">Ello Global LTDA · CNPJ 69.972.832/0001-76<br>Av. Nogueira Acioly, 1606 – Centro – Icó/CE – CEP 63430-000</p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <ul><li><a href="#o-que-muda">O que muda</a></li><li><a href="#como-funciona">Como funciona</a></li><li><a href="#duvidas">Dúvidas</a></li><li><a href="#proposta">Pedir proposta</a></li></ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul><li><a class="wa-link" href="https://wa.me/5519995621927" data-msg="Olá! Vim pelo site da ELLO.">WhatsApp (19) 99562-1927</a></li><li><a href="tel:+5519995621927">Ligar (19) 99562-1927</a></li><li><a href="mailto:comercial@elloeconomia-energia.com">comercial@elloeconomia-energia.com</a></li></ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© <span id="ano">2026</span> ELLO Energia · Ello Global LTDA · CNPJ 69.972.832/0001-76</span>
+      <a href="privacidade.html">Política de Privacidade</a>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float wa-link" href="https://wa.me/5519995621927" data-msg="Olá! Vim pelo site da ELLO e quero saber quanto posso economizar." aria-label="Falar no WhatsApp"><svg><use href="#i-wa"/></svg></a>
+
+<script>
+(function(){
+  "use strict";
+  /* ===== CONFIGURAÇÃO ===== */
+  var WHATSAPP = "5519995621927";   // DDI + DDD + número
+  var DESCONTO = 0.50;              // desconto máximo usado no simulador
+  var LEAD_ENDPOINT = "";           // URL (n8n/webhook) para salvar o lead. Vazio = só WhatsApp.
+
+  function wa(msg){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg); }
+  var brl = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+  var brl0 = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+
+  document.querySelectorAll(".wa-link").forEach(function(a){
+    a.href = wa(a.getAttribute("data-msg") || "Olá! Vim pelo site da ELLO.");
+    a.target = "_blank"; a.rel = "noopener";
+  });
+  document.getElementById("ano").textContent = new Date().getFullYear();
+
+  /* Simulador */
+  var r = document.getElementById("valor"), out = document.getElementById("valorOut");
+  var lAtual = document.getElementById("lAtual"), lCred = document.getElementById("lCred");
+  var lNova = document.getElementById("lNova"), lAno = document.getElementById("lAno"), cta = document.getElementById("simCta");
+  function sim(){
+    var v = +r.value, c = v*DESCONTO;
+    r.style.setProperty("--p", ((v-r.min)/(r.max-r.min)*100) + "%");
+    out.textContent = brl0.format(v) + (v >= +r.max ? "+" : "");
+    lAtual.textContent = brl.format(v);
+    lCred.textContent = "− " + brl.format(c);
+    lNova.textContent = brl0.format(v-c);
+    lAno.textContent = brl0.format(c*12);
+    cta.href = wa("Olá! Simulei no site da ELLO: minha conta é de " + brl0.format(v) + " e vi que posso economizar até " + brl0.format(c) + " por mês. Quero a proposta gratuita.");
+    cta.target = "_blank"; cta.rel = "noopener";
+  }
+  r.addEventListener("input", sim); sim();
+
+  /* Máscara de telefone */
+  var fone = document.getElementById("fone");
+  fone.addEventListener("input", function(){
+    var v = fone.value.replace(/\D/g,"").slice(0,11), o = "";
+    if (v.length) o = "(" + v.slice(0,2);
+    if (v.length > 2) o += ") " + v.slice(2, v.length > 10 ? 7 : 6);
+    if (v.length > 6) o += "-" + v.slice(v.length > 10 ? 7 : 6);
+    fone.value = o;
+  });
+
+  /* Formulário */
+  var form = document.getElementById("leadForm"), status = document.getElementById("formStatus");
+  function check(id, ok){ var f = document.getElementById(id).closest(".field"); f.classList.toggle("err", !ok); return ok; }
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var d = {
+      nome: form.nome.value.trim(), fone: form.fone.value.trim(), cidade: form.cidade.value.trim(),
+      email: form.email.value.trim(), tipo: form.tipo.value, conta: form.conta.value || "não informado",
+      simulado: brl0.format(+r.value), origem: "site", data: new Date().toISOString()
+    };
+    var ok = [check("nome", d.nome.length > 1), check("fone", d.fone.replace(/\D/g,"").length >= 10),
+              check("cidade", d.cidade.length > 1), check("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))];
+    if (ok.indexOf(false) > -1){ status.textContent = "Confira os campos marcados em vermelho."; form.querySelector(".err input").focus(); return; }
+    if (!document.getElementById("lgpd").checked){ status.textContent = "Marque a autorização de contato para continuar."; document.getElementById("lgpd").focus(); return; }
+    if (LEAD_ENDPOINT){ try{ navigator.sendBeacon(LEAD_ENDPOINT, new Blob([JSON.stringify(d)],{type:"application/json"})); }catch(_){} }
+    status.textContent = "Abrindo o WhatsApp com seus dados…";
+    var url = wa("Olá, ELLO! Quero uma proposta gratuita.\n\nNome: " + d.nome + "\nWhatsApp: " + d.fone +
+      "\nCidade: " + d.cidade + "\nE-mail: " + d.email + "\nConta para: " + d.tipo + "\nValor médio: " + d.conta);
+    var w = null; try { w = window.open(url, "_blank"); } catch(_){}
+    if (!w) { status.innerHTML = 'Pronto! <a href="' + url + '" target="_blank" rel="noopener">Toque aqui para abrir o WhatsApp</a>.'; }
+  });
+})();
+</script>
+</body>
+</html>
