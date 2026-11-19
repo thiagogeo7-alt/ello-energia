@@ -111,7 +111,7 @@
         "shares": 0,
         "views": 6
       },
-      "pontuacao": 3.4000000000000004,
+      "pontuacao": 3.4,
       "ref": "R3"
     },
     {
@@ -135,14 +135,14 @@
       "permalink": "https://www.instagram.com/reel/Df0CgKYB-4H/",
       "modo": "cenas",
       "metricas": {
-        "reach": 4,
+        "reach": 5,
         "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 8
+        "views": 9
       },
-      "pontuacao": 3.6,
+      "pontuacao": 3.9,
       "ref": "R4"
     },
     {
@@ -169,14 +169,14 @@
       "modo": "cenas",
       "teste": true,
       "metricas": {
-        "reach": 2,
-        "likes": 1,
+        "reach": 3,
+        "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 8
+        "views": 9
       },
-      "pontuacao": 2.2,
+      "pontuacao": 3.5,
       "ref": "R5"
     },
     {
@@ -203,6 +203,23 @@
         "shares": 0
       },
       "pontuacao": 1.4
+    },
+    {
+      "data": "2026-11-19T15:02:30+00:00",
+      "tipo": "carrossel",
+      "ref": "C3",
+      "tema": "Conta de luz das áreas comuns do condomínio",
+      "gancho": "Veja como o condomínio pode economizar até 50% na conta de luz das áreas comuns.",
+      "legenda": "Sua conta de luz do condomínio pesa todo mês? 🏢\nElevador, portão, bomba d'água e iluminação ficam ligados o tempo todo, e isso vai para o rateio.\nCom a energia solar compartilhada da ELLO, o condomínio pode economizar até 50% na conta de luz das áreas comuns.\nSem obra, sem placa no telhado e sem custo de adesão. Continua com a mesma distribuidora. ☀️\nSalve este post e mande para o síndico do seu prédio.\nChama no WhatsApp: (19) 99562-1927\n#energiasolar #energiacompartilhada #contadeluz #campinas #regiaodecampinas",
+      "imagens": [
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261119-1501-1.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261119-1501-2.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261119-1501-3.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261119-1501-4.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261119-1501-5.jpg"
+      ],
+      "media_id": "17912491935569803",
+      "permalink": "https://www.instagram.com/p/Df7WxuPl8AJ/"
     }
   ],
   "comentarios_respondidos": [
@@ -328,6 +345,11 @@
       "data": "2026-11-17T22:53:32+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-19T15:02:30+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -400,11 +422,16 @@
       "data": "2026-11-18T22:24:26+00:00",
       "tipo": "relatorio",
       "detalhe": "Semana de começo: 909 contas alcançadas e 5 pessoas interessadas, mas ninguém clicou no link do perfil."
+    },
+    {
+      "data": "2026-11-19T15:02:30+00:00",
+      "tipo": "carrossel",
+      "detalhe": "Conta de luz das áreas comuns do condomínio"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-19T15:00:44+00:00",
-  "metricas_atualizadas_em": "2026-11-18T22:24:04+00:00",
+  "atualizado_em": "2026-11-19T15:02:30+00:00",
+  "metricas_atualizadas_em": "2026-11-19T15:01:27+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
