@@ -1,0 +1,441 @@
+{
+ "atualizado_em": "2026-11-20T17:06:04+00:00",
+ "total_contatos": 5000,
+ "com_email": 5000,
+ "por_status": {
+  "lembrete1": 12,
+  "invalido": 3,
+  "enviado": 21,
+  "novo": 4964
+ },
+ "por_segmento": {
+  "comercio": {
+   "total": 2206,
+   "lembrete1": 5,
+   "contatados": 15,
+   "invalido": 1,
+   "enviado": 9,
+   "novo": 2191
+  },
+  "servicos": {
+   "total": 2258,
+   "lembrete1": 3,
+   "contatados": 7,
+   "enviado": 4,
+   "novo": 2251
+  },
+  "industria": {
+   "total": 370,
+   "novo": 363,
+   "invalido": 1,
+   "contatados": 7,
+   "lembrete1": 2,
+   "enviado": 4
+  },
+  "condominio": {
+   "total": 166,
+   "lembrete1": 2,
+   "contatados": 7,
+   "invalido": 1,
+   "enviado": 4,
+   "novo": 159
+  }
+ },
+ "por_fonte": {
+  "cnpj": 5000
+ },
+ "envios_por_dia": {
+  "2026-11-16": 10,
+  "2026-11-17": 10,
+  "2026-11-18": 10,
+  "2026-11-19": 10,
+  "2026-11-20": 10
+ },
+ "eventos": [
+  {
+   "data": "2026-11-15T20:48:50+00:00",
+   "tipo": "coleta_cnpj",
+   "segmento": "",
+   "detalhe": "2500 contatos novos (base 2026-10)"
+  },
+  {
+   "data": "2026-11-16T13:18:26+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T13:18:29+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T13:18:32+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T13:18:36+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T13:18:38+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T21:47:20+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T21:47:22+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T21:47:25+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T21:47:27+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-16T21:47:30+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T00:35:48+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T00:35:51+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T00:35:54+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T00:35:56+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T00:35:59+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T03:58:02+00:00",
+   "tipo": "devolvido",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T20:39:11+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T20:39:15+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T20:39:18+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T20:39:22+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-17T20:39:26+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T17:01:10+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T17:01:15+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T17:01:19+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T17:01:29+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T17:01:34+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T20:11:28+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T20:11:31+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T20:11:33+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T20:11:36+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-18T20:11:39+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T12:01:28+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T12:01:39+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T12:01:43+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T12:01:48+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T12:01:53+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T17:01:12+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T17:01:23+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T17:01:27+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T17:01:31+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T17:01:35+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T18:00:45+00:00",
+   "tipo": "devolvido",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-19T18:00:45+00:00",
+   "tipo": "devolvido",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T12:01:36+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T12:01:47+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "servicos",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T12:01:51+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T12:01:55+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T12:01:59+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T17:05:18+00:00",
+   "tipo": "coleta_cnpj",
+   "segmento": "",
+   "detalhe": "2500 contatos novos (base 2026-11)"
+  },
+  {
+   "data": "2026-11-20T17:05:49+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "comercio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T17:05:53+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T17:05:57+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "industria",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T17:06:00+00:00",
+   "tipo": "envio_lembrete1",
+   "segmento": "condominio",
+   "detalhe": ""
+  },
+  {
+   "data": "2026-11-20T17:06:04+00:00",
+   "tipo": "envio_inicial",
+   "segmento": "comercio",
+   "detalhe": ""
+  }
+ ],
+ "buscas_google": {},
+ "custos": [
+  {
+   "data": "2026-11-16T13:18:38+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-16T21:47:30+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-17T00:35:59+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-17T20:39:26+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-18T17:01:34+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-18T20:11:39+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-19T12:01:53+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-19T17:01:35+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-20T12:01:59+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  },
+  {
+   "data": "2026-11-20T17:06:04+00:00",
+   "servico": "Claude (e-mails)",
+   "usd": 0.01
+  }
+ ],
+ "bloqueados": 0,
+ "cnpj_competencia": "2026-11"
+}
