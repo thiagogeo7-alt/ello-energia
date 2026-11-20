@@ -104,14 +104,14 @@
       "permalink": "https://www.instagram.com/reel/DfyGqIUB0e0/",
       "modo": "imagem",
       "metricas": {
-        "reach": 4,
+        "reach": 5,
         "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0,
         "views": 6
       },
-      "pontuacao": 3.4,
+      "pontuacao": 3.6,
       "ref": "R3"
     },
     {
@@ -140,9 +140,9 @@
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 9
+        "views": 11
       },
-      "pontuacao": 3.9,
+      "pontuacao": 4.1,
       "ref": "R4"
     },
     {
@@ -169,14 +169,14 @@
       "modo": "cenas",
       "teste": true,
       "metricas": {
-        "reach": 3,
+        "reach": 4,
         "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 9
+        "views": 16
       },
-      "pontuacao": 3.5,
+      "pontuacao": 4.4,
       "ref": "R5"
     },
     {
@@ -196,13 +196,13 @@
       "permalink": "https://www.instagram.com/p/Df3DF2bl6CI/",
       "ref": "C2",
       "metricas": {
-        "reach": 2,
+        "reach": 3,
         "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 1.4
+      "pontuacao": 1.6
     },
     {
       "data": "2026-11-19T15:02:30+00:00",
@@ -219,7 +219,45 @@
         "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261119-1501-5.jpg"
       ],
       "media_id": "17912491935569803",
-      "permalink": "https://www.instagram.com/p/Df7WxuPl8AJ/"
+      "permalink": "https://www.instagram.com/p/Df7WxuPl8AJ/",
+      "metricas": {
+        "reach": 3,
+        "likes": 1,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0
+      },
+      "pontuacao": 1.6
+    },
+    {
+      "data": "2026-11-20T00:05:54+00:00",
+      "tipo": "reel",
+      "ref": "R6",
+      "estrategia": "teste",
+      "formato": "reacao",
+      "argumento": "Condomínio: áreas comuns, elevador e portaria com conta menor para todos",
+      "argumento_base": "Condomínio: áreas comuns, elevador e portaria com conta menor para todos",
+      "publico": "dona de pet shop",
+      "testes": {
+        "gancho": "numero",
+        "horario": "21"
+      },
+      "tema": "Dona de pet shop moradora se assusta com o rateio da luz do prédio",
+      "gancho": "Dona de pet shop abre o aviso do rateio da luz na portaria do prédio, arregala os olhos junto com seu cachorro golden e depois sorri aliviada ao descobrir a energia solar compartilhada.",
+      "palavra_chave": "ECONOMIZAR",
+      "textos": [
+        "ATÉ 50% MENOS",
+        "NA LUZ DO PRÉDIO",
+        "Gente, a luz do prédio veio um absurdo!",
+        "Calma! Solar compartilhada: sem obra e sem placa.",
+        "Até 50% menos na luz do prédio. Todo mundo ganha!",
+        "TEM JEITO!"
+      ],
+      "legenda": "Até 50% menos na conta de luz do prédio? Tem jeito! 🏢☀️\nElevador, portaria, corredores e garagem pesam no rateio todo mês. Com a energia solar compartilhada da ELLO, os créditos da usina são abatidos direto na conta de luz.\nSem obra, sem placa no telhado e sem custo de adesão. O condomínio continua com a mesma distribuidora.\nLeve essa ideia para a reunião do condomínio. Comente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS.\nChama no WhatsApp: (19) 99562-1927 💬\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #energiacompartilhada #campinas #taquaral",
+      "media_id": "18110595818192492",
+      "permalink": "https://www.instagram.com/reel/Df8Uzr-K2oe/",
+      "modo": "cenas",
+      "teste": true
     }
   ],
   "comentarios_respondidos": [
@@ -350,6 +388,31 @@
       "data": "2026-11-19T15:02:30+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-20T00:02:25+00:00",
+      "servico": "fal.ai imagens (3 cenas)",
+      "usd": 0.06
+    },
+    {
+      "data": "2026-11-20T00:02:42+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.014
+    },
+    {
+      "data": "2026-11-20T00:03:06+00:00",
+      "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+      "usd": 0.57
+    },
+    {
+      "data": "2026-11-20T00:03:16+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
+    },
+    {
+      "data": "2026-11-20T00:05:54+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -427,11 +490,21 @@
       "data": "2026-11-19T15:02:30+00:00",
       "tipo": "carrossel",
       "detalhe": "Conta de luz das áreas comuns do condomínio"
+    },
+    {
+      "data": "2026-11-20T00:05:54+00:00",
+      "tipo": "story",
+      "detalhe": "Reels copiado para os Stories: Dona de pet shop moradora se assusta com o rateio da luz do prédio"
+    },
+    {
+      "data": "2026-11-20T00:05:54+00:00",
+      "tipo": "reel",
+      "detalhe": "Dona de pet shop moradora se assusta com o rateio da luz do prédio (reacao)"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-20T00:00:54+00:00",
-  "metricas_atualizadas_em": "2026-11-19T15:01:27+00:00",
+  "atualizado_em": "2026-11-20T00:05:54+00:00",
+  "metricas_atualizadas_em": "2026-11-20T00:01:45+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
