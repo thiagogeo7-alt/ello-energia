@@ -55,6 +55,8 @@ def link_whatsapp_ref(ref: str = "") -> str:
 LINK_WHATSAPP_IG = (f"https://wa.me/{WHATSAPP}?text=Oi!%20Vim%20pelo%20Instagram%20e%20quero%20a%20"
                     "an%C3%A1lise%20gr%C3%A1tis%20da%20minha%20conta%20de%20luz")
 WHATSAPP_LEGIVEL = "(19) 99562-1927"
+# Texto do botão que vai nas DMs e abre o WhatsApp (a Meta aceita até 20 caracteres)
+BOTAO_WHATSAPP = os.environ.get("IG_BOTAO_WHATSAPP", "Saiba mais")[:20]
 
 
 def exigir(*nomes: str) -> None:

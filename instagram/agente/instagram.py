@@ -257,19 +257,47 @@ def _enviar(corpo: dict) -> None:
     raise ultimo or ErroAPI("Nenhum destino aceitou a mensagem")
 
 
-def enviar_mensagem(usuario_id: str, texto: str) -> None:
-    if config.SIMULAR:
-        print(f"[simulação] enviaria DM para {usuario_id}: {texto}")
-        return
-    _enviar({"recipient": {"id": usuario_id}, "message": {"text": texto}})
+def _mensagem(texto: str, link: str | None) -> dict:
+    """Mensagem simples ou com o botão "Saiba mais" que abre o WhatsApp (modelo de botão da Meta)."""
+    if not link:
+        return {"text": texto}
+    texto = texto.replace(link, "").replace(config.LINK_WHATSAPP_IG, "").replace("👉", "").strip()
+    chamada = f'Toque em "{config.BOTAO_WHATSAPP}" aqui embaixo 👇'
+    texto = f"{texto[:640 - len(chamada) - 2]}\n\n{chamada}" if texto else chamada   # limite da Meta: 640
+    return {"attachment": {"type": "template", "payload": {
+        "template_type": "button", "text": texto,
+        "buttons": [{"type": "web_url", "url": link, "title": config.BOTAO_WHATSAPP}]}}}
 
 
-def resposta_privada(comentario_id: str, texto: str) -> None:
-    """Manda uma DM para quem comentou (permitido até 7 dias depois do comentário)."""
+def _enviar_com_botao(destinatario: dict, texto: str, link: str | None) -> None:
+    """Tenta com o botão; se a Meta recusar o modelo, manda o texto com o link escrito."""
+    if link:
+        try:
+            _enviar({"recipient": destinatario, "message": _mensagem(texto, link)})
+            return
+        except ErroAPI as e:
+            print(f"Botão recusado pela Meta ({e}); enviando com o link no texto")
+            if link not in texto:
+                texto = f"{texto}\n\n👉 {link}"
+    _enviar({"recipient": destinatario, "message": {"text": texto}})
+
+
+def enviar_mensagem(usuario_id: str, texto: str, link: str | None = None) -> None:
+    """DM para um usuário. Com `link`, a mensagem leva o botão "Saiba mais" → WhatsApp."""
     if config.SIMULAR:
-        print(f"[simulação] mandaria DM para o autor do comentário {comentario_id}: {texto[:60]}…")
+        print(f"[simulação] enviaria DM para {usuario_id}: {texto}" + (f" [botão {config.BOTAO_WHATSAPP} → {link}]" if link else ""))
         return
-    _enviar({"recipient": {"comment_id": comentario_id}, "message": {"text": texto}})
+    _enviar_com_botao({"id": usuario_id}, texto, link)
+
+
+def resposta_privada(comentario_id: str, texto: str, link: str | None = None) -> None:
+    """Manda uma DM para quem comentou (permitido até 7 dias depois do comentário).
+    Com `link`, a mensagem leva o botão "Saiba mais" → WhatsApp."""
+    if config.SIMULAR:
+        print(f"[simulação] mandaria DM para o autor do comentário {comentario_id}: {texto[:60]}…"
+              + (f" [botão {config.BOTAO_WHATSAPP} → {link}]" if link else ""))
+        return
+    _enviar_com_botao({"comment_id": comentario_id}, texto, link)
 
 
 # ---------- Token ----------

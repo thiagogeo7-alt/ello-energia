@@ -15,8 +15,8 @@ Como decidir (todo comentário que não for spam vira contato no WhatsApp):
     (ex.: "Te mandei no direct! 📩", "Olha seu direct 😉"). Para elogios, agradeça e avise do direct.
   "dm": mensagem privada de 1 a 3 frases: responda a dúvida (se houver) e convide para o WhatsApp,
     onde a análise da conta é grátis. NÃO coloque o link: ele é adicionado automaticamente.
-- Para MENSAGENS DIRETAS (tipo "dm"): "resposta" responde a dúvida em até 2 frases e convida para o WhatsApp
-  {config.LINK_WHATSAPP_IG} (link sem ponto final logo depois)
+- Para MENSAGENS DIRETAS (tipo "dm"): "resposta" responde a dúvida em até 2 frases e convida para o WhatsApp.
+  NÃO coloque o link: a mensagem já vai com o botão "{config.BOTAO_WHATSAPP}" que abre o WhatsApp.
 - "interesse": true quando houver pergunta ou interesse (preço, como funciona, "quero", valor da conta etc.).
 - Crítica: responda com respeito, sem discutir, e ofereça ajuda no WhatsApp.
 - Spam, ofensa, golpe, política ou algo sem relação: "acao": "ignorar".
@@ -88,7 +88,7 @@ def executar() -> None:
                 # Comentou a palavra-chave: manda DM com o link e responde em público
                 try:
                     try:
-                        instagram.resposta_privada(c["id"], _dm_palavra_chave(ref))
+                        instagram.resposta_privada(c["id"], _dm_palavra_chave(ref), link=config.link_whatsapp_ref(ref))
                         publica = RESPOSTAS_PUBLICAS[len(feitos_c) % len(RESPOSTAS_PUBLICAS)]
                     except Exception as e:
                         print(f"Direct indisponível para {c['id']} ({e}); WhatsApp vai na resposta pública")
@@ -159,15 +159,15 @@ def executar() -> None:
                     # Manda o WhatsApp no direct e avisa em público; se o direct falhar, o número vai na resposta pública
                     dm = (d.get("dm") or "A análise da sua conta de luz é grátis pelo nosso WhatsApp 😊").strip()
                     try:
-                        instagram.resposta_privada(p["id"], f"{dm}\n\n👉 {config.link_whatsapp_ref(p.get('ref', ''))}")
+                        instagram.resposta_privada(p["id"], dm, link=config.link_whatsapp_ref(p.get("ref", "")))
                         publica = d["resposta"]
-                        estado.registrar(est, "dm_whatsapp", "WhatsApp enviado no direct")
+                        estado.registrar(est, "dm_whatsapp", "Botão do WhatsApp enviado no direct")
                     except Exception as e:
                         print(f"Direct indisponível para {p['id']} ({e}); WhatsApp vai na resposta pública")
                         publica = f"{dm} Chama no WhatsApp: {config.WHATSAPP_LEGIVEL} 📲"
                     instagram.responder_comentario(p["id"], publica)
                 else:
-                    instagram.enviar_mensagem(p["usuario_id"], d["resposta"])
+                    instagram.enviar_mensagem(p["usuario_id"], d["resposta"], link=config.LINK_WHATSAPP_IG)
         except Exception as e:   # um erro não pode travar as outras respostas
             print(f"Falha ao responder {p['id']}: {e}")
             continue
