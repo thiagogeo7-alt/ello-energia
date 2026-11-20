@@ -196,13 +196,13 @@
       "permalink": "https://www.instagram.com/p/Df3DF2bl6CI/",
       "ref": "C2",
       "metricas": {
-        "reach": 3,
+        "reach": 4,
         "likes": 1,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 1.6
+      "pontuacao": 1.8
     },
     {
       "data": "2026-11-19T15:02:30+00:00",
@@ -257,7 +257,16 @@
       "media_id": "18110595818192492",
       "permalink": "https://www.instagram.com/reel/Df8Uzr-K2oe/",
       "modo": "cenas",
-      "teste": true
+      "teste": true,
+      "metricas": {
+        "reach": 1,
+        "likes": 1,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 2
+      },
+      "pontuacao": 1.4
     }
   ],
   "comentarios_respondidos": [
@@ -503,11 +512,15 @@
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-20T20:01:00+00:00",
-  "metricas_atualizadas_em": "2026-11-20T00:01:45+00:00",
+  "atualizado_em": "2026-11-20T20:15:43+00:00",
+  "metricas_atualizadas_em": "2026-11-20T20:15:43+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
+      "total": 11
+    },
+    {
+      "data": "2026-11-20T20:15:43+00:00",
       "total": 11
     }
   ],
