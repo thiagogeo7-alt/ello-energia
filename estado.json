@@ -267,6 +267,36 @@
         "views": 2
       },
       "pontuacao": 1.4
+    },
+    {
+      "data": "2026-11-21T20:06:34+00:00",
+      "tipo": "reel",
+      "ref": "R7",
+      "estrategia": "teste",
+      "formato": "dialogo",
+      "argumento": "Planeta e bolso: energia limpa do sol, menos CO₂ e economia de até 50%",
+      "argumento_base": "Planeta e bolso: energia limpa do sol, menos CO₂, e economia de até 50% na conta",
+      "publico": "pequeno escritório",
+      "testes": {
+        "gancho": "pergunta",
+        "horario": "17"
+      },
+      "tema": "Sócios de um pequeno escritório de arquitetura conversam sobre a conta de luz e a energia limpa",
+      "gancho": "Duas sócias e sócios de um escritório de arquitetura: ela reclama da conta de luz pesando no caixa e ele conta que a energia solar da ELLO economiza até 50% e ainda cuida do planeta.",
+      "palavra_chave": "ECONOMIZAR",
+      "textos": [
+        "LUZ DO ESCRITÓRIO",
+        "PESA NO CAIXA?",
+        "Carlos, a luz do escritório pesou de novo este mês!",
+        "Solar da ELLO: até 50% menos na conta, sem placa.",
+        "Sol limpo pro planeta e economia pro bolso? Quero!",
+        "TEM JEITO!"
+      ],
+      "legenda": "A luz do seu escritório pesa no caixa todo mês? 💡\nCom a energia solar compartilhada da ELLO, você pode economizar até 50% na conta e ainda apoiar a energia limpa do sol, boa pro planeta e pro bolso. 🌎\nSem obra, sem placa no telhado e sem custo de adesão. Você continua com a mesma distribuidora.\nComente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS. Ou chama no WhatsApp: (19) 99562-1927 ✅\n🎬 Vídeo criado com inteligência artificial.\n#energiasolar #contadeluz #campinas #energialimpa #regiaodecampinas",
+      "media_id": "18142173979624597",
+      "permalink": "https://www.instagram.com/reel/DgBC81Ey41I/",
+      "modo": "cenas",
+      "teste": true
     }
   ],
   "comentarios_respondidos": [
@@ -422,6 +452,31 @@
       "data": "2026-11-20T00:05:54+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-21T20:02:16+00:00",
+      "servico": "fal.ai imagens (3 cenas)",
+      "usd": 0.06
+    },
+    {
+      "data": "2026-11-21T20:02:33+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.015
+    },
+    {
+      "data": "2026-11-21T20:02:55+00:00",
+      "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+      "usd": 0.58
+    },
+    {
+      "data": "2026-11-21T20:03:16+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
+    },
+    {
+      "data": "2026-11-21T20:06:35+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -509,11 +564,21 @@
       "data": "2026-11-20T00:05:54+00:00",
       "tipo": "reel",
       "detalhe": "Dona de pet shop moradora se assusta com o rateio da luz do prédio (reacao)"
+    },
+    {
+      "data": "2026-11-21T20:06:34+00:00",
+      "tipo": "story",
+      "detalhe": "Reels copiado para os Stories: Sócios de um pequeno escritório de arquitetura conversam sobre a conta de luz e a energia limpa"
+    },
+    {
+      "data": "2026-11-21T20:06:35+00:00",
+      "tipo": "reel",
+      "detalhe": "Sócios de um pequeno escritório de arquitetura conversam sobre a conta de luz e a energia limpa (dialogo)"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-21T20:00:44+00:00",
-  "metricas_atualizadas_em": "2026-11-21T16:30:45+00:00",
+  "atualizado_em": "2026-11-21T20:06:35+00:00",
+  "metricas_atualizadas_em": "2026-11-21T20:01:33+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
