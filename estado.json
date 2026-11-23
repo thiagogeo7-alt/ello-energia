@@ -197,12 +197,12 @@
       "ref": "C2",
       "metricas": {
         "reach": 4,
-        "likes": 1,
+        "likes": 2,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 1.8
+      "pontuacao": 2.8
     },
     {
       "data": "2026-11-19T15:02:30+00:00",
@@ -306,6 +306,36 @@
         "views": 6
       },
       "pontuacao": 1.0
+    },
+    {
+      "data": "2026-11-23T22:05:41+00:00",
+      "tipo": "reel",
+      "ref": "R8",
+      "estrategia": "teste",
+      "formato": "explicativo",
+      "argumento": "Sem obra e sem placa no telhado, mesmo em casa própria",
+      "argumento_base": "Sem obra e sem placa: serve para apartamento, casa alugada ou quem não tem telhado",
+      "publico": "família em casa própria",
+      "testes": {
+        "gancho": "historia",
+        "horario": "19"
+      },
+      "tema": "Família com casa própria que quer economizar na luz sem obra e sem placas",
+      "gancho": "A história de uma família de casa própria que queria economizar na conta de luz, mas não queria obra nem placas no telhado, e descobre que a usina da ELLO gera créditos direto na fatura.",
+      "palavra_chave": "ECONOMIZAR",
+      "textos": [
+        "A FAMÍLIA DO LUCAS",
+        "QUASE FEZ OBRA",
+        "O Lucas queria economizar, mas sem obra no telhado.",
+        "A usina da ELLO gera a energia. Sem placa no telhado!",
+        "Vira crédito na conta: economia de até 50%, sem obra!",
+        "TEM JEITO!"
+      ],
+      "legenda": "A família do Lucas quase fez obra no telhado só para economizar na luz ☀️\n\nMas tem um jeito mais simples: com a ELLO, a usina solar gera a energia e ela vira crédito direto na sua conta de luz.\nSem obra, sem placa no telhado e sem custo de adesão. Você continua com a mesma distribuidora e pode economizar até 50%.\n\nComente ECONOMIZAR e receba a análise da sua conta de luz GRÁTIS.\nChama no WhatsApp: (19) 99562-1927\n\n🎬 Vídeo criado com inteligência artificial.\n\n#energiasolar #contadeluz #campinas #energiacompartilhada #regiaodecampinas",
+      "media_id": "18235416637328612",
+      "permalink": "https://www.instagram.com/reel/DgGaO9qIdHm/",
+      "modo": "cenas",
+      "teste": true
     }
   ],
   "comentarios_respondidos": [
@@ -486,6 +516,31 @@
       "data": "2026-11-21T20:06:35+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-23T22:02:17+00:00",
+      "servico": "fal.ai imagens (3 cenas)",
+      "usd": 0.06
+    },
+    {
+      "data": "2026-11-23T22:02:33+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.016
+    },
+    {
+      "data": "2026-11-23T22:02:51+00:00",
+      "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+      "usd": 0.54
+    },
+    {
+      "data": "2026-11-23T22:03:02+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
+    },
+    {
+      "data": "2026-11-23T22:05:41+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -588,11 +643,21 @@
       "data": "2026-11-23T11:01:35+00:00",
       "tipo": "relatorio",
       "detalhe": "Mais gente viu o perfil (alcance mais que dobrou), mas ninguém novo seguiu nem clicou no link; ainda assim, 4 pessoas de"
+    },
+    {
+      "data": "2026-11-23T22:05:41+00:00",
+      "tipo": "story",
+      "detalhe": "Reels copiado para os Stories: Família com casa própria que quer economizar na luz sem obra e sem placas"
+    },
+    {
+      "data": "2026-11-23T22:05:41+00:00",
+      "tipo": "reel",
+      "detalhe": "Família com casa própria que quer economizar na luz sem obra e sem placas (explicativo)"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-23T22:00:48+00:00",
-  "metricas_atualizadas_em": "2026-11-23T11:01:09+00:00",
+  "atualizado_em": "2026-11-23T22:05:41+00:00",
+  "metricas_atualizadas_em": "2026-11-23T22:01:38+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
