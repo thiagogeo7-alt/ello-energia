@@ -303,9 +303,9 @@
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 3
+        "views": 6
       },
-      "pontuacao": 0.7
+      "pontuacao": 1.0
     }
   ],
   "comentarios_respondidos": [
@@ -583,11 +583,16 @@
       "data": "2026-11-21T20:06:35+00:00",
       "tipo": "reel",
       "detalhe": "Sócios de um pequeno escritório de arquitetura conversam sobre a conta de luz e a energia limpa (dialogo)"
+    },
+    {
+      "data": "2026-11-23T11:01:35+00:00",
+      "tipo": "relatorio",
+      "detalhe": "Mais gente viu o perfil (alcance mais que dobrou), mas ninguém novo seguiu nem clicou no link; ainda assim, 4 pessoas de"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-23T11:00:48+00:00",
-  "metricas_atualizadas_em": "2026-11-22T16:15:40+00:00",
+  "atualizado_em": "2026-11-23T11:01:35+00:00",
+  "metricas_atualizadas_em": "2026-11-23T11:01:09+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
@@ -603,6 +608,10 @@
     },
     {
       "data": "2026-11-22T16:15:40+00:00",
+      "total": 11
+    },
+    {
+      "data": "2026-11-23T11:01:14+00:00",
       "total": 11
     }
   ],
@@ -650,6 +659,53 @@
         "acoes_equipe": [
           "Responder pessoalmente os 5 interessados no WhatsApp e perguntar de forma simples como conheceram a ELLO. Isso mostra qual conteúdo está trazendo gente.",
           "Verificar se o link do perfil abre direito no celular e se o WhatsApp responde rápido. Há visitas ao perfil, mas ninguém clicou."
+        ]
+      }
+    },
+    {
+      "data": "2026-11-23T11:01:35+00:00",
+      "semana": "2026-S48",
+      "periodo": "16/11 a 23/11/2026",
+      "conta": {
+        "seguidores": 11,
+        "reach": 2216,
+        "views": 2951,
+        "profile_views": 37,
+        "website_clicks": 0,
+        "accounts_engaged": 15,
+        "total_interactions": 20
+      },
+      "prospeccao": {
+        "empresas na base": 5000,
+        "e-mails enviados na semana": 40,
+        "situação 'lembrete1'": 12,
+        "situação 'invalido'": 3,
+        "situação 'enviado'": 21,
+        "situação 'novo'": 4964
+      },
+      "leads_semana": 4,
+      "relatorio": {
+        "manchete": "Mais gente viu o perfil (alcance mais que dobrou), mas ninguém novo seguiu nem clicou no link; ainda assim, 4 pessoas demonstraram interesse.",
+        "o_que_aconteceu": "O alcance (quantas contas diferentes viram nossos conteúdos) subiu de 909 para 2216, e as visualizações subiram de 1094 para 2951. Mesmo assim, os seguidores continuam em 11 (+0), as visitas ao perfil caíram de 42 para 37 e o link do perfil teve 0 cliques. As interações caíram de 39 para 20. Tivemos 4 interessados na semana (5 no total desde o início), o que é um bom sinal para uma conta nova. Os números de cada publicação são bem pequenos (de 0 a 5 contas alcançadas por post), então a semana serve mais para aprender do que para tirar conclusões firmes.",
+        "funcionou": [
+          "O alcance da conta mais que dobrou: 2216 contas contra 909 na semana anterior.",
+          "Os Reels R5 (explicativo sobre o comércio, nota 4,4) e R4 (diálogo sobre morar de aluguel, nota 4,1) tiveram as melhores notas da semana.",
+          "4 interessados na semana, contra 1 em todo o período anterior (total de 5)."
+        ],
+        "nao_funcionou": [
+          "Link do perfil: 0 cliques de novo. Os seguidores também não saíram de 11.",
+          "R7 (escritório de arquitetura, nota 1,0) e R6 (pet shop, nota 1,4) foram os Reels mais fracos. Os dois têm só 1 post por teste, então ainda não dá para culpar o gancho ou o horário.",
+          "Nenhum post teve salvamento, compartilhamento ou comentário. As interações caíram de 39 para 20."
+        ],
+        "testes_ab": "Os dois testes (estilo do gancho e horário) ainda estão coletando dados. Cada um precisa de pelo menos 3 posts com 3 dias ou mais por variante, e por enquanto só há 1 post com gancho de número e 1 no horário das 21h (média 1,4 nos dois). Ainda não existe variante vencedora.",
+        "acoes_agente": [
+          "Distribuir os próximos Reels entre os 4 estilos de gancho (pergunta, número, provocação, história) e os 3 horários (17h, 19h, 21h), um por post, para os testes avançarem.",
+          "Criar Reels em formato de diálogo com temas novos: síndico de condomínio, clínica, restaurante e família com conta a partir de R$ 150. Não repetir padaria, academia, comércio em geral, inquilino de apartamento, pet shop nem escritório.",
+          "Usar nos Reels a chamada \"Chama no WhatsApp: (19) 99562-1927\" no lugar do link da bio. Reforçar \"sem obra, sem placa, sem custo de adesão\" e economia \"até 50%\". Se o vídeo for realista e feito com IA, incluir a linha \"🎬 Vídeo criado com inteligência artificial.\""
+        ],
+        "acoes_equipe": [
+          "Responder pessoalmente, no WhatsApp, os 4 interessados da semana e oferecer a proposta gratuita a partir de uma conta de luz recente.",
+          "Pedir a quem já conhece a ELLO (equipe, clientes e parceiros locais) que siga o perfil e compartilhe um Reel. Hoje são só 11 seguidores, e isso ajuda a conta a crescer."
         ]
       }
     }
