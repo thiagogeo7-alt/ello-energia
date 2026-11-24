@@ -335,7 +335,33 @@
       "media_id": "18235416637328612",
       "permalink": "https://www.instagram.com/reel/DgGaO9qIdHm/",
       "modo": "cenas",
-      "teste": true
+      "teste": true,
+      "metricas": {
+        "reach": 2,
+        "likes": 0,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 3
+      },
+      "pontuacao": 0.7
+    },
+    {
+      "data": "2026-11-24T15:01:58+00:00",
+      "tipo": "carrossel",
+      "ref": "C4",
+      "tema": "Conta de luz em restaurante: economia sem obra e sem placa",
+      "gancho": "Seu restaurante gasta demais com luz? Descubra como economizar até 50% sem obra e sem placa.",
+      "legenda": "Seu restaurante gasta demais com luz? 🍽️\n\nFreezer, câmara fria, exaustor e ar-condicionado ligados o dia inteiro pesam no fim do mês. Com a energia solar compartilhada, você pode economizar até 50% na conta de luz.\nSem obra, sem placa no telhado e sem custo de adesão. Você continua com a mesma distribuidora.\nSalve este post e mande para quem tem restaurante! 💡\n\nChama no WhatsApp: (19) 99562-1927 ou simule sua economia no link da bio.\n\n#energiasolar #contadeluz #campinas #energiacompartilhada #regiaodecampinas",
+      "imagens": [
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261124-1501-1.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261124-1501-2.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261124-1501-3.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261124-1501-4.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261124-1501-5.jpg"
+      ],
+      "media_id": "18131542775485510",
+      "permalink": "https://www.instagram.com/p/DgIOt99jTKz/"
     }
   ],
   "comentarios_respondidos": [
@@ -541,6 +567,11 @@
       "data": "2026-11-23T22:05:41+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-24T15:01:58+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -653,11 +684,16 @@
       "data": "2026-11-23T22:05:41+00:00",
       "tipo": "reel",
       "detalhe": "Família com casa própria que quer economizar na luz sem obra e sem placas (explicativo)"
+    },
+    {
+      "data": "2026-11-24T15:01:58+00:00",
+      "tipo": "carrossel",
+      "detalhe": "Conta de luz em restaurante: economia sem obra e sem placa"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-24T14:45:35+00:00",
-  "metricas_atualizadas_em": "2026-11-23T22:01:38+00:00",
+  "atualizado_em": "2026-11-24T15:01:58+00:00",
+  "metricas_atualizadas_em": "2026-11-24T15:01:11+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
