@@ -399,7 +399,33 @@
       "media_id": "17878218198594767",
       "permalink": "https://www.instagram.com/reel/DgLxkc5zIVU/",
       "modo": "cenas",
-      "teste": true
+      "teste": true,
+      "metricas": {
+        "reach": 1,
+        "likes": 0,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0,
+        "views": 1
+      },
+      "pontuacao": 0.3
+    },
+    {
+      "data": "2026-11-26T15:02:18+00:00",
+      "tipo": "carrossel",
+      "ref": "C5",
+      "tema": "Conta de luz de clínica e consultório: economia sem obra e sem placa",
+      "gancho": "Clínica gasta muito com luz? Veja como economizar até 50% sem obra e sem placa.",
+      "legenda": "Sua clínica ou consultório gasta muito com a conta de luz? 💡\n\nAr-condicionado, equipamentos e iluminação pesam no fim do mês. Com a energia solar compartilhada da ELLO, você pode economizar até 50% na conta.\nSem obra, sem placa no telhado e sem custo de adesão. Você continua com a mesma distribuidora.\nSalve este post e mande para quem cuida de uma clínica. 📲\n\nChama no WhatsApp: (19) 99562-1927\n\n#energiasolar #contadeluz #energiacompartilhada #campinas #regiaodecampinas",
+      "imagens": [
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261126-1501-1.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261126-1501-2.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261126-1501-3.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261126-1501-4.jpg",
+        "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261126-1501-5.jpg"
+      ],
+      "media_id": "18092152799279952",
+      "permalink": "https://www.instagram.com/p/DgNYWOslxvf/"
     }
   ],
   "comentarios_respondidos": [
@@ -635,6 +661,11 @@
       "data": "2026-11-26T00:06:08+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-26T15:02:18+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -762,11 +793,16 @@
       "data": "2026-11-26T00:06:08+00:00",
       "tipo": "reel",
       "detalhe": "Dona de padaria acha que precisa mudar de empresa de luz para economizar (reacao)"
+    },
+    {
+      "data": "2026-11-26T15:02:18+00:00",
+      "tipo": "carrossel",
+      "detalhe": "Conta de luz de clínica e consultório: economia sem obra e sem placa"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-26T15:00:47+00:00",
-  "metricas_atualizadas_em": "2026-11-26T00:01:45+00:00",
+  "atualizado_em": "2026-11-26T15:02:18+00:00",
+  "metricas_atualizadas_em": "2026-11-26T15:01:33+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
