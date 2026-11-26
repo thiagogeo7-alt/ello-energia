@@ -337,14 +337,14 @@
       "modo": "cenas",
       "teste": true,
       "metricas": {
-        "reach": 2,
+        "reach": 3,
         "likes": 0,
         "comments": 0,
         "saved": 0,
         "shares": 0,
-        "views": 3
+        "views": 4
       },
-      "pontuacao": 0.7
+      "pontuacao": 1.0
     },
     {
       "data": "2026-11-24T15:01:58+00:00",
@@ -363,13 +363,43 @@
       "media_id": "18131542775485510",
       "permalink": "https://www.instagram.com/p/DgIOt99jTKz/",
       "metricas": {
-        "reach": 1,
+        "reach": 2,
         "likes": 0,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 0.2
+      "pontuacao": 0.4
+    },
+    {
+      "data": "2026-11-26T00:06:08+00:00",
+      "tipo": "reel",
+      "ref": "R9",
+      "estrategia": "teste",
+      "formato": "reacao",
+      "argumento": "Mesma distribuidora: nada muda na rotina, a economia aparece na fatura",
+      "argumento_base": "Mesma distribuidora: nada muda na rotina, a economia aparece direto na fatura",
+      "publico": "dona de padaria",
+      "testes": {
+        "gancho": "provocacao",
+        "horario": "21"
+      },
+      "tema": "Dona de padaria acha que precisa mudar de empresa de luz para economizar",
+      "gancho": "Na padaria, no fim da tarde, a dona segura a conta de luz e resmunga que trocar de empresa dá dor de cabeça. Ela descobre que continua com a mesma distribuidora, sem obra e sem placa, e sorri ao ver a fatura menor.",
+      "palavra_chave": "ECONOMIZAR",
+      "textos": [
+        "MUDAR DE EMPRESA?",
+        "NÃO PRECISA!",
+        "Mudar de empresa de luz? Ai, que dor de cabeça!",
+        "Calma! Continua a mesma distribuidora. Sem obra!",
+        "Veio direto na fatura: até cinquenta por cento!",
+        "TEM JEITO!"
+      ],
+      "legenda": "Mudar de empresa de luz para economizar? Não precisa! 🥖\n\nCom a ELLO você continua com a mesma distribuidora. Sem obra, sem placa e sem custo de adesão.\nOs créditos da usina solar entram direto na fatura, com economia de até 50%.\n\nComente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS.\nChama no WhatsApp: (19) 99562-1927\n\n🎬 Vídeo criado com inteligência artificial.\n\n#energiasolar #contadeluz #campinas #economia #regiaodecampinas",
+      "media_id": "17878218198594767",
+      "permalink": "https://www.instagram.com/reel/DgLxkc5zIVU/",
+      "modo": "cenas",
+      "teste": true
     }
   ],
   "comentarios_respondidos": [
@@ -580,6 +610,31 @@
       "data": "2026-11-24T15:01:58+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-26T00:02:26+00:00",
+      "servico": "fal.ai imagens (3 cenas)",
+      "usd": 0.06
+    },
+    {
+      "data": "2026-11-26T00:02:42+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.014
+    },
+    {
+      "data": "2026-11-26T00:03:00+00:00",
+      "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+      "usd": 0.56
+    },
+    {
+      "data": "2026-11-26T00:03:10+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
+    },
+    {
+      "data": "2026-11-26T00:06:08+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -697,11 +752,21 @@
       "data": "2026-11-24T15:01:58+00:00",
       "tipo": "carrossel",
       "detalhe": "Conta de luz em restaurante: economia sem obra e sem placa"
+    },
+    {
+      "data": "2026-11-26T00:06:08+00:00",
+      "tipo": "story",
+      "detalhe": "Reels copiado para os Stories: Dona de padaria acha que precisa mudar de empresa de luz para economizar"
+    },
+    {
+      "data": "2026-11-26T00:06:08+00:00",
+      "tipo": "reel",
+      "detalhe": "Dona de padaria acha que precisa mudar de empresa de luz para economizar (reacao)"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-26T00:00:47+00:00",
-  "metricas_atualizadas_em": "2026-11-25T11:15:45+00:00",
+  "atualizado_em": "2026-11-26T00:06:08+00:00",
+  "metricas_atualizadas_em": "2026-11-26T00:01:45+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
