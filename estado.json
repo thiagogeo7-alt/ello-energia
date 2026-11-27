@@ -427,13 +427,43 @@
       "media_id": "18092152799279952",
       "permalink": "https://www.instagram.com/p/DgNYWOslxvf/",
       "metricas": {
-        "reach": 0,
+        "reach": 1,
         "likes": 0,
         "comments": 0,
         "saved": 0,
         "shares": 0
       },
-      "pontuacao": 0.0
+      "pontuacao": 0.2
+    },
+    {
+      "data": "2026-11-27T22:05:21+00:00",
+      "tipo": "reel",
+      "ref": "R10",
+      "estrategia": "teste",
+      "formato": "dialogo",
+      "argumento": "Mitos x verdades: placa, preço e distribuidora",
+      "argumento_base": "Mitos x verdades: precisa de placa? é caro? muda a distribuidora?",
+      "publico": "dono de mercadinho",
+      "testes": {
+        "gancho": "numero",
+        "horario": "19"
+      },
+      "tema": "Dono de mercadinho tira dúvidas sobre mitos da energia solar compartilhada",
+      "gancho": "No mercadinho de bairro, o dono pergunta à cliente se energia solar exige placa, é cara ou muda a distribuidora, e ela desmente cada mito.",
+      "palavra_chave": "ECONOMIZAR",
+      "textos": [
+        "ATÉ 50% MENOS",
+        "NA CONTA DE LUZ",
+        "Dizem que solar precisa de placa e é cara. É verdade?",
+        "Mito! Sem obra, sem placa e sem custo de adesão.",
+        "E a distribuidora é a mesma. Economia de até 50%!",
+        "TEM JEITO!"
+      ],
+      "legenda": "Até 50% de economia na conta de luz do seu mercadinho? Vamos separar mito de verdade. 💡\n\nPrecisa de placa no telhado? Mito. É caro? Sem obra e sem custo de adesão. Muda a distribuidora? Não, continua a mesma.\n\nComente ECONOMIZAR e ganhe a análise da sua conta de luz GRÁTIS. ☀️\nChama no WhatsApp: (19) 99562-1927\n\n🎬 Vídeo criado com inteligência artificial.\n\n#energiasolar #contadeluz #energiacompartilhada #campinas #regiaodecampinas",
+      "media_id": "18112569929216559",
+      "permalink": "https://www.instagram.com/reel/DgQtbtBsIAe/",
+      "modo": "cenas",
+      "teste": true
     }
   ],
   "comentarios_respondidos": [
@@ -674,6 +704,31 @@
       "data": "2026-11-26T15:02:18+00:00",
       "servico": "Claude (texto)",
       "usd": 0.03
+    },
+    {
+      "data": "2026-11-27T22:02:15+00:00",
+      "servico": "fal.ai imagens (3 cenas)",
+      "usd": 0.06
+    },
+    {
+      "data": "2026-11-27T22:02:32+00:00",
+      "servico": "fal.ai vozes",
+      "usd": 0.015
+    },
+    {
+      "data": "2026-11-27T22:02:50+00:00",
+      "servico": "fal.ai vídeo das cenas (H3 Turbo)",
+      "usd": 0.59
+    },
+    {
+      "data": "2026-11-27T22:03:01+00:00",
+      "servico": "fal.ai trilha",
+      "usd": 0.01
+    },
+    {
+      "data": "2026-11-27T22:05:21+00:00",
+      "servico": "Claude (texto)",
+      "usd": 0.03
     }
   ],
   "acoes": [
@@ -806,11 +861,21 @@
       "data": "2026-11-26T15:02:18+00:00",
       "tipo": "carrossel",
       "detalhe": "Conta de luz de clínica e consultório: economia sem obra e sem placa"
+    },
+    {
+      "data": "2026-11-27T22:05:21+00:00",
+      "tipo": "story",
+      "detalhe": "Reels copiado para os Stories: Dono de mercadinho tira dúvidas sobre mitos da energia solar compartilhada"
+    },
+    {
+      "data": "2026-11-27T22:05:21+00:00",
+      "tipo": "reel",
+      "detalhe": "Dono de mercadinho tira dúvidas sobre mitos da energia solar compartilhada (dialogo)"
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-27T22:00:42+00:00",
-  "metricas_atualizadas_em": "2026-11-27T11:15:44+00:00",
+  "atualizado_em": "2026-11-27T22:05:21+00:00",
+  "metricas_atualizadas_em": "2026-11-27T22:01:35+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
