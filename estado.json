@@ -425,7 +425,15 @@
         "https://raw.githubusercontent.com/thiagogeo7-alt/ello-energia/midia/carrossel-20261126-1501-5.jpg"
       ],
       "media_id": "18092152799279952",
-      "permalink": "https://www.instagram.com/p/DgNYWOslxvf/"
+      "permalink": "https://www.instagram.com/p/DgNYWOslxvf/",
+      "metricas": {
+        "reach": 0,
+        "likes": 0,
+        "comments": 0,
+        "saved": 0,
+        "shares": 0
+      },
+      "pontuacao": 0.0
     }
   ],
   "comentarios_respondidos": [
@@ -801,8 +809,8 @@
     }
   ],
   "total_leads": 5,
-  "atualizado_em": "2026-11-27T11:00:46+00:00",
-  "metricas_atualizadas_em": "2026-11-26T15:01:33+00:00",
+  "atualizado_em": "2026-11-27T11:15:44+00:00",
+  "metricas_atualizadas_em": "2026-11-27T11:15:44+00:00",
   "seguidores": [
     {
       "data": "2026-11-18T22:24:08+00:00",
@@ -826,6 +834,10 @@
     },
     {
       "data": "2026-11-25T11:15:45+00:00",
+      "total": 11
+    },
+    {
+      "data": "2026-11-27T11:15:44+00:00",
       "total": 11
     }
   ],
